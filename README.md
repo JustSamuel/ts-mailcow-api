@@ -1,0 +1,1 @@
+TypeScript wrapper for the mailcow API.
