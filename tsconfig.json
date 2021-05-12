@@ -4,11 +4,17 @@
   ],
   "exclude": [
     "node_modules",
-    "build"
+    "build",
+    "tests",
   ],
   "compilerOptions": {
-    "outDir": "build",
-    "rootDir": "./",
+    "outDir": "dist",
+    "rootDir": "./src/",
+    "typeRoots": [
+      "./src/types.ts"
+    ],
+    "module": "CommonJS",
+    "target": "es2015",
     "sourceMap": true,
     "allowJs": true,
     "declaration": true,
