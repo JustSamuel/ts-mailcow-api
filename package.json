@@ -1,13 +1,14 @@
 {
   "name": "ts-mailcow-api",
-  "version": "0.3.0",
+  "version": "0.3.3",
   "description": "TypeScript wrapper for the mailcow API.",
-  "main": "./index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "test": "ts-node ./src/test.ts",
     "build": "tsc",
     "prepare": "tsc"
   },
+  "files": ["src", "dist"],
   "keywords": [],
   "author": "",
   "typings": "./dist/index.d.ts",
