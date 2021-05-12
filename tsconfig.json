@@ -1,11 +1,11 @@
 {
   "include": [
-    "src/**/*"
+    "src/**/*",
   ],
   "exclude": [
     "node_modules",
-    "build",
-    "tests",
+    "dist",
+    "src/test.ts"
   ],
   "compilerOptions": {
     "outDir": "dist",

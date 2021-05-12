@@ -2,11 +2,11 @@
   "name": "ts-mailcow-api",
   "version": "0.3.0",
   "description": "TypeScript wrapper for the mailcow API.",
-  "main": "./dist/index.js",
+  "main": "./index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "run": "ts-node ./src/test.ts",
-    "build": "tsc"
+    "test": "ts-node ./src/test.ts",
+    "build": "tsc",
+    "prepare": "tsc"
   },
   "keywords": [],
   "author": "",
