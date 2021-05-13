@@ -42,12 +42,13 @@ mcc.mailbox.get().then((e) => {
 - [x] Update mailbox ACL
 - [x] Get mailboxes
 - [x] Edit mailbox spam filter score
+- [x] Get Active User Sieve
 
 ### Aliases
-- [ ] Create alias
-- [ ] Delete alias
-- [ ] Update alias
-- [ ] Get aliases
+- [x] Create alias
+- [x] Delete alias
+- [x] Update alias
+- [x] Get aliases
 
 ### Sync Jobs
 - [ ] Create sync job

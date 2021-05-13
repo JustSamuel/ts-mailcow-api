@@ -48,6 +48,7 @@ export default class MailCowClient {
         delete: MailboxEndpoints.deleteMailbox.bind(this),
         edit: MailboxEndpoints.editMailbox.bind(this),
         get: MailboxEndpoints.getMailbox.bind(this),
+        getUserSieve: MailboxEndpoints.getActiveUserSieve.bind(this),
         spamscore: {
             edit: MailboxEndpoints.editSpamScore.bind(this),
         }

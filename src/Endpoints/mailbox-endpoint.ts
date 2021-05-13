@@ -39,4 +39,8 @@ export default {
     editUserACL: function (this: MailCowClient, payload: ACLEditRequest): Promise<MailcowResponse> {
         return requestFactory.post<MailcowResponse>(`${this.BASE_URL}/edit/user-acl`, payload, this.HEADERS);
     },
+
+    getActiveUserSieve: function (this: MailCowClient, username: string): Promise<string[]> {
+        return requestFactory.get<string[]>(`${this.BASE_URL}/get/active-user-sieve/${username}`, this.HEADERS);
+    },
 }
