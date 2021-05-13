@@ -21,11 +21,14 @@ export default class MailCowClient {
                 'X-API-Key': this.API_KEY,
             }
         } as AxiosRequestConfig
-
-        console.log(`${this.BASE_URL}, ${this.API_KEY}`)
     }
 
-    public getAllEndpoints = AliasEndpoints.getAllEndpoints;
+    public alias = {
+        get: AliasEndpoints.getAliases.bind(this),
+        create: AliasEndpoints.createAlias.bind(this),
+        update: AliasEndpoints.updateAlias.bind(this),
+        delete: AliasEndpoints.deleteAlias.bind(this),
+    }
 
     public domain = {
         create: DomainEndpoints.createDomain.bind(this),

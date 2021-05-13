@@ -206,6 +206,41 @@ export interface ACLEditRequest {
     }
 }
 
+export type AliasAttributes = {
+    address: string,
+    goto: string,
+    goto_null?: boolean,
+    goto_spam?: boolean,
+    goto_ham?: boolean,
+    sogo_visible: boolean,
+    active: boolean,
+}
+
+export type AliasPostRequest = AliasAttributes
+
+export interface AliasUpdateRequest {
+    items: number[]
+    attr: AliasAttributes,
+}
+
+export interface AliasDeleteRequest {
+    items: number[]
+}
+
+export interface AliasResponse {
+    in_primary_domain: string,
+    id: number,
+    domain: string,
+    public_comment: string,
+    private_comment: string,
+    goto: string,
+    address: string,
+    is_catch_all: boolean,
+    active: boolean,
+    created: string,
+    modified: string,
+}
+
 export class MailcowException extends Error {
     message: string;
 }
