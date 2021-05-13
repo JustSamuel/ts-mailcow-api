@@ -1,12 +1,12 @@
 {
   "name": "ts-mailcow-api",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "TypeScript wrapper for the mailcow API.",
   "scripts": {
     "test": "ts-node ./src/test.ts",
     "build": "tsc",
     "prepare": "tsc",
-    "postpublish": "git add package.json && git tag %npm_package_version% && git commit && git push origin --tags"
+    "postpublish": "git add package.json && git tag v%npm_package_version% && git commit -m \"Version update.\" && git push origin --tags"
   },
   "repository": {
     "type": "git",
@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/JustSamuel/ts-mailcow-api#readme",
   "author": "Samuel",
-  "files": ["src", "dist"],
+  "files": ["src", "dist", "index.js"],
   "keywords": [
     "mailcow",
     "typescript",
