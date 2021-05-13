@@ -2,15 +2,26 @@
   "name": "ts-mailcow-api",
   "version": "0.3.3",
   "description": "TypeScript wrapper for the mailcow API.",
-  "main": "./dist/index.js",
   "scripts": {
     "test": "ts-node ./src/test.ts",
     "build": "tsc",
     "prepare": "tsc"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JustSamuel/ts-mailcow-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JustSamuel/ts-mailcow-api/issues"
+  },
+  "homepage": "https://github.com/JustSamuel/ts-mailcow-api#readme",
+  "author": "Samuel",
   "files": ["src", "dist"],
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "mailcow",
+    "typescript",
+    "API"
+  ],
   "typings": "./dist/index.d.ts",
   "license": "ISC",
   "devDependencies": {
