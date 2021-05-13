@@ -1,13 +1,12 @@
 {
   "name": "ts-mailcow-api",
-  "version": "0.3.4",
+  "version": "0.3.7",
   "description": "TypeScript wrapper for the mailcow API.",
   "scripts": {
     "test": "ts-node ./src/test.ts",
     "build": "tsc",
     "prepare": "tsc",
-    "postversion": "git push && git push --tags",
-    "version": "npm run build && git add package.json"
+    "postpublish": "git add package.json && git tag %npm_package_version% && git commit && git push"
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,25 @@
 # TypeScript wrapper for the mailcow API.
 
 Provides typing and a easy to use interface for the [Mailcow API](https://mailcow.docs.apiary.io/#).
+## Usage
+Create a new wrapper using the base url and API_KEY.
+```ts
+import MailCowClient from "./index";
+
+// Create MailCowClient based on BASE_URL and API_KEY
+const mcc = new MailCowClient("https://demo.mailcow.email/api/v1", "390448-22B69F-FA37D9-19701B-6F033F");
+```
+Then you can use the created wrapper for promised-based API calls according to the Mailcow API specification.
+```ts
+// Get all the mailboxes available.
+mcc.mailbox.get().then((e) => {
+    // Print all mailboxes.
+    console.log(JSON.stringify(e, null, 4));
+}).catch(e => {
+    // Error handling.
+    console.log(e)
+})
+```
 
 ## API implementation progress
 ### Domains
