@@ -116,6 +116,7 @@ export interface MailboxEditRequest {
     attr: Partial<MailboxEditAttributes>
     items: string[]
 }
+
 export interface MailboxResponse {
     username: string,
     active: boolean
@@ -192,7 +193,7 @@ export interface QuarantaineEditRequest {
 export interface SpamScoreEditRequest {
     items: string[],
     attr: {
-        spam_score: `${number}, ${number}`,
+        spam_score: string,
     }
 }
 
