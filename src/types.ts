@@ -217,11 +217,13 @@ export type AliasAttributes = {
     active: boolean,
 }
 
+export type AliasEditAttributes = AliasAttributes & { private_comment: string, public_comment: string }
+
 export type AliasPostRequest = AliasAttributes
 
 export interface AliasUpdateRequest {
     items: number[]
-    attr: AliasAttributes,
+    attr: AliasEditAttributes,
 }
 
 export interface AliasDeleteRequest {
