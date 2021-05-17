@@ -1,1 +1,5 @@
-module.exports = require('./dist/index');
+import { MailCowClient } from './dist/index';
+module.exports = {
+  MailCowClient,
+  default: MailCowClient,
+}

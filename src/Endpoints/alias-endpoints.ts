@@ -1,25 +1,41 @@
-import MailCowClient from "../index";
-import {
-    AliasDeleteRequest,
-    AliasPostRequest,
-    AliasResponse, AliasUpdateRequest, MailcowResponse,
-} from "../types";
-import requestFactory from "../request-factory";
+import { AliasDeleteRequest, AliasPostRequest, AliasResponse, AliasUpdateRequest, MailcowResponse } from '../types';
+import MailcowClient from '../index';
 
-export default {
-    getAliases: function (this: MailCowClient, id = "all"): Promise<AliasResponse[]> {
-        return requestFactory.get<AliasResponse[]>(`${this.BASE_URL}/get/alias/${id}`, this.HEADERS)
-    },
+export interface AliasInterface {
+  /**
+   * Get mailbox aliases existing in system.
+   * @param id - The id of the alias you want to get. Use 'all' to retrieve all aliases in the system.
+   */
+  get: (id?: number | 'all') => Promise<AliasResponse[] | AliasResponse>,
+  create: any,
+  update: any,
+  delete: any,
+}
 
-    createAlias: function (this: MailCowClient, payload: AliasPostRequest): Promise<MailcowResponse> {
-        return requestFactory.post<MailcowResponse>(`${this.BASE_URL}/add/alias`, payload, this.HEADERS)
+export default function AliasEndpoints(bind: MailcowClient): AliasInterface {
+  return {
+    get(id = 'all'): Promise<AliasResponse[]> {
+      return  bind.requestFactory.get<AliasResponse[]>(
+        `/api/v1/get/alias/${ id }`,
+      );
     },
-
-    updateAlias: function (this: MailCowClient, payload: AliasUpdateRequest): Promise<MailcowResponse> {
-        return requestFactory.post<MailcowResponse>(`${this.BASE_URL}/edit/alias`, payload, this.HEADERS)
+    create: (payload: AliasPostRequest): Promise<MailcowResponse> => {
+      return bind.requestFactory.post<MailcowResponse>(
+        '/api/v1/add/alias',
+        payload
+      );
     },
-
-    deleteAlias: function (this: MailCowClient, payload: AliasDeleteRequest): Promise<MailcowResponse> {
-        return requestFactory.post<MailcowResponse>(`${this.BASE_URL}/delete/alias`, payload.items, this.HEADERS)
+    update: (payload: AliasUpdateRequest): Promise<MailcowResponse> => {
+      return bind.requestFactory.post<MailcowResponse>(
+        '/api/v1/edit/alias',
+        payload
+      );
     },
+    delete: (payload: AliasDeleteRequest): Promise<MailcowResponse> => {
+      return bind.requestFactory.post<MailcowResponse>(
+        '/api/v1/delete/alias',
+        payload.items
+      );
+    }
+  };
 }

@@ -7,6 +7,16 @@
     "dist",
     "src/test.ts"
   ],
+  "typedocOptions": {
+    "entryPoints": [
+      "src/"
+    ],
+    "excludeNotDocumented": false,
+    "excludeInternal": true,
+    "excludeExternals": false,
+    "excludeProtected": false,
+    "out": "docs"
+  },
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "./src/",

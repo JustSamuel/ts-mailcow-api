@@ -1,23 +1,30 @@
-import MailCowClient from "../index";
 import {
-    SpamPolicyDeleteRequest,
-    SpamPolicyPostRequest,
-    MailcowResponse,
-    SpamPolicyGetRequest,
-    SpamPolicyResponse
-} from "../types";
-import requestFactory from "../request-factory";
+  SpamPolicyDeleteRequest,
+  SpamPolicyPostRequest,
+  MailcowResponse,
+  SpamPolicyGetRequest,
+  SpamPolicyResponse
+} from '../types';
+import MailcowClient from '../index';
 
-export default {
-    createSpamPolicy: function (this: MailCowClient, payload: SpamPolicyPostRequest): Promise<MailcowResponse> {
-        return requestFactory.post<MailcowResponse>(`${this.BASE_URL}/add/domain-policy`, payload, this.HEADERS)
+export default function AntiSpamEndpoints(bind: MailcowClient) {
+  return {
+    create(payload: SpamPolicyPostRequest): Promise<MailcowResponse> {
+      return bind.requestFactory.post<MailcowResponse>(
+        '/api/v1/add/domain-policy',
+        payload,
+      );
     },
-
-    deleteSpamPolicy: function (this: MailCowClient, payload: SpamPolicyDeleteRequest): Promise<MailcowResponse> {
-        return requestFactory.delete<MailcowResponse>(`${this.BASE_URL}/delete/domain-policy`, payload.prefid, this.HEADERS)
+    delete(payload: SpamPolicyDeleteRequest): Promise<MailcowResponse> {
+      return bind.requestFactory.post<MailcowResponse>(
+        '/api/v1/delete/domain-policy',
+        payload.prefid,
+      );
     },
-
-    getSpamPolicyList: function (this: MailCowClient, payload: SpamPolicyGetRequest): Promise<SpamPolicyResponse[]> {
-        return requestFactory.get<SpamPolicyResponse[]>(`${this.BASE_URL}/get/policy_${payload.type}_domain/${payload.domain}`, this.HEADERS)
-    },
+    get(payload: SpamPolicyGetRequest): Promise<SpamPolicyResponse[]> {
+      return bind.requestFactory.get<SpamPolicyResponse[]>(
+        `/api/v1/get/policy_${ payload.type }_domain/${ payload.domain }`,
+      );
+    }
+  };
 }

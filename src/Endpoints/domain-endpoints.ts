@@ -1,21 +1,33 @@
-import MailCowClient from "../index";
-import requestFactory from "../request-factory";
-import {DomainDeleteRequest, DomainEditRequest, DomainPostRequest, DomainResponse, MailcowResponse} from "../types";
+import { DomainDeleteRequest, DomainEditRequest, DomainPostRequest, DomainResponse, MailcowResponse } from '../types';
+import MailcowClient from '../index';
 
-export default {
-    createDomain: function (this: MailCowClient, payload: DomainPostRequest): Promise<MailcowResponse> {
-        return requestFactory.post<MailcowResponse>(`${this.BASE_URL}/add/domain`, payload, this.HEADERS)
+export default function DomainEndpoints(bind: MailcowClient) {
+  return {
+    create(payload: DomainPostRequest): Promise<MailcowResponse> {
+      return bind.requestFactory.post<MailcowResponse>(
+        '/api/v1/add/domain',
+        payload
+      );
     },
 
-    deleteDomain: function (this: MailCowClient, payload: DomainDeleteRequest): Promise<MailcowResponse> {
-        return requestFactory.delete<MailcowResponse>(`${this.BASE_URL}/delete/domain`, payload.domains, this.HEADERS)
+    delete(payload: DomainDeleteRequest): Promise<MailcowResponse> {
+      return bind.requestFactory.post<MailcowResponse>(
+        '/api/v1/delete/domain',
+        payload.domains
+      );
     },
 
-    editDomain: function (this: MailCowClient, payload: DomainEditRequest): Promise<MailcowResponse> {
-        return requestFactory.post<MailcowResponse>(`${this.BASE_URL}/edit/domain`, payload, this.HEADERS)
+    edit(payload: DomainEditRequest): Promise<MailcowResponse> {
+      return bind.requestFactory.post<MailcowResponse>(
+        '/api/v1/edit/domain',
+        payload
+      );
     },
 
-    getDomain: function (this: MailCowClient, domain: string = "all"): Promise<DomainResponse | DomainResponse[]> {
-        return requestFactory.get<DomainResponse>(`${this.BASE_URL}/get/domain/${domain}`, this.HEADERS)
+    get(domain: string = 'all'): Promise<DomainResponse | DomainResponse[]> {
+      return bind.requestFactory.get<DomainResponse>(
+        `/api/v1/get/domain/${ domain }`
+      );
     }
+  };
 }

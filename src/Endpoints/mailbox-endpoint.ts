@@ -1,46 +1,77 @@
-import MailCowClient from "../index";
-import requestFactory from "../request-factory";
 import {
-    ACLEditRequest,
-    MailboxDeleteRequest, MailboxEditRequest,
-    MailboxPostRequest, MailboxResponse,
-    MailcowResponse, PushoverEditRequest, QuarantaineEditRequest, SpamScoreEditRequest
-} from "../types";
+  ACLEditRequest,
+  MailboxDeleteRequest,
+  MailboxEditRequest,
+  MailboxPostRequest,
+  MailboxResponse,
+  MailcowResponse,
+  PushoverEditRequest,
+  QuarantaineEditRequest,
+  SpamScoreEditRequest
+} from '../types';
+import MailcowClient from '../index';
 
-export default {
-    createMailbox: function (this: MailCowClient, payload: MailboxPostRequest): Promise<MailcowResponse> {
-        return requestFactory.post<MailcowResponse>(`${this.BASE_URL}/add/mailbox`, payload, this.HEADERS);
+export default function MailboxEndpoints(bind: MailcowClient) {
+  return {
+    create(payload: MailboxPostRequest): Promise<MailcowResponse> {
+      return bind.requestFactory.post<MailcowResponse>(
+        '/api/v1/add/mailbox',
+        payload
+      );
     },
 
-    deleteMailbox: function (this: MailCowClient, payload: MailboxDeleteRequest): Promise<MailcowResponse> {
-        return requestFactory.delete<MailcowResponse>(`${this.BASE_URL}/delete/mailbox`, payload.domains, this.HEADERS);
+    delete(payload: MailboxDeleteRequest): Promise<MailcowResponse> {
+      return bind.requestFactory.post<MailcowResponse>(
+        '/api/v1/delete/mailbox',
+        payload.domains
+      );
     },
 
-    editMailbox: function (this: MailCowClient, payload: MailboxEditRequest): Promise<MailcowResponse> {
-        return requestFactory.post<MailcowResponse>(`${this.BASE_URL}/edit/mailbox`, payload, this.HEADERS);
+    edit(payload: MailboxEditRequest): Promise<MailcowResponse> {
+      return bind.requestFactory.post<MailcowResponse>(
+        '/api/v1/edit/mailbox',
+        payload
+      );
     },
 
-    getMailbox: function (this: MailCowClient, mailbox: string = "all"): Promise<MailboxResponse[]> {
-        return requestFactory.get<MailboxResponse[]>(`${this.BASE_URL}/get/mailbox/${mailbox}`, this.HEADERS);
+    get(mailbox: string = 'all'): Promise<MailboxResponse[]> {
+      return bind.requestFactory.get<MailboxResponse[]>(
+        `/api/v1/get/mailbox/${ mailbox }`
+      );
     },
 
-    editPushover: function (this: MailCowClient, payload: PushoverEditRequest): Promise<MailcowResponse> {
-        return requestFactory.post<MailcowResponse>(`${this.BASE_URL}/edit/pushover`, payload, this.HEADERS);
+    editPushover(payload: PushoverEditRequest): Promise<MailcowResponse> {
+      return bind.requestFactory.post<MailcowResponse>(
+        '/api/v1/edit/pushover',
+        payload
+      );
     },
 
-    editQuarantine: function (this: MailCowClient, payload: QuarantaineEditRequest): Promise<MailcowResponse> {
-        return requestFactory.post<MailcowResponse>(`${this.BASE_URL}/edit/quarantine_notification`, payload, this.HEADERS);
+    editQuarantine(payload: QuarantaineEditRequest): Promise<MailcowResponse> {
+      return bind.requestFactory.post<MailcowResponse>(
+        '/api/v1/edit/quarantine_notification',
+        payload
+      );
     },
 
-    editSpamScore: function (this: MailCowClient, payload: SpamScoreEditRequest): Promise<MailcowResponse> {
-        return requestFactory.post<MailcowResponse>(`${this.BASE_URL}/edit/spam-score`, payload, this.HEADERS);
+    editSpamScore(payload: SpamScoreEditRequest): Promise<MailcowResponse> {
+      return bind.requestFactory.post<MailcowResponse>(
+        '/api/v1/edit/spam-score',
+        payload
+      );
     },
 
-    editUserACL: function (this: MailCowClient, payload: ACLEditRequest): Promise<MailcowResponse> {
-        return requestFactory.post<MailcowResponse>(`${this.BASE_URL}/edit/user-acl`, payload, this.HEADERS);
+    editUserACL(payload: ACLEditRequest): Promise<MailcowResponse> {
+      return bind.requestFactory.post<MailcowResponse>(
+        '/api/v1/edit/user-acl',
+        payload
+      );
     },
 
-    getActiveUserSieve: function (this: MailCowClient, username: string): Promise<string[]> {
-        return requestFactory.get<string[]>(`${this.BASE_URL}/get/active-user-sieve/${username}`, this.HEADERS);
-    },
+    getActiveUserSieve(username: string): Promise<string[]> {
+      return bind.requestFactory.get<string[]>(
+        `/api/v1/get/active-user-sieve/${ username }`
+      );
+    }
+  };
 }
