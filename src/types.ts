@@ -220,18 +220,39 @@ export interface ACLEditRequest {
 }
 
 export type AliasAttributes = {
-  address: string;
+  /**
+   * The alias address, for catchall use "@domain.tld".
+   */
+  address: string
+  /**
+   * The destination address, comma separated.
+   */
   goto: string;
+  /**
+   * If true: silently ignore.
+   */
   goto_null?: boolean;
+  /**
+   * If true: learn as spam.
+   */
   goto_spam?: boolean;
+  /**
+   * If true: learn as ham.
+   */
   goto_ham?: boolean;
+  /**
+   * If alias is visible in sogo.
+   */
   sogo_visible: boolean;
+  /**
+   * If alias is active or not.
+   */
   active: boolean;
 };
 
-export type AliasEditAttributes = AliasAttributes & {
-  private_comment: string;
-  public_comment: string;
+export type AliasEditAttributes = Partial<AliasAttributes> & {
+  private_comment?: string;
+  public_comment?: string;
 };
 
 export type AliasPostRequest = AliasAttributes;
@@ -245,18 +266,17 @@ export interface AliasDeleteRequest {
   items: number[];
 }
 
-export interface AliasResponse {
-  in_primary_domain: string;
-  id: number;
-  domain: string;
-  public_comment: string;
-  private_comment: string;
-  goto: string;
-  address: string;
-  is_catch_all: boolean;
-  active: boolean;
-  created: string;
-  modified: string;
+export interface Alias extends AliasAttributes {
+  in_primary_domain: string,
+  id: number,
+  domain: string,
+  public_comment: string,
+  private_comment: string,
+  is_catch_all: boolean,
+  active_int: number,
+  sogo_visible_int: number,
+  created: string,
+  modified: string | null
 }
 
 export class MailcowException extends Error {
@@ -268,13 +288,13 @@ export class MailcowException extends Error {
  *
  * This is used when the API call doesn't return any objects, i.e. POST requests.
  */
-export interface MailcowResponseContent {
+export interface BaseResponse {
   log?: (string | Payload)[];
   msg: string[] | string;
   type: 'succes' | 'danger' | 'error';
 }
 
-export type MailcowResponse = MailcowResponseContent[];
+export type MailcowResponse<T = BaseResponse> = T[];
 
 export interface MailcowErrorResponse extends MailcowResponse {
   msg: string;

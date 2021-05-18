@@ -7,7 +7,7 @@ import domainEndpoints from './Endpoints/domain-endpoints';
 import antiSpamEndpoints from './Endpoints/antispam-endpoints';
 import mailboxEndpoints from './Endpoints/mailbox-endpoint';
 import RequestFactory from './request-factory';
-import aliasEndpoints, { AliasInterface } from './Endpoints/alias-endpoints';
+import { aliasEndpoints, AliasEndpoints } from './Endpoints/alias-endpoints';
 
 /**
  * Class containing all the logic to interface with the Mailcow API in TypeScript.
@@ -49,7 +49,7 @@ export class MailcowClient {
   /**
    * All endpoints related to Aliases.
    */
-  public aliases: AliasInterface = aliasEndpoints(this)
+  public aliases: AliasEndpoints = aliasEndpoints(this)
 
   public domains = domainEndpoints(this)
 
