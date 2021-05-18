@@ -13,7 +13,7 @@ import { aliasEndpoints, AliasEndpoints } from './Endpoints/alias-endpoints';
  * Class containing all the logic to interface with the Mailcow API in TypeScript.
  * @external
  */
-export class MailcowClient {
+class MailcowClient {
   /**
    * The base URL of the Mailcow API.
    */
@@ -58,5 +58,4 @@ export class MailcowClient {
   public mailbox = mailboxEndpoints(this)
 }
 
-/* Allow for named and unnamed export of MailcowClient */
 export default MailcowClient;
