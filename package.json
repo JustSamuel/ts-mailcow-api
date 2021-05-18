@@ -1,6 +1,6 @@
 {
   "name": "ts-mailcow-api",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "TypeScript wrapper for the mailcow API.",
   "scripts": {
     "test": "ts-mocha ./test/**/*.test.ts",
