@@ -44,7 +44,7 @@ describe("Alias Endpoint tests", (): void => {
       })
     });
     it('should delete edit previously created alias', async () => {
-      await thenTestOrFail(mcc.aliases.update({ attr: editAttr, items: [id] }), (res: MailcowResponse) => {
+      await thenTestOrFail(mcc.aliases.edit({ attr: editAttr, items: [id] }), (res: MailcowResponse) => {
         expect(res[0].type).to.be.equal("success")
       })
       await thenTestOrFail(mcc.aliases.get(id), (res: Alias[]) => {

@@ -2,10 +2,20 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import { MailcowErrorResponse, MailcowException, Payload } from './types';
 import MailcowClient from './index';
 
+/**
+ * Ensures output is an array.
+ * @param item
+ * @internal
+ */
 function wrapToArray<T>(item: T | T[]): T[] {
   return Array.isArray(item) ? item : [item];
 }
 
+/**
+ * Function that wraps T | T[] to T[]
+ * @internal
+ * @param promise - The promise of which the output to wrap.
+ */
 export function wrapPromiseToArray<T>(promise: Promise<T|T[]>): Promise<T[]> {
   return new Promise<T[]>((resolve, reject) => {
     promise

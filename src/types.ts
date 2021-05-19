@@ -1,169 +1,565 @@
 /* eslint-disable camelcase */
+/**
+ * Payloads should be JSONs.
+ */
 export type Payload = Record<string, any> | null;
 
-export type BaseDomainAttributes = {
+/**
+ * Base attributes of a domain.
+ */
+export interface BaseDomainAttributes {
+  /**
+   * The language code associated with this domain.
+   */
+  lang: "sk" | "cs" | "de" | "en" | "es" | "fr" | "lv" | "nl" | "pl" | "pt" | "ru" | "it" | "ca"
+  /**
+   * Boolean if the domain is active.
+   */
   active: boolean;
+  /**
+   * Amount of aliases in the domain.
+   */
   aliases: number;
+  /**
+   * Boolean to relay domain or not.
+   */
   backupmx: number;
+  /**
+   * The predefined mailbox quota in add mailbox form
+   */
   defquota: number;
+  /**
+   * The description of the domain.
+   */
   description: string;
-  gal: boolean;
+  /**
+   * The limit count of mailboxes associated with this domain.
+   */
   mailboxes: number;
+  /**
+   * The maximum quota per mailbox.
+   */
   maxquota: number;
+  /**
+   * The maximum quota for this domain (sum of all mailboxes).
+   */
   quota: number;
+  /**
+   * If not, then you have to create "dummy" mailbox for each address to relay
+   */
   relay_all_recipients: boolean;
 };
 
+/**
+ * Relay interval settings.
+ */
 type RelayFrame = 's' | 'm' | 'h' | 'd';
 
-export type DomainPostRequest = BaseDomainAttributes & {
+/**
+ * Domain creation payload.
+ */
+export interface DomainPostRequest extends BaseDomainAttributes  {
+  /**
+   * The domain to create.
+   */
   domain: string;
+  /**
+   * The frame of the relay setting.
+   */
   rl_frame: RelayFrame;
+  /**
+   * The value of the relay setting.
+   */
   rl_value: number;
+  /**
+   * If true: sogo will restart after domain creation.
+   */
   restart_sogo: boolean;
-};
+}
 
+/**
+ * Domain delete request.
+ */
 export interface DomainDeleteRequest {
+  /**
+   * List of domains to delete.
+   */
   domains: string[];
 }
 
-export type DomainEditAttributes = BaseDomainAttributes & { relayhost: number };
+/**
+ * All attributes of the domain you can edit.
+ */
+export interface DomainEditAttributes extends BaseDomainAttributes {
+  /**
+   * 	Is domain global address list active or not, it enables shared contacts across domain in SOGo webmail
+   */
+  gal: boolean
+  /**
+   * Id of the relayhost.
+   */
+  relayhost: number
+}
 
+/**
+ * Domain edit request.
+ */
 export interface DomainEditRequest {
+  /**
+   * Possible attributes you can edit.
+   */
   attr: Partial<DomainEditAttributes>;
+  /**
+   * Domains you wish to edit.
+   */
   items: string | string[];
 }
 
-export interface DomainResponse {
+/**
+ * Interface of the Domain as returned by Mailcow.
+ */
+export interface Domain {
+  /**
+   * 0 = False, 1 = True.
+   */
   active: number;
+  /**
+   * Amount of aliases in this domain.
+   */
   aliases_in_domain: number;
+  /**
+   * Amount of aliases remaining in the alias quota.
+   */
   aliases_left: number;
-  backupmx: boolean;
-  bytes_total: number;
-  def_new_mailbox_quota: number;
-  def_quota_for_mbox: number;
+  /**
+   * If backupmx is activated.
+   */
+  backupmx?: boolean;
+  /**
+   * Total amount of bytes used by this domain.
+   */
+  bytes_total?: number;
+  /**
+   * New mailbox quota.
+   */
+  def_new_mailbox_quota?: number;
+  /**
+   * Quota for a mailbox.
+   */
+  def_quota_for_mbox?: number;
+  /**
+   * Description of the domain.
+   */
   description: string;
+  /**
+   * Name of the domain.
+   */
   domain_name: string;
+  /**
+   * 	Is domain global address list active or not, it enables shared contacts across domain in SOGo webmail
+   */
   gal: boolean;
-  max_new_mailbox_quota: string;
-  max_num_aliases_for_domain: number;
+  /**
+   * Max quota for new mailboxes.
+   */
+  max_new_mailbox_quota?: string;
+  /**
+   * Max quota aliases on this domain.
+   */
+  max_num_aliases_for_domain?: number;
+  /**
+   * Max number of mailboxes in this domain.
+   */
   max_num_mboxes_for_domain: number;
+  /**
+   * Max quota for this domain.
+   */
   max_quota_for_domain: number;
+  /**
+   * Max quota for a mailbox.
+   */
   max_quota_for_mbox: number;
+  /**
+   * Amount of mailboxes in this domain.
+   */
   mboxes_in_domain: number;
+  /**
+   * Amount of mailboxes left in the quota.
+   */
   mboxes_left: number;
+  /**
+   * Amount of total messages in this domain.
+   */
   msgs_total: number;
+  /**
+   * Quota used in this domain.
+   */
   quota_used_in_domain: number;
-  relay_all_recipients: boolean;
-  relayhost: boolean;
+  /**
+   * If all mails are relayed.
+   */
+  relay_all_recipients?: boolean;
+  /**
+   * Id of the relay host
+   */
+  relayhost?: number;
+  /**
+   * If the domain is relayed.
+   */
   rl: boolean | { value: string; frame: string };
+  /**
+   * If XMPP is enable.d
+   */
   xmpp: boolean;
+  /**
+   * The XMPP prefix.
+   */
   xmpp_prefix: string;
-  gal_int: boolean;
-  active_int: boolean;
+  /**
+   * Integer representation of the boolean.
+   */
+  gal_int: number;
+  /**
+   * Integer representation of the boolean.
+   */
+  active_int: number;
+  /**
+   * Integer representation of the boolean.
+   */
   relay_all_recipients_int: boolean;
+  /**
+   * If the domain should only relay unknown adresses.
+   */
   relay_unknown_only: boolean;
+  /**
+   * Integer representation of the boolean.
+   */
   relay_unknown_only_int: boolean;
+  /**
+   * List of domain admins
+   */
   domain_admins: string[];
 }
 
+/**
+ * Antispam policy creation request.
+ */
 export interface SpamPolicyPostRequest {
+  /**
+   * Domain for which the policies applies.
+   */
   domain: string;
+  /**
+   * The 'from' parameter off the antispam policy
+   */
   object_from: string;
+  /**
+   * Use 'wl' for whitelist and 'bl' for blacklist.
+   */
   object_list: 'wl' | 'bl';
 }
 
+/**
+ * Antispam deletion request.
+ */
 export interface SpamPolicyDeleteRequest {
+  /**
+   * IDs of the policies to delete.
+   */
   prefid: number[];
 }
 
+/**
+ * Antispam policy get request.
+ */
 export interface SpamPolicyGetRequest {
+  /**
+   * Use 'wl' to get whitelist policies and use 'bl' to get blacklist policies.
+   */
   type: 'wl' | 'bl';
+  /**
+   * The exact address or use wildcard to match whole domain.
+   */
   domain: string;
 }
 
-export interface SpamPolicyResponse {
+/**
+ * Interface of the Antispam Policy as returned by Mailcow.
+ */
+export interface SpamPolicy {
+  /**
+   * The domain of the policy.
+   */
   object: string;
+  /**
+   * The address of the policy.
+   */
   value: string;
+  /**
+   * The ID of the policy.
+   */
   prefid: number;
 }
 
-export type BaseMailboxAttributes = {
+/**
+ * Base attributes of a mailbox.
+ */
+export interface BaseMailboxAttributes {
+  /**
+   * Boolean if the mailbox is active.
+   */
   active: boolean;
+  /**
+   * Boolean if the user is forced to update their password on login.
+   */
   force_pw_update: boolean;
+  /**
+   * The ull name of the mailbox user.
+   */
   name: string;
+  /**
+   * The mailbox password.
+   */
   password: string;
+  /**
+   * The mailbox password for confirmation.
+   */
   password2: string;
+  /**
+   * The mailbox quota.
+   */
   quota: number;
 };
 
+/**
+ * Mailbox creation request.
+ */
 export interface MailboxPostRequest extends BaseMailboxAttributes {
+  /**
+   * The domain of the mailbox.
+   */
   domain: string;
+  /**
+   * The local part of the mailbox.
+   */
   local_part: string;
+  /**
+   * Boolean if inbound email encryption is forced.
+   */
   tls_enforce_in: boolean;
+  /**
+   * Boolean if outbound email encryption is forced.
+   */
   tls_enforce_out: boolean;
 }
 
+/**
+ * Mailbox deletion request.
+ */
 export interface MailboxDeleteRequest {
-  domains: string[];
+  /**
+   * List of mailboxes to delete.
+   */
+  mailboxes: string[];
 }
 
-export type MailboxEditAttributes = BaseMailboxAttributes & {
+/**
+ * Attributes of the mailbox you can edit.
+ */
+export interface MailboxEditAttributes extends BaseMailboxAttributes  {
+  /**
+   * List of allowed send from addresses.
+   */
   sender_acl: string[];
+  /**
+   * Boolean iff mailbox has SOGo acces.
+   */
   sogo_access: boolean;
 };
 
+/**
+ * Mailbox update request.
+ */
 export interface MailboxEditRequest {
+  /**
+   * List of attributes you wish to update.
+   */
   attr: Partial<MailboxEditAttributes>;
+  /**
+   * List of mailboxes to edit.
+   */
   items: string[];
 }
 
+/**
+ * Possible options for the Quarantine time frames.
+ */
 type QuarantineSchedule = 'hourly' | 'daily' | 'weekly' | 'never';
 
+/**
+ * Options of what should happen if email is quarantined.
+ */
 type QuarantineCategory = 'reject' | 'add_header' | 'all';
 
-export interface MailboxResponse {
+/**
+ * Interface of the Mailbox as returned by Mailcow.
+ */
+export interface Mailbox {
+  /**
+   * The full mailbox name, equal to local_part@domain
+   */
   username: string;
+  /**
+   * Boolean if the mailbox is active.
+   */
   active: boolean;
-  active_int: boolean;
+  /**
+   * Int representation of the boolean.
+   */
+  active_int: number;
+  /**
+   * Domain of the mailbox.
+   */
   domain: string;
-  domain_xmpp: boolean;
+  /**
+   * Boolean if XMPP is enabled for this domain.
+   */
+  domain_xmpp?: boolean;
+  /**
+   * Name of the user belonging to the mailbox.
+   */
   name: string;
-  domain_xmpp_prefix: string;
+  /**
+   * The prefix used for the XMPP login.
+   */
+  domain_xmpp_prefix?: string;
+  /**
+   * The local part of the mailbox.
+   */
   local_part: string;
+  /**
+   * The quota of the mailbox.
+   */
   quota: number;
-  messages: boolean;
+  /**
+   * Amount of messages in the mailbox.
+   */
+  messages: number;
+  /**
+   * Attributes belonging to this mailbox
+   */
   attributes: {
+    /**
+     * Boolean if the user is forced to update their password on login.
+     */
     force_pw_update: boolean;
+    /**
+     * Boolean if inbound email encryption is forced.
+     */
     tls_enforce_in: boolean;
+    /**
+     * Boolean if outbound email encryption is forced.
+     */
     tls_enforce_out: boolean;
+    /**
+     * Boolean if mailbox has SOGo acces.
+     */
     sogo_access: boolean;
+    /**
+     * Boolean if mailbox has IMAP acces.
+     */
     imap_access: boolean;
+    /**
+     * Boolean if mailbox has POP3 acces.
+     */
     pop3_access: boolean;
+    /**
+     * Boolean if mailbox has SMTP acces.
+     */
     smtp_access: boolean;
+    /**
+     * Boolean if mailbox has XMPP acces.
+     */
     xmpp_access: boolean;
+    /**
+     * Boolean if mailbox is XMPP admin.
+     */
     xmpp_admin: boolean;
+    /**
+     * The format of the mailbox.
+     */
     mailbox_format: string;
+    /**
+     * The schedule on which the mailbox gets quarantine notifications.
+     */
     quarantine_notification: QuarantineSchedule;
+    /**
+     * What happens with the quarantined emails.
+     */
     quarantine_category: QuarantineCategory;
   };
-  quota_used: boolean;
-  percent_in_use: boolean;
-  last_imap_login: boolean;
-  last_smtp_login: boolean;
-  last_pop3_login: boolean;
-  percent_class: string;
+  /**
+   * Amount of quota used.
+   */
+  quota_used: number;
+  /**
+   * Percentage of mailbox quota used.
+   */
+  percent_in_use: number;
+  /**
+   * Last IMAP login time in epoch timestamp..
+   */
+  last_imap_login: number;
+  /**
+   * Last SMTP login time in epoch timestamp..
+   */
+  last_smtp_login: number;
+  /**
+   * Last POP3 login time in epoch timestamp..
+   */
+  last_pop3_login: number;
+  /**
+   * Class representation of quota usage.
+   */
+  percent_class: "success" | "warning" | "danger";
+  /**
+   * Maximum possible quota.
+   */
   max_new_quota: number;
-  spam_aliases: boolean;
+  /**
+   * Amount of spam aliases belonging to this mailbox.
+   */
+  spam_aliases: number;
+  /**
+   * Boolean if pushover is active.
+   */
   pushover_active: boolean;
+  /**
+   * Relay settings.
+   */
   rl: {
+    /**
+     * Value of the frame settings.
+     */
     value: number;
+    /**
+     * Relay interval.
+     */
     frame: RelayFrame;
   };
+  /**
+   * Scope of the relay.
+   */
   rl_scope: string;
+  /**
+   * Boolean if the mailbox is relayed.
+   */
   is_relayed: boolean;
 }
 
+/**
+ * Pushover settings interface.
+ */
 export interface PushoverEditAttributes {
   active: boolean;
   evaluate_x_prio: boolean;
@@ -176,27 +572,63 @@ export interface PushoverEditAttributes {
   token: string;
 }
 
+/**
+ * Pushover edit payload.
+ */
 export interface PushoverEditRequest {
+  /**
+   * The attributes to edit.
+   */
   attr: Partial<PushoverEditAttributes>;
-  items: string;
+  /**
+   * List of mailboxes to edit.
+   */
+  items: string | string[];
 }
 
+/**
+ * Quarantaine notification edit payload.
+ */
 export interface QuarantaineEditRequest {
+  /**
+   * The attributes to edit.
+   */
   attr: {
+    /**
+     * How often quarantine notifications should be sent.
+     */
     quarantine_notification: QuarantineSchedule;
   };
+  /**
+   * The mailboxes to edit.
+   */
   items: {
-    anyOf: string[];
+    anyOf: string | string[];
   };
 }
 
+/**
+ * Spam score edit payload.
+ */
 export interface SpamScoreEditRequest {
-  items: string[];
+  /**
+   * Mailboxes to edit.
+   */
+  items: string | string[];
+  /**
+   * The attributes to edit.
+   */
   attr: {
+    /**
+     * The spamscore to set, should be of the form 'lowerbound, upperbound'.
+     */
     spam_score: string;
   };
 }
 
+/**
+ * List of possible userACL.
+ */
 type userAcl =
   | 'spam_alias'
   | 'tls_policy'
@@ -212,14 +644,29 @@ type userAcl =
   | 'app_passwds'
   | 'pushover';
 
+/**
+ * ACL Edit payload.
+ */
 export interface ACLEditRequest {
-  items: string[];
+  /**
+   * Mailboxes to edit.
+   */
+  items: string | string[];
+  /**
+   * Attributes to set.
+   */
   attr: {
+    /**
+     * List of ACLs to set.
+     */
     user_acl: userAcl[];
   };
 }
 
-export type AliasAttributes = {
+/**
+ * Base attributes of an Alias.
+ */
+export interface AliasAttributes {
   /**
    * The alias address, for catchall use "@domain.tld".
    */
@@ -250,36 +697,99 @@ export type AliasAttributes = {
   active: boolean;
 };
 
-export type AliasEditAttributes = Partial<AliasAttributes> & {
+/**
+ * All attributes of an Alias you can edit.
+ */
+export interface AliasEditAttributes extends Partial<AliasAttributes> {
+  /**
+   * The private comment of the alias.
+   */
   private_comment?: string;
+  /**
+   * The public comment of the alias.
+   */
   public_comment?: string;
-};
+}
 
+/**
+ * Alias post payload.
+ */
 export type AliasPostRequest = AliasAttributes;
 
-export interface AliasUpdateRequest {
+/**
+ * Alias update payload.
+ */
+export interface AliasEditRequest {
+  /**
+   * List of IDs of the aliases to update.
+   */
   items: number[];
+  /**
+   * The attributes to set.
+   */
   attr: AliasEditAttributes;
 }
 
+/**
+ * Alias delete payload.
+ */
 export interface AliasDeleteRequest {
+  /**
+   * List of IDs of the aliases to delete.
+   */
   items: number[];
 }
 
+/**
+ * Interface of the Alias as returned by Mailcow.
+ */
 export interface Alias extends AliasAttributes {
   in_primary_domain: string,
+  /**
+   * The ID of the alias.
+   */
   id: number,
+  /**
+   * The domain of the alias.
+   */
   domain: string,
+  /**
+   * The public comment of the alias.
+   */
   public_comment: string,
+  /**
+   * The private comment of the alias.
+   */
   private_comment: string,
+  /**
+   * Boolean if the Alias is a catch-all.
+   */
   is_catch_all: boolean,
+  /**
+   * Int representation of the boolean.
+   */
   active_int: number,
+  /**
+   * Int representation of the boolean.
+   */
   sogo_visible_int: number,
+  /**
+   * Creation date of the alias.
+   */
   created: string,
+  /**
+   * Last modified date of the alias.
+   */
   modified: string | null
 }
 
+/**
+ * Error class used for exception handling.
+ */
 export class MailcowException extends Error {
+  /**
+   * The error message provided by Mailcow.
+   */
   message: string;
 }
 
@@ -294,8 +804,14 @@ export interface BaseResponse {
   type: 'succes' | 'danger' | 'error';
 }
 
-export type MailcowResponse<T = BaseResponse> = T[];
+/**
+ * Mailcow API calls returns an array of Base Responses.
+ */
+export type MailcowResponse = BaseResponse[];
 
+/**
+ * Interface for when the API called returned an Error.
+ */
 export interface MailcowErrorResponse extends MailcowResponse {
   msg: string;
 }

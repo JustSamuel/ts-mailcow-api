@@ -2,48 +2,52 @@ import {
   Alias,
   AliasDeleteRequest,
   AliasPostRequest,
-  AliasUpdateRequest,
+  AliasEditRequest,
   MailcowResponse
 } from '../types';
 import MailcowClient from '../index';
 import { wrapPromiseToArray } from '../request-factory';
 
+/**
+ * Interface for all Alias endpoints.
+ */
 export interface AliasEndpoints {
   /**
    * Endpoint for getting mailbox aliases in the system.
    * @param id - The id of the alias you want to get. Use 'all' to retrieve all aliases in the system.
-   *
-   * @example Get all aliases:
-   * ```typescript
-   * mcc.aliases.get('all').then((res) => { console.log(res); });
-   * ```
-   * @example Get a single alias:
-   * ```typescript
-   * mcc.aliases.get(8).then((res) => { console.log(res); });
-   * ```
    */
-  get: (id?: number | 'all') => Promise<Alias[]>,
+  get(id?: number | 'all'): Promise<Alias[]>;
 
   /**
    * Endpoint for creating mailbox aliases.
-   * @param payload - View {@link AliasAttributes} for payload parameters.
+   * @param payload - The creation payload.
    */
-  create: (payload: AliasPostRequest) => Promise<MailcowResponse>,
+  create(payload: AliasPostRequest): Promise<MailcowResponse>;
+
   /**
-   * Update for editing a mailbox alias.
-   * @param payload -
+   * Endpoint for editing a mailbox alias.
+   * @param payload - The edit payload.
    */
-  update: (payload: AliasUpdateRequest) => Promise<MailcowResponse>,
-  delete: (payload: AliasDeleteRequest) => Promise<MailcowResponse>,
+  edit(payload: AliasEditRequest): Promise<MailcowResponse>;
+
+  /**
+   * Endpoint for deleting a mailbox alias.
+   * @param payload - The deletion payload.
+   */
+  delete(payload: AliasDeleteRequest): Promise<MailcowResponse>;
 }
 
+/**
+ * Binder function between the MailcowClient class and the AliasEndpoints.
+ * @param bind - The MailcowClient to bind.
+ * @internal
+ */
 export function aliasEndpoints(bind: MailcowClient): AliasEndpoints {
   return {
     get(id = 'all'): Promise<Alias[]> {
       return wrapPromiseToArray<Alias>(
-        bind.requestFactory.get<Alias[] | Alias>(
-          `/api/v1/get/alias/${ id }`
-        ));
+        bind.requestFactory.get<Alias[] | Alias>(`/api/v1/get/alias/${id}`)
+      );
     },
     create: (payload: AliasPostRequest): Promise<MailcowResponse> => {
       return bind.requestFactory.post<MailcowResponse>(
@@ -51,7 +55,7 @@ export function aliasEndpoints(bind: MailcowClient): AliasEndpoints {
         payload
       );
     },
-    update: (payload: AliasUpdateRequest): Promise<MailcowResponse> => {
+    edit: (payload: AliasEditRequest): Promise<MailcowResponse> => {
       return bind.requestFactory.post<MailcowResponse>(
         '/api/v1/edit/alias',
         payload
