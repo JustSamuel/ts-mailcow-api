@@ -11,7 +11,20 @@ export interface BaseDomainAttributes {
   /**
    * The language code associated with this domain.
    */
-  lang: "sk" | "cs" | "de" | "en" | "es" | "fr" | "lv" | "nl" | "pl" | "pt" | "ru" | "it" | "ca"
+  lang:
+    | "sk"
+    | "cs"
+    | "de"
+    | "en"
+    | "es"
+    | "fr"
+    | "lv"
+    | "nl"
+    | "pl"
+    | "pt"
+    | "ru"
+    | "it"
+    | "ca";
   /**
    * Boolean if the domain is active.
    */
@@ -48,12 +61,12 @@ export interface BaseDomainAttributes {
    * If not, then you have to create "dummy" mailbox for each address to relay
    */
   relay_all_recipients: boolean;
-};
+}
 
 /**
  * Relay interval settings.
  */
-type RelayFrame = 's' | 'm' | 'h' | 'd';
+type RelayFrame = "s" | "m" | "h" | "d";
 
 /**
  * Domain creation payload.
@@ -94,11 +107,11 @@ export interface DomainEditAttributes extends BaseDomainAttributes {
   /**
    *  Is domain global address list active or not, it enables shared contacts across domain in SOGo webmail
    */
-  gal: boolean
+  gal: boolean;
   /**
    * Id of the relayhost.
    */
-  relayhost: number
+  relayhost: number;
 }
 
 /**
@@ -256,7 +269,7 @@ export interface SpamPolicyPostRequest {
   /**
    * Use 'wl' for whitelist and 'bl' for blacklist.
    */
-  object_list: 'wl' | 'bl';
+  object_list: "wl" | "bl";
 }
 
 /**
@@ -276,7 +289,7 @@ export interface SpamPolicyGetRequest {
   /**
    * Use 'wl' to get whitelist policies and use 'bl' to get blacklist policies.
    */
-  type: 'wl' | 'bl';
+  type: "wl" | "bl";
   /**
    * The exact address or use wildcard to match whole domain.
    */
@@ -329,7 +342,7 @@ export interface BaseMailboxAttributes {
    * The mailbox quota.
    */
   quota: number;
-};
+}
 
 /**
  * Mailbox creation request.
@@ -375,7 +388,7 @@ export interface MailboxEditAttributes extends BaseMailboxAttributes {
    * Boolean iff mailbox has SOGo acces.
    */
   sogo_access: boolean;
-};
+}
 
 /**
  * Mailbox update request.
@@ -394,12 +407,12 @@ export interface MailboxEditRequest {
 /**
  * Possible options for the Quarantine time frames.
  */
-type QuarantineSchedule = 'hourly' | 'daily' | 'weekly' | 'never';
+type QuarantineSchedule = "hourly" | "daily" | "weekly" | "never";
 
 /**
  * Options of what should happen if email is quarantined.
  */
-type QuarantineCategory = 'reject' | 'add_header' | 'all';
+type QuarantineCategory = "reject" | "add_header" | "all";
 
 /**
  * Interface of the Mailbox as returned by Mailcow.
@@ -630,19 +643,19 @@ export interface SpamScoreEditRequest {
  * List of possible userACL.
  */
 type userAcl =
-  | 'spam_alias'
-  | 'tls_policy'
-  | 'spam_score'
-  | 'spam_policy'
-  | 'delimiter_action'
-  | 'syncjobs'
-  | 'eas_reset'
-  | 'quarantine'
-  | 'sogo_profile_reset'
-  | 'quarantine_attachments'
-  | 'quarantine_notification'
-  | 'app_passwds'
-  | 'pushover';
+  | "spam_alias"
+  | "tls_policy"
+  | "spam_score"
+  | "spam_policy"
+  | "delimiter_action"
+  | "syncjobs"
+  | "eas_reset"
+  | "quarantine"
+  | "sogo_profile_reset"
+  | "quarantine_attachments"
+  | "quarantine_notification"
+  | "app_passwds"
+  | "pushover";
 
 /**
  * ACL Edit payload.
@@ -670,7 +683,7 @@ export interface AliasAttributes {
   /**
    * The alias address, for catchall use "@domain.tld".
    */
-  address: string
+  address: string;
   /**
    * The destination address, comma separated.
    */
@@ -695,7 +708,7 @@ export interface AliasAttributes {
    * If alias is active or not.
    */
   active: boolean;
-};
+}
 
 /**
  * All attributes of an Alias you can edit.
@@ -744,43 +757,43 @@ export interface AliasDeleteRequest {
  * Interface of the Alias as returned by Mailcow.
  */
 export interface Alias extends AliasAttributes {
-  in_primary_domain: string,
+  in_primary_domain: string;
   /**
    * The ID of the alias.
    */
-  id: number,
+  id: number;
   /**
    * The domain of the alias.
    */
-  domain: string,
+  domain: string;
   /**
    * The public comment of the alias.
    */
-  public_comment: string,
+  public_comment: string;
   /**
    * The private comment of the alias.
    */
-  private_comment: string,
+  private_comment: string;
   /**
    * Boolean if the Alias is a catch-all.
    */
-  is_catch_all: boolean,
+  is_catch_all: boolean;
   /**
    * Int representation of the boolean.
    */
-  active_int: number,
+  active_int: number;
   /**
    * Int representation of the boolean.
    */
-  sogo_visible_int: number,
+  sogo_visible_int: number;
   /**
    * Creation date of the alias.
    */
-  created: string,
+  created: string;
   /**
    * Last modified date of the alias.
    */
-  modified: string | null
+  modified: string | null;
 }
 
 /**
@@ -806,7 +819,7 @@ export interface SyncjobAttributes {
   /**
    * The target email account.
    */
-  user1: string,
+  user1: string;
   /**
    * The encryption method used to connect to the mailserver.
    */
@@ -876,7 +889,7 @@ export interface SyncjobAttributes {
 /**
  * Sync job creation payload.
  */
-export type SyncjobPostRequest = SyncjobAttributes
+export type SyncjobPostRequest = SyncjobAttributes;
 
 /**
  * Sync job delete payload.
@@ -885,10 +898,10 @@ export interface SyncjobDeleteRequest {
   /**
    * Array of IDs to delete.
    */
-  items: number[]
+  items: number[];
 }
 
-export type SyncjobEditAttributes = Partial<SyncjobAttributes>
+export type SyncjobEditAttributes = Partial<SyncjobAttributes>;
 
 /**
  * Sync job update payload.
@@ -897,47 +910,453 @@ export interface SyncjobUpdateRequest {
   /**
    * The attributes to set.
    */
-  attr: SyncjobEditAttributes
+  attr: SyncjobEditAttributes;
   /**
    * List of IDs to update.
    */
-  items: number | number[]
+  items: number | number[];
 }
 
 /**
  * Sync job as returned by the Mailcow API.
  */
 export interface Syncjob {
-  active: boolean,
-  authmd51: boolean,
-  authmech1: "TLS" | "SSL" | "PLAIN",
-  automap: boolean,
-  created: string,
-  custom_params: string,
-  delete1: boolean,
-  delete2: boolean,
-  delete2duplicates: boolean,
-  domain2: string,
-  enc1: "TLS" | "SSL" | "PLAIN",
-  exclude: string,
-  host1: string,
-  id: number,
-  is_running: boolean,
-  last_run: string,
-  log: string,
-  maxage: number,
-  maxbytespersecond: number,
-  mins_interval: number,
-  modified: string,
-  port1: number,
-  regextrans2: string,
-  skipcrossduplicates: boolean,
-  subfolder2: string,
-  subscribeall: boolean
-  timeout1: number,
-  timeout2: number,
-  user1: string,
-  user2: string
+  /**
+   * Enables or disables the sync job.
+   */
+  active: boolean;
+  /**
+   * MD5 hash of the authentication.
+   */
+  authmd51: boolean;
+  /**
+   * Authentication mechanism.
+   */
+  authmech1: "TLS" | "SSL" | "PLAIN";
+  /**
+   * Try to automap folders ("sent items", "sent" => "sent" etc.) (--automap).
+   */
+  automap: boolean;
+  /**
+   * Creation date in epoch.
+   */
+  created: string;
+  /**
+   * Custom parameters.
+   */
+  custom_params: string;
+  /**
+   * Delete from source when completed (--delete1).
+   */
+  delete1: boolean;
+  /**
+   * Delete messages on destination that are not on source (--delete2).
+   */
+  delete2: boolean;
+  /**
+   * Delete duplicates on destination (--delete2duplicates).
+   */
+  delete2duplicates: boolean;
+  /**
+   * Target domain.
+   */
+  domain2: string;
+  /**
+   * The encryption method used to connect to the mailserver.
+   */
+  enc1: "TLS" | "SSL" | "PLAIN";
+  /**
+   * Exclude objects (regex).
+   */
+  exclude: string;
+  /**
+   * The smtp server where mails should be synced from.
+   */
+  host1: string;
+  /**
+   * ID of the sync job.
+   */
+  id: number;
+  /**
+   * If the sync job is currently running.
+   */
+  is_running: boolean;
+  /**
+   * Date of the last run.
+   */
+  last_run: string;
+  /**
+   * Logfile
+   */
+  log: string;
+  /**
+   * Only sync messages up to this age in days.
+   */
+  maxage: number;
+  /**
+   * Max speed transfer limit for the sync.
+   */
+  maxbytespersecond: number;
+  /**
+   * The interval in which messages should be synced.
+   */
+  mins_interval: number;
+  /**
+   * Last modified date of the sync job..
+   */
+  modified: string | null;
+  /**
+   * Port of the source server.
+   */
+  port1: number;
+  /**
+   * Regex.
+   */
+  regextrans2: string;
+  /**
+   * If cross duplicates should be skipped.
+   */
+  skipcrossduplicates: boolean;
+  /**
+   * Subfolder on target server.
+   */
+  subfolder2: string;
+  /**
+   * If the sync job is subscribed to all mailboxes.
+   */
+  subscribeall: boolean;
+  /**
+   * Timeout for connection to remote host.
+   */
+  timeout1: number;
+  /**
+   * Timeout for connection to local host.
+   */
+  timeout2: number;
+  /**
+   * User on the remote host.
+   */
+  user1: string;
+  /**
+   * User on the local host.
+   */
+  user2: string;
+}
+
+/**
+ * Forwarding host creation payload.
+ */
+export interface ForwardingCreateRequest {
+  /**
+   * True to enable spam filter, false to disable spam filter.
+   */
+  filter_spam: boolean;
+
+  /**
+   * Contains the hostname you want to add.
+   */
+  hostname: string;
+}
+
+/**
+ * Forwarding host deletion payload.
+ */
+export interface ForwardingDeleteRequest {
+  /**
+   * IPs of the forwarding hosts to delete.
+   */
+  items: string[];
+}
+
+/**
+ * Forwarding host as returned by the Mailcow API.
+ */
+export interface ForwardingHost {
+  /**
+   * IP of the forwarding host.
+   */
+  host: string;
+  /**
+   * If the host keeps or discards spam.
+   */
+  keep_spam: "yes" | "no";
+  /**
+   * Hostname.
+   */
+  source: string;
+}
+
+/**
+ * Base Log interface
+ */
+export interface Log {
+  /**
+   * Timestamp in Epoch format.
+   */
+  time: number;
+}
+
+export interface ACMELog extends Log {
+  /**
+   * Log message.
+   */
+  message: string;
+}
+
+/**
+ * API Log item.
+ */
+export interface APILog extends Log {
+  /**
+   * Payload used in the API call.
+   */
+  data: string;
+  /**
+   * Request method.
+   */
+  method: "GET" | "POST";
+  /**
+   * IP that did the call.
+   */
+  remote: string;
+  /**
+   * API Route used.
+   */
+  uri: string;
+}
+
+/**
+ * Autodiscover log item.
+ */
+export interface ADLog extends Log {
+  /**
+   * Service used.
+   */
+  service: string;
+  /**
+   * User agent.
+   */
+  ua: string;
+  /**
+   * The user.
+   */
+  user: string;
+}
+
+/**
+ * Dovecot log item.
+ */
+export interface DCLog extends Log {
+  /**
+   * The dovecot log message.
+   */
+  message: string;
+  /**
+   * The dovecot priority level.
+   */
+  priority: string;
+  /**
+   * Program used.
+   */
+  program: string;
+}
+
+/**
+ * Netfilter log item.
+ */
+export interface NFLog extends Log {
+  /**
+   * The netfilter message.
+   */
+  message: string;
+  /**
+   * The netfilter priority level.
+   */
+  priority: string;
+}
+
+/**
+ * Postfix log item.
+ */
+export interface PFLog extends Log {
+  /**
+   * The Postfix log message.
+   */
+  message: string;
+  /**
+   * The Postfix priority level.
+   */
+  priority: string;
+  /**
+   * Program used.
+   */
+  program: string;
+}
+
+/**
+ * Ratelimited log item.
+ */
+export interface RLLog extends Log {
+  /**
+   * From email adress.
+   */
+  from: string;
+  /**
+   * Header of the from field.
+   */
+  header_from: string;
+  /**
+   * Header of the subject field.
+   */
+  header_subject: string;
+  /**
+   * IP of the sender.
+   */
+  ip: string;
+  /**
+   * ID of the message.
+   */
+  message_id: string;
+  /**
+   * QID of the message.
+   */
+  qid: string;
+  /**
+   * Recipient of the message.
+   */
+  rcpt: string;
+  /**
+   * Ratelimit hash.
+   */
+  rl_hash: string;
+  /**
+   * Ratelimit info
+   */
+  rl_info: string;
+  /**
+   * Ratelimit name
+   */
+  rl_name: string;
+  /**
+   * Sender of the message.
+   */
+  user: string;
+}
+
+/**
+ * Rspamd log item.
+ */
+export interface RSLog extends Log {
+  /**
+   * What happend to the message.
+   */
+  action: string;
+  /**
+   * Size of the message.
+   */
+  size: string;
+  /**
+   * Array of recipients SMTPs.
+   */
+  rcpt_smtp: string[];
+  /**
+   * Array of recipients MIME.
+   */
+  rcpt_mime: string[];
+  /**
+   * Object containing all the Rspamd scoring info.
+   */
+  symbols: object;
+  /**
+   * Score needed to pass.
+   */
+  required_score: string;
+  /**
+   * Message ID
+   */
+  "message-id": string;
+  /**
+   * IP of the sender
+   */
+  ip: string;
+  /**
+   * Name of the user
+   */
+  user: string;
+  /**
+   * Time used.
+   */
+  time_real: string;
+  /**
+   * SMTP of the receiver.
+   */
+  sender_smtp: string;
+  /**
+   * If the message was skipped.
+   */
+  is_skipped: boolean;
+  /**
+   * Score of the message
+   */
+  score: number;
+  /**
+   * MIME of the sender.
+   */
+  sender_mime: string;
+  /**
+   * EPOCH time stamp.
+   */
+  unix_time: number;
+  /**
+   * Subject of the e-mail.
+   */
+  subject: string;
+}
+
+/**
+ * SOGo log item.
+ */
+export interface SGLog extends Log {
+  /**
+   * The log message.
+   */
+  message: string;
+  /**
+   * The priority level.
+   */
+  priority: string;
+
+  program: "sogod";
+}
+
+/**
+ * Watchdog log item.
+ */
+export interface WDLog extends Log {
+  /**
+   * Difference with previous health.
+   */
+  hpdiff: number;
+  /**
+   * Current health
+   */
+  hpnow: number;
+  /**
+   * Total health.
+   */
+  hptotal: number;
+  /**
+   * Level of the service
+   */
+  lvl: number;
+  /**
+   * Service being watched
+   */
+  service: string;
+  /**
+   * Time of report in Epoch.
+   */
+  time: number;
 }
 
 /**
@@ -958,7 +1377,7 @@ export class MailcowException extends Error {
 export interface BaseResponse {
   log?: (string | Payload)[];
   msg: string[] | string;
-  type: 'succes' | 'danger' | 'error';
+  type: "succes" | "danger" | "error";
 }
 
 /**

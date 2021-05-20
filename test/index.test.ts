@@ -3,7 +3,7 @@ import { expect, assert } from "chai";
 import { describe } from "mocha";
 import {
   Alias,
-  AliasPostRequest,
+  AliasPostRequest, ForwardingHost,
   MailcowResponse,
   Syncjob,
   SyncjobAttributes, SyncjobEditAttributes
@@ -18,7 +18,7 @@ function isSucces(res: MailcowResponse) {
 
 async function thenTestOrFail(promise: Promise<any>, test: Function): Promise<void> {
   await promise.then((res: any) => {
-    // console.log(res)
+    console.log(res)
     test(res);
   }).catch((err) => {
     assert.fail('expected', 'actual', err);
@@ -69,7 +69,7 @@ describe.skip("Alias Endpoint tests", (): void => {
   })
 })
 
-describe("Syncjob Endpoint tests", (): void => {
+describe.skip("Syncjob Endpoint tests", (): void => {
   it('should create a sync job', async () => {
     const attr: SyncjobAttributes = {
       username: "lisa@440044.xyz",
@@ -118,5 +118,56 @@ describe("Syncjob Endpoint tests", (): void => {
   });
   it('should delete a sync job', async () => {
     await thenTestOrFail(mcc.syncjobs.delete({ items: [id] }), isSucces)
+  });
+})
+
+describe.skip("Forwarding Host Endpoint test", (): void => {
+  it('should create a forwarding host', async () => {
+    await thenTestOrFail(mcc.forwardingHosts.create({ filter_spam: true, hostname: "hosted.mailcow.de" }), isSucces)
+  });
+  let hosts: any[] = [];
+  it('should get forwarding hosts', async () => {
+    await thenTestOrFail(mcc.forwardingHosts.getAll(), (res: ForwardingHost[]) => {
+      res.forEach((host) => {
+        hosts.push(host.host)
+      })
+      expect(res).to.be.length.least(1)
+    })
+  });
+  it('should delete forwarding hosts', async () => {
+    await thenTestOrFail(mcc.forwardingHosts.delete({ items: hosts }), isSucces)
+  });
+})
+
+describe("Log Endpoint test", (): void => {
+  it('should get all ACME logs', async () => {
+    await thenTestOrFail(mcc.logs.acme(2), (res: any[]) => expect(res).to.be.length.least(2))
+  });
+  it('should get all API logs', async () => {
+    await thenTestOrFail(mcc.logs.api(2), (res: any[]) => expect(res).to.be.length.least(2))
+  });
+  it('should get all Autodiscover logs', async () => {
+    await thenTestOrFail(mcc.logs.autodiscover(2), (res: any[]) => expect(res).to.be.length.least(2))
+  });
+  it('should get all dovecot logs', async () => {
+    await thenTestOrFail(mcc.logs.dovecot(2), (res: any[]) => expect(res).to.be.length.least(2))
+  });
+  it('should get all netfilter logs', async () => {
+    await thenTestOrFail(mcc.logs.netfilter(2), (res: any[]) => expect(res).to.be.length.least(2))
+  });
+  it('should get all postfix logs', async () => {
+    await thenTestOrFail(mcc.logs.postfix(2), (res: any[]) => expect(res).to.be.length.least(2))
+  });
+  it('should get all ratelimited logs', async () => {
+    await thenTestOrFail(mcc.logs.ratelimited(2), (res: any[]) => expect(res).to.be.length.least(2))
+  });
+  it('should get all rspamd logs', async () => {
+    await thenTestOrFail(mcc.logs.rspamd(2), (res: any[]) => expect(res).to.be.length.least(2))
+  });
+  it('should get all sogo logs', async () => {
+    await thenTestOrFail(mcc.logs.sogo(2), (res: any[]) => expect(res).to.be.length.least(2))
+  });
+  it('should get all watchdog logs', async () => {
+    await thenTestOrFail(mcc.logs.watchdog(2), (res: any[]) => expect(res).to.be.length.least(2))
   });
 })
