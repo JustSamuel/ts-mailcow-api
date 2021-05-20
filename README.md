@@ -57,21 +57,21 @@ mcc.mailbox.get().then((e) => {
 - [x] Get sync jobs
 
 ### Forwarding Hosts
-- [ ] Add Forward Host
-- [ ] Delete Forward Host
-- [ ] Get Forwarding Hosts
+- [x] Add Forward Host
+- [x] Delete Forward Host
+- [x] Get Forwarding Hosts
 
 ### Logs
-- [ ] Get ACME logs
-- [ ] Get Api logs
-- [ ] Get Autodiscover logs
-- [ ] Get Dovecot logs
-- [ ] Get Netfilter logs
-- [ ] Get Postfix logs
-- [ ] Get Ratelimit logs
-- [ ] Get Rspamd logs
-- [ ] Get SOGo logs
-- [ ] Get Watchdog logs
+- [x] Get ACME logs
+- [x] Get Api logs
+- [x] Get Autodiscover logs
+- [x] Get Dovecot logs
+- [x] Get Netfilter logs
+- [x] Get Postfix logs
+- [x] Get Ratelimit logs
+- [x] Get Rspamd logs
+- [x] Get SOGo logs
+- [x] Get Watchdog logs
 
 ### Queue Manager
 - [ ] Delete Queue
