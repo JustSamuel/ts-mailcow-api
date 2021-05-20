@@ -21,7 +21,7 @@ export interface AntiSpamEndpoints {
    * Endpoint for creating antispam policies.
    * @param payload - The creation payload.
    */
-    create(payload: SpamPolicyPostRequest): Promise<MailcowResponse>
+  create(payload: SpamPolicyPostRequest): Promise<MailcowResponse>
 
   /**
    * Endpoint for deleting antispam policies.

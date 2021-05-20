@@ -58,7 +58,7 @@ type RelayFrame = 's' | 'm' | 'h' | 'd';
 /**
  * Domain creation payload.
  */
-export interface DomainPostRequest extends BaseDomainAttributes  {
+export interface DomainPostRequest extends BaseDomainAttributes {
   /**
    * The domain to create.
    */
@@ -92,7 +92,7 @@ export interface DomainDeleteRequest {
  */
 export interface DomainEditAttributes extends BaseDomainAttributes {
   /**
-   * 	Is domain global address list active or not, it enables shared contacts across domain in SOGo webmail
+   *  Is domain global address list active or not, it enables shared contacts across domain in SOGo webmail
    */
   gal: boolean
   /**
@@ -156,7 +156,7 @@ export interface Domain {
    */
   domain_name: string;
   /**
-   * 	Is domain global address list active or not, it enables shared contacts across domain in SOGo webmail
+   *  Is domain global address list active or not, it enables shared contacts across domain in SOGo webmail
    */
   gal: boolean;
   /**
@@ -366,7 +366,7 @@ export interface MailboxDeleteRequest {
 /**
  * Attributes of the mailbox you can edit.
  */
-export interface MailboxEditAttributes extends BaseMailboxAttributes  {
+export interface MailboxEditAttributes extends BaseMailboxAttributes {
   /**
    * List of allowed send from addresses.
    */
@@ -723,7 +723,7 @@ export interface AliasEditRequest {
   /**
    * List of IDs of the aliases to update.
    */
-  items: number[];
+  items: number | number[];
   /**
    * The attributes to set.
    */
@@ -781,6 +781,163 @@ export interface Alias extends AliasAttributes {
    * Last modified date of the alias.
    */
   modified: string | null
+}
+
+/**
+ * All the attributes of a sync job.
+ */
+export interface SyncjobAttributes {
+  /**
+   * Your local mailcow mailbox.
+   */
+  username: string;
+  /**
+   * The smtp server where mails should be synced from.
+   */
+  host1: string;
+  /**
+   * The smtp port of the target mail server.
+   */
+  port1: number;
+  /**
+   * The password of the mailbox.
+   */
+  password1: string;
+  /**
+   * The target email account.
+   */
+  user1: string,
+  /**
+   * The encryption method used to connect to the mailserver.
+   */
+  enc1: "TLS" | "SSL" | "PLAIN";
+  /**
+   * The interval in which messages should be synced.
+   */
+  mins_interval: number;
+  /**
+   * Sync into subfolder on destination (empty = do not use subfolder).
+   */
+  subfolder2: string;
+  /**
+   * Only sync messages up to this age in days.
+   */
+  maxage: number;
+  /**
+   * Max speed transfer limit for the sync.
+   */
+  maxbytespersecond: number;
+  /**
+   * Timeout for connection to remote host.
+   */
+  timeout1: number;
+  /**
+   * Timeout for connection to local host.
+   */
+  timeout2: number;
+  /**
+   * Exclude objects (regex).
+   */
+  exclude: string;
+  /**
+   * Custom parameters.
+   */
+  custom_params: string;
+  /**
+   * Delete duplicates on destination (--delete2duplicates).
+   */
+  delete2duplicates: boolean;
+  /**
+   * Delete from source when completed (--delete1).
+   */
+  delete1: boolean;
+  /**
+   * Delete messages on destination that are not on source (--delete2).
+   */
+  delete2: boolean;
+  /**
+   * Try to automap folders ("sent items", "sent" => "sent" etc.) (--automap).
+   */
+  automap: boolean;
+  /**
+   * Skip duplicate messages across folders (first come, first serve) (--skipcrossduplicates).
+   */
+  skipcrossduplicates: boolean;
+  /**
+   * Subscribe all folders (--subscribeall).
+   */
+  subscribeall: boolean;
+  /**
+   * Enables or disables the sync job.
+   */
+  active: boolean;
+}
+
+/**
+ * Sync job creation payload.
+ */
+export type SyncjobPostRequest = SyncjobAttributes
+
+/**
+ * Sync job delete payload.
+ */
+export interface SyncjobDeleteRequest {
+  /**
+   * Array of IDs to delete.
+   */
+  items: number[]
+}
+
+export type SyncjobEditAttributes = Partial<SyncjobAttributes>
+
+/**
+ * Sync job update payload.
+ */
+export interface SyncjobUpdateRequest {
+  /**
+   * The attributes to set.
+   */
+  attr: SyncjobEditAttributes
+  /**
+   * List of IDs to update.
+   */
+  items: number | number[]
+}
+
+/**
+ * Sync job as returned by the Mailcow API.
+ */
+export interface Syncjob {
+  active: boolean,
+  authmd51: boolean,
+  authmech1: "TLS" | "SSL" | "PLAIN",
+  automap: boolean,
+  created: string,
+  custom_params: string,
+  delete1: boolean,
+  delete2: boolean,
+  delete2duplicates: boolean,
+  domain2: string,
+  enc1: "TLS" | "SSL" | "PLAIN",
+  exclude: string,
+  host1: string,
+  id: number,
+  is_running: boolean,
+  last_run: string,
+  log: string,
+  maxage: number,
+  maxbytespersecond: number,
+  mins_interval: number,
+  modified: string,
+  port1: number,
+  regextrans2: string,
+  skipcrossduplicates: boolean,
+  subfolder2: string,
+  subscribeall: boolean
+  timeout1: number,
+  timeout2: number,
+  user1: string,
+  user2: string
 }
 
 /**

@@ -8,6 +8,7 @@ import { antiSpamEndpoints, AntiSpamEndpoints } from './Endpoints/antispam-endpo
 import { mailboxEndpoints, MailboxEndpoints } from './Endpoints/mailbox-endpoint';
 import RequestFactory from './request-factory';
 import { aliasEndpoints, AliasEndpoints } from './Endpoints/alias-endpoints';
+import { syncjobEndpoints, SyncjobEndpoints } from "./Endpoints/syncjob-endpoints";
 
 /**
  * Class containing all the logic to interface with the Mailcow API in TypeScript.
@@ -81,6 +82,13 @@ class MailcowClient {
    * @external
    */
   public mailbox: MailboxEndpoints = mailboxEndpoints(this)
+
+  /**
+   * All endpoints related to sync jobs.
+   * See {@link SyncjobEndpoints}
+   * @external
+   */
+  public syncjobs: SyncjobEndpoints = syncjobEndpoints(this)
 }
 
 export default MailcowClient;
