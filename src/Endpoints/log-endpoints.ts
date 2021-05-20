@@ -1,4 +1,4 @@
-import MailcowClient from "../index";
+import MailcowClient from '../index';
 import {
   ACMELog,
   ADLog,
@@ -9,8 +9,8 @@ import {
   RLLog,
   RSLog,
   SGLog,
-  WDLog,
-} from "../types";
+  WDLog
+} from '../types';
 
 export interface LogEndpoints {
   /**
@@ -125,6 +125,6 @@ export function logEndpoints(bind: MailcowClient): LogEndpoints {
       return bind.requestFactory.get<WDLog[]>(
         `/api/v1/get/logs/watchdog/${count}`
       );
-    },
+    }
   };
 }

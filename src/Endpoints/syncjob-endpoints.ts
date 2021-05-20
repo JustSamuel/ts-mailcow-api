@@ -1,5 +1,5 @@
-import MailcowClient from "../index";
-import { MailcowResponse, Syncjob, SyncjobDeleteRequest, SyncjobPostRequest, SyncjobUpdateRequest } from "../types";
+import MailcowClient from '../index';
+import { MailcowResponse, Syncjob, SyncjobDeleteRequest, SyncjobPostRequest, SyncjobUpdateRequest } from '../types';
 
 export interface SyncjobEndpoints {
   /**
@@ -31,25 +31,25 @@ export function syncjobEndpoints(bind: MailcowClient): SyncjobEndpoints {
     getAll(): Promise<Syncjob[]> {
       return bind.requestFactory.get<Syncjob[]>(
         '/api/v1/get/syncjobs/all/no_log'
-      )
+      );
     },
     create(payload: SyncjobPostRequest): Promise<MailcowResponse> {
       return bind.requestFactory.post<MailcowResponse>(
         '/api/v1/add/syncjob',
         payload
-      )
+      );
     },
     edit(payload: SyncjobUpdateRequest): Promise<MailcowResponse> {
       return bind.requestFactory.post<MailcowResponse>(
         '/api/v1/edit/syncjob',
         payload
-      )
+      );
     },
     delete(payload: SyncjobDeleteRequest): Promise<MailcowResponse> {
       return bind.requestFactory.post<MailcowResponse>(
         '/api/v1/delete/syncjob',
         payload.items
-      )
+      );
     }
-  }
+  };
 }

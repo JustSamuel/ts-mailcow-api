@@ -8,9 +8,9 @@ import { antiSpamEndpoints, AntiSpamEndpoints } from './Endpoints/antispam-endpo
 import { mailboxEndpoints, MailboxEndpoints } from './Endpoints/mailbox-endpoint';
 import RequestFactory from './request-factory';
 import { aliasEndpoints, AliasEndpoints } from './Endpoints/alias-endpoints';
-import { syncjobEndpoints, SyncjobEndpoints } from "./Endpoints/syncjob-endpoints";
-import { forwardingEndpoints, ForwardingEndpoints } from "./Endpoints/forwarding-endpoints";
-import { logEndpoints, LogEndpoints } from "./Endpoints/log-endpoints";
+import { syncjobEndpoints, SyncjobEndpoints } from './Endpoints/syncjob-endpoints';
+import { forwardingEndpoints, ForwardingEndpoints } from './Endpoints/forwarding-endpoints';
+import { logEndpoints, LogEndpoints } from './Endpoints/log-endpoints';
 
 /**
  * Class containing all the logic to interface with the Mailcow API in TypeScript.

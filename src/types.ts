@@ -12,19 +12,19 @@ export interface BaseDomainAttributes {
    * The language code associated with this domain.
    */
   lang:
-    | "sk"
-    | "cs"
-    | "de"
-    | "en"
-    | "es"
-    | "fr"
-    | "lv"
-    | "nl"
-    | "pl"
-    | "pt"
-    | "ru"
-    | "it"
-    | "ca";
+    | 'sk'
+    | 'cs'
+    | 'de'
+    | 'en'
+    | 'es'
+    | 'fr'
+    | 'lv'
+    | 'nl'
+    | 'pl'
+    | 'pt'
+    | 'ru'
+    | 'it'
+    | 'ca';
   /**
    * Boolean if the domain is active.
    */
@@ -66,7 +66,7 @@ export interface BaseDomainAttributes {
 /**
  * Relay interval settings.
  */
-type RelayFrame = "s" | "m" | "h" | "d";
+type RelayFrame = 's' | 'm' | 'h' | 'd';
 
 /**
  * Domain creation payload.
@@ -269,7 +269,7 @@ export interface SpamPolicyPostRequest {
   /**
    * Use 'wl' for whitelist and 'bl' for blacklist.
    */
-  object_list: "wl" | "bl";
+  object_list: 'wl' | 'bl';
 }
 
 /**
@@ -289,7 +289,7 @@ export interface SpamPolicyGetRequest {
   /**
    * Use 'wl' to get whitelist policies and use 'bl' to get blacklist policies.
    */
-  type: "wl" | "bl";
+  type: 'wl' | 'bl';
   /**
    * The exact address or use wildcard to match whole domain.
    */
@@ -407,12 +407,12 @@ export interface MailboxEditRequest {
 /**
  * Possible options for the Quarantine time frames.
  */
-type QuarantineSchedule = "hourly" | "daily" | "weekly" | "never";
+type QuarantineSchedule = 'hourly' | 'daily' | 'weekly' | 'never';
 
 /**
  * Options of what should happen if email is quarantined.
  */
-type QuarantineCategory = "reject" | "add_header" | "all";
+type QuarantineCategory = 'reject' | 'add_header' | 'all';
 
 /**
  * Interface of the Mailbox as returned by Mailcow.
@@ -534,7 +534,7 @@ export interface Mailbox {
   /**
    * Class representation of quota usage.
    */
-  percent_class: "success" | "warning" | "danger";
+  percent_class: 'success' | 'warning' | 'danger';
   /**
    * Maximum possible quota.
    */
@@ -643,19 +643,19 @@ export interface SpamScoreEditRequest {
  * List of possible userACL.
  */
 type userAcl =
-  | "spam_alias"
-  | "tls_policy"
-  | "spam_score"
-  | "spam_policy"
-  | "delimiter_action"
-  | "syncjobs"
-  | "eas_reset"
-  | "quarantine"
-  | "sogo_profile_reset"
-  | "quarantine_attachments"
-  | "quarantine_notification"
-  | "app_passwds"
-  | "pushover";
+  | 'spam_alias'
+  | 'tls_policy'
+  | 'spam_score'
+  | 'spam_policy'
+  | 'delimiter_action'
+  | 'syncjobs'
+  | 'eas_reset'
+  | 'quarantine'
+  | 'sogo_profile_reset'
+  | 'quarantine_attachments'
+  | 'quarantine_notification'
+  | 'app_passwds'
+  | 'pushover';
 
 /**
  * ACL Edit payload.
@@ -823,7 +823,7 @@ export interface SyncjobAttributes {
   /**
    * The encryption method used to connect to the mailserver.
    */
-  enc1: "TLS" | "SSL" | "PLAIN";
+  enc1: 'TLS' | 'SSL' | 'PLAIN';
   /**
    * The interval in which messages should be synced.
    */
@@ -932,7 +932,7 @@ export interface Syncjob {
   /**
    * Authentication mechanism.
    */
-  authmech1: "TLS" | "SSL" | "PLAIN";
+  authmech1: 'TLS' | 'SSL' | 'PLAIN';
   /**
    * Try to automap folders ("sent items", "sent" => "sent" etc.) (--automap).
    */
@@ -964,7 +964,7 @@ export interface Syncjob {
   /**
    * The encryption method used to connect to the mailserver.
    */
-  enc1: "TLS" | "SSL" | "PLAIN";
+  enc1: 'TLS' | 'SSL' | 'PLAIN';
   /**
    * Exclude objects (regex).
    */
@@ -1079,7 +1079,7 @@ export interface ForwardingHost {
   /**
    * If the host keeps or discards spam.
    */
-  keep_spam: "yes" | "no";
+  keep_spam: 'yes' | 'no';
   /**
    * Hostname.
    */
@@ -1114,7 +1114,7 @@ export interface APILog extends Log {
   /**
    * Request method.
    */
-  method: "GET" | "POST";
+  method: 'GET' | 'POST';
   /**
    * IP that did the call.
    */
@@ -1274,7 +1274,7 @@ export interface RSLog extends Log {
   /**
    * Message ID
    */
-  "message-id": string;
+  'message-id': string;
   /**
    * IP of the sender
    */
@@ -1326,7 +1326,7 @@ export interface SGLog extends Log {
    */
   priority: string;
 
-  program: "sogod";
+  program: 'sogod';
 }
 
 /**
@@ -1377,7 +1377,7 @@ export class MailcowException extends Error {
 export interface BaseResponse {
   log?: (string | Payload)[];
   msg: string[] | string;
-  type: "succes" | "danger" | "error";
+  type: 'succes' | 'danger' | 'error';
 }
 
 /**

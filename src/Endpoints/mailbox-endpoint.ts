@@ -10,7 +10,7 @@ import {
   SpamScoreEditRequest
 } from '../types';
 import MailcowClient from '../index';
-import { wrapPromiseToArray } from "../request-factory";
+import { wrapPromiseToArray } from '../request-factory';
 
 /**
  * Interface for all Mailbox endpoints.

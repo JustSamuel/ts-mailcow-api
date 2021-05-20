@@ -1,5 +1,5 @@
-import MailcowClient from "../index";
-import { ForwardingCreateRequest, ForwardingDeleteRequest, ForwardingHost, MailcowResponse } from "../types";
+import MailcowClient from '../index';
+import { ForwardingCreateRequest, ForwardingDeleteRequest, ForwardingHost, MailcowResponse } from '../types';
 
 /**
  * Interface for all Forwarding Hosts endpoints.
@@ -34,18 +34,18 @@ export function forwardingEndpoints(bind: MailcowClient): ForwardingEndpoints {
       return bind.requestFactory.post<MailcowResponse>(
         '/api/v1/delete/fwdhost',
         payload.items
-      )
+      );
     },
     create(payload: ForwardingCreateRequest): Promise<MailcowResponse> {
       return bind.requestFactory.post<MailcowResponse>(
         '/api/v1/add/fwdhost',
         payload
-      )
+      );
     },
     getAll(): Promise<ForwardingHost[]> {
       return bind.requestFactory.get<ForwardingHost[]>(
         '/api/v1/get/fwdhost/all'
-      )
+      );
     }
-  }
+  };
 }
