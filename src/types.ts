@@ -319,9 +319,9 @@ export interface SpamPolicy {
  */
 export interface BaseMailboxAttributes {
   /**
-   * Boolean if the mailbox is active.
+   * Integer representing if the mailbox is active (allows for custom states).
    */
-  active: boolean;
+  active: number;
   /**
    * Boolean if the user is forced to update their password on login.
    */
