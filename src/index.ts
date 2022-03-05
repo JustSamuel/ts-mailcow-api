@@ -39,7 +39,7 @@ class MailcowClient {
    * @param API_KEY  - The API key of the Mailcow API.
    * @param EXTRA_AXIOS_CONFIG - Allows for setting extra Axios request config such as keep alive.
    */
-  constructor(BASE_URL: string, API_KEY: string, EXTRA_AXIOS_CONFIG: AxiosRequestConfig) {
+  constructor(BASE_URL: string, API_KEY: string, EXTRA_AXIOS_CONFIG?: AxiosRequestConfig) {
     this.BASE_URL = BASE_URL.charAt(BASE_URL.length - 1) === '/' ? BASE_URL : BASE_URL.concat('/');
     this.API_KEY = API_KEY;
 
