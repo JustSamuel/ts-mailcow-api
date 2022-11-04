@@ -25,7 +25,7 @@ async function thenTestOrFail(promise: Promise<any>, test: Function): Promise<vo
   });
 }
 
-describe.skip("Alias Endpoint tests", (): void => {
+describe("Alias Endpoint tests", (): void => {
   it('should get all aliases', async () => {
     await thenTestOrFail(mcc.aliases.get(), (res: Alias[]) => expect(res).to.be.length.least(1))
   });
