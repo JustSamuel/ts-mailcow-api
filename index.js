@@ -1,2 +1,2 @@
 const MailCowClient = require('./dist/index');
-module.exports = MailCowClient.default
+module.exports = MailCowClient.default;
