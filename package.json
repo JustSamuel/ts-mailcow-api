@@ -1,6 +1,6 @@
 {
   "name": "ts-mailcow-api",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "description": "TypeScript wrapper for the mailcow API.",
   "scripts": {
     "test": "ts-mocha ./test/**/*.test.ts",
@@ -45,15 +45,15 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-promise": "^4.3.1",
-    "mocha": "^10.1.0",
-    "prettier": "^2.3.0",
-    "ts-mocha": "^8.0.0",
-    "ts-node": "^9.1.1",
-    "typedoc": "^0.23.20",
-    "typedoc-plugin-merge-modules": "^4.0.1",
-    "typescript": "^4.2.4"
+    "mocha": "^10.2.0",
+    "prettier": "^3.1.1",
+    "ts-mocha": "^10.0.0",
+    "ts-node": "^10.9.2",
+    "typedoc": "^0.25.4",
+    "typedoc-plugin-merge-modules": "^5.1.0",
+    "typescript": "^5.3.3"
   },
   "dependencies": {
-    "axios": "^0.21.1"
+    "axios": "^1.6.3"
   }
 }
