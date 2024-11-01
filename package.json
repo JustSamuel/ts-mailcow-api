@@ -32,11 +32,11 @@
   "typings": "./dist/index.d.ts",
   "license": "ISC",
   "devDependencies": {
-    "@types/chai": "^4.2.18",
+    "@types/chai": "^5.0.1",
     "@types/mocha": "^8.2.2",
     "@typescript-eslint/eslint-plugin": "^8.7.0",
     "@typescript-eslint/parser": "^8.7.0",
-    "chai": "^4.3.4",
+    "chai": "^5.1.2",
     "eslint": "^9.11.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard": "^17.1.0",
