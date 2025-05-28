@@ -12,19 +12,19 @@ export interface BaseDomainAttributes {
    * The language code associated with this domain.
    */
   lang:
-    | 'sk'
-    | 'cs'
-    | 'de'
-    | 'en'
-    | 'es'
-    | 'fr'
-    | 'lv'
-    | 'nl'
-    | 'pl'
-    | 'pt'
-    | 'ru'
-    | 'it'
-    | 'ca';
+  | 'sk'
+  | 'cs'
+  | 'de'
+  | 'en'
+  | 'es'
+  | 'fr'
+  | 'lv'
+  | 'nl'
+  | 'pl'
+  | 'pt'
+  | 'ru'
+  | 'it'
+  | 'ca';
   /**
    * Boolean if the domain is active.
    */
@@ -1358,6 +1358,121 @@ export interface WDLog extends Log {
    */
   time: number;
 }
+
+/**
+ * Type of Bcc map.
+ */
+export type BccMapType = 'sender' | 'recipient'
+
+/**
+ * Bcc map base item.
+ */
+export interface BaseBccMap {
+  /**
+   * Enables or disables the bcc map.
+   */
+  active: number;
+  /**
+   * Email address where all mails should be send to.
+   */
+  bcc_dest: string;
+  /**
+   * Email addres which emails should be forwarded.
+   */
+  local_dest: string;
+  /**
+   * Type of the bcc map.
+   */
+  type: BccMapType
+}
+
+/** Bcc map creation request */
+export type AddBccMapRequest = BaseBccMap;
+
+/**
+ * Recipient map base item.
+ */
+export interface BaseRecipientMap {
+  /**
+   * Enables or disables the recipient map.
+   */
+  active: number;
+  /**
+   * Email address that should receive the forwarded emails.
+   */
+  recipient_map_new: string;
+  /**
+   * Email address which emails should be forwarded.
+   */
+  recipient_map_old: string;
+}
+
+/** Recipient map creation request. */
+export type AddRecipientMapRequest = BaseRecipientMap;
+
+/**
+ * Bcc map deletion request.
+ */
+export interface BccMapDeletionRequest {
+  /**
+   * List of IDs of the bcc maps to delete.
+   */
+  items: number[];
+}
+
+/**
+ * Recipient map deletion request.
+ */
+export interface RecipientMapDeletionRequest {
+  /**
+   * List of IDs of the recipient maps to delete.
+   */
+  items: number[];
+}
+
+/**
+ * Bcc map item.
+ */
+export interface BccMap extends BaseBccMap {
+  /**
+   * Creation date in epoch.
+   */
+  created: string;
+  /**
+   * Domain of the local desitination.
+   */
+  domain: string;
+  /**
+   * Id of the bcc map.
+   */
+  id: number;
+  /**
+   * Last modified data in epoch.
+   */
+  modified?: string | null;
+}
+
+export type GetBccMapResponse = BccMap[];
+
+/**
+ * Recipient map item.
+ */
+export interface RecipientMap extends BaseRecipientMap {
+  /**
+   * Creation date in epoch.
+   */
+  created: string;
+  /**
+   * Id of the bcc map.
+   */
+  id: number;
+  /**
+   * Last modified data in epoch.
+   */
+  modified?: string | null;
+}
+
+export type GetRecipientMapResponse = RecipientMap[];
 
 /**
  * Error class used for exception handling.

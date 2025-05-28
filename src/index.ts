@@ -11,6 +11,7 @@ import { aliasEndpoints, AliasEndpoints } from './Endpoints/alias-endpoints';
 import { syncjobEndpoints, SyncjobEndpoints } from './Endpoints/syncjob-endpoints';
 import { forwardingEndpoints, ForwardingEndpoints } from './Endpoints/forwarding-endpoints';
 import { logEndpoints, LogEndpoints } from './Endpoints/log-endpoints';
+import { adressRewritingEndpoints, AdressRewritingEndpoints } from './Endpoints/address-rewriting-endpoint';
 
 /**
  * Class containing all the logic to interface with the Mailcow API in TypeScript.
@@ -100,6 +101,13 @@ class MailcowClient {
    * @external
    */
   public forwardingHosts: ForwardingEndpoints = forwardingEndpoints(this)
+
+  /**
+   * All endpoints related to address rewriting.
+   * See {@link AdressRewritingEndpoints}
+   * @external
+   */
+  public addressRewriting: AdressRewritingEndpoints = adressRewritingEndpoints(this);
 
   /**
    * All endpoints related to logs.
