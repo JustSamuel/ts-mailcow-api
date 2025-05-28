@@ -105,7 +105,7 @@ describe.skip("Syncjob Endpoint tests", (): void => {
     await thenTestOrFail(mcc.syncjobs.create(attr), isSucces)
   });
   let id: number;
-  it('should get all sync jobs',  async () => {
+  it('should get all sync jobs', async () => {
     await thenTestOrFail(mcc.syncjobs.getAll(), (res: Syncjob[]) => {
       expect(res).be.length.least(1)
       id = res[0].id;
@@ -116,7 +116,7 @@ describe.skip("Syncjob Endpoint tests", (): void => {
       active: false,
       automap: false,
     }
-    await thenTestOrFail(mcc.syncjobs.edit({attr: editAttr, items: id}), isSucces)
+    await thenTestOrFail(mcc.syncjobs.edit({ attr: editAttr, items: id }), isSucces)
     await thenTestOrFail(mcc.syncjobs.getAll(), (res: Syncjob[]) => {
       const syncjob: Syncjob = res[0]
       for (let editAttrKey in editAttr) {
@@ -179,3 +179,38 @@ describe.skip("Log Endpoint test", (): void => {
     await thenTestOrFail(mcc.logs.watchdog(2), (res: any[]) => expect(res).to.exist)
   });
 })
+
+describe.skip("Address Rewriting Endpoint tests", (): void => {
+  it('should create a BCC map', async () => {
+    await thenTestOrFail(mcc.addressRewriting.addBccMap({
+      active: 1,
+      bcc_dest: "admin@440044.xyz",
+      local_dest: "test@440044.xyz",
+      type: "sender"
+    }), isSucces);
+  });
+
+  it('should create a recipient map', async () => {
+    await thenTestOrFail(mcc.addressRewriting.addRecipientMap({
+      active: 1,
+      recipient_map_new: "newrecipient@440044.xyz",
+      recipient_map_old: "oldrecipient@440044.xyz"
+    }), isSucces);
+  });
+
+  it('should get all BCC maps', async () => {
+    await thenTestOrFail(mcc.addressRewriting.getBccMap('all'), (res: any[]) => expect(res).to.exist);
+  });
+
+  it('should get all recipient maps', async () => {
+    await thenTestOrFail(mcc.addressRewriting.getRecipientMap('all'), (res: any[]) => expect(res).to.exist);
+  });
+
+  it('should delete BCC maps', async () => {
+    await thenTestOrFail(mcc.addressRewriting.deleteBccMap({ items: [1] }), isSucces);
+  });
+
+  it('should delete recipient maps', async () => {
+    await thenTestOrFail(mcc.addressRewriting.deleteRecipientMap({ items: [1] }), isSucces);
+  });
+});
