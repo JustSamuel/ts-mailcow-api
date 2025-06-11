@@ -1,16 +1,5 @@
 import MailcowClient from '../index';
-import {
-  ACMELog,
-  ADLog,
-  APILog,
-  DCLog,
-  NFLog,
-  PFLog,
-  RLLog,
-  RSLog,
-  SGLog,
-  WDLog
-} from '../types';
+import { ACMELog, ADLog, APILog, DCLog, NFLog, PFLog, RLLog, RSLog, SGLog, WDLog } from '../types';
 
 export interface LogEndpoints {
   /**
@@ -77,54 +66,34 @@ export interface LogEndpoints {
 export function logEndpoints(bind: MailcowClient): LogEndpoints {
   return {
     acme(count: number): Promise<ACMELog[]> {
-      return bind.requestFactory.get<ACMELog[]>(
-        `/api/v1/get/logs/acme/${count}`
-      );
+      return bind.requestFactory.get<ACMELog[]>(`/api/v1/get/logs/acme/${count}`);
     },
     api(count: number): Promise<APILog[]> {
-      return bind.requestFactory.get<APILog[]>(
-        `/api/v1/get/logs/api/${count}`
-      );
+      return bind.requestFactory.get<APILog[]>(`/api/v1/get/logs/api/${count}`);
     },
     autodiscover(count: number): Promise<ADLog[]> {
-      return bind.requestFactory.get<ADLog[]>(
-        `/api/v1/get/logs/autodiscover/${count}`
-      );
+      return bind.requestFactory.get<ADLog[]>(`/api/v1/get/logs/autodiscover/${count}`);
     },
     dovecot(count: number): Promise<DCLog[]> {
-      return bind.requestFactory.get<DCLog[]>(
-        `/api/v1/get/logs/dovecot/${count}`
-      );
+      return bind.requestFactory.get<DCLog[]>(`/api/v1/get/logs/dovecot/${count}`);
     },
     netfilter(count: number): Promise<NFLog[]> {
-      return bind.requestFactory.get<NFLog[]>(
-        `/api/v1/get/logs/netfilter/${count}`
-      );
+      return bind.requestFactory.get<NFLog[]>(`/api/v1/get/logs/netfilter/${count}`);
     },
     postfix(count: number): Promise<PFLog[]> {
-      return bind.requestFactory.get<PFLog[]>(
-        `/api/v1/get/logs/postfix/${count}`
-      );
+      return bind.requestFactory.get<PFLog[]>(`/api/v1/get/logs/postfix/${count}`);
     },
     ratelimited(count: number): Promise<RLLog[]> {
-      return bind.requestFactory.get<RLLog[]>(
-        `/api/v1/get/logs/ratelimited/${count}`
-      );
+      return bind.requestFactory.get<RLLog[]>(`/api/v1/get/logs/ratelimited/${count}`);
     },
     rspamd(count: number): Promise<RSLog[]> {
-      return bind.requestFactory.get<RSLog[]>(
-        `/api/v1/get/logs/rspamd-history/${count}`
-      );
+      return bind.requestFactory.get<RSLog[]>(`/api/v1/get/logs/rspamd-history/${count}`);
     },
     sogo(count: number): Promise<SGLog[]> {
-      return bind.requestFactory.get<SGLog[]>(
-        `/api/v1/get/logs/sogo/${count}`
-      );
+      return bind.requestFactory.get<SGLog[]>(`/api/v1/get/logs/sogo/${count}`);
     },
     watchdog(count: number): Promise<WDLog[]> {
-      return bind.requestFactory.get<WDLog[]>(
-        `/api/v1/get/logs/watchdog/${count}`
-      );
-    }
+      return bind.requestFactory.get<WDLog[]>(`/api/v1/get/logs/watchdog/${count}`);
+    },
   };
 }

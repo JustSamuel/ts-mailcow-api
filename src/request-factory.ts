@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { MailcowErrorResponse, MailcowException, Payload } from './types';
+import { MailcowErrorResponse, MailcowException } from './types';
 import MailcowClient from './index';
 
 /**
@@ -16,11 +16,11 @@ function wrapToArray<T>(item: T | T[]): T[] {
  * @internal
  * @param promise - The promise of which the output to wrap.
  */
-export function wrapPromiseToArray<T>(promise: Promise<T|T[]>): Promise<T[]> {
+export function wrapPromiseToArray<T>(promise: Promise<T | T[]>): Promise<T[]> {
   return new Promise<T[]>((resolve, reject) => {
     promise
       .then((res: T | T[]) => resolve(wrapToArray(res)))
-      .catch((err) => reject(err));
+      .catch((err) => reject(err instanceof Error ? err : new Error(String(err))));
   });
 }
 
@@ -40,7 +40,7 @@ export default class RequestFactory {
    * @param route - The route to which to send the request.
    * @param payload - The payload to send with the request.
    */
-  async post<T>(route: string, payload: Payload): Promise<T> {
+  async post<T, P extends object>(route: string, payload: P): Promise<T> {
     return new Promise((resolve, reject) => {
       axios
         .post(this.ctx.BASE_URL + route, payload, this.ctx.AXIOS_CONFIG)

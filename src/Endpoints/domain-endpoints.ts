@@ -1,10 +1,4 @@
-import {
-  DomainDeleteRequest,
-  DomainEditRequest,
-  DomainPostRequest,
-  Domain,
-  MailcowResponse
-} from '../types';
+import { DomainDeleteRequest, DomainEditRequest, DomainPostRequest, Domain, MailcowResponse } from '../types';
 import MailcowClient from '../index';
 import { wrapPromiseToArray } from '../request-factory';
 
@@ -45,29 +39,16 @@ export interface DomainEndpoints {
 export function domainEndpoints(bind: MailcowClient): DomainEndpoints {
   return {
     get(domain: string = 'all'): Promise<Domain[]> {
-      return wrapPromiseToArray<Domain>(
-        bind.requestFactory.get<Domain | Domain[]>(
-          `/api/v1/get/domain/${ domain }`
-        )
-      );
+      return wrapPromiseToArray<Domain>(bind.requestFactory.get<Domain | Domain[]>(`/api/v1/get/domain/${domain}`));
     },
     create(payload: DomainPostRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse>(
-        '/api/v1/add/domain',
-        payload
-      );
+      return bind.requestFactory.post<MailcowResponse, DomainPostRequest>('/api/v1/add/domain', payload);
     },
     delete(payload: DomainDeleteRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse>(
-        '/api/v1/delete/domain',
-        payload.domains
-      );
+      return bind.requestFactory.post<MailcowResponse, string[]>('/api/v1/delete/domain', payload.domains);
     },
     edit(payload: DomainEditRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse>(
-        '/api/v1/edit/domain',
-        payload
-      );
-    }
+      return bind.requestFactory.post<MailcowResponse, DomainEditRequest>('/api/v1/edit/domain', payload);
+    },
   };
 }

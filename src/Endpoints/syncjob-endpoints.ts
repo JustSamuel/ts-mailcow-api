@@ -6,50 +6,39 @@ export interface SyncjobEndpoints {
    * Endpoint for creating sync jobs.
    * @param payload - The creation payload.
    */
-  create(payload: SyncjobPostRequest): Promise<MailcowResponse>
+  create(payload: SyncjobPostRequest): Promise<MailcowResponse>;
 
   /**
    * Endpoint for editing sync jobs.
    * @param payload - The edit payload.
    */
-  edit(payload: SyncjobUpdateRequest): Promise<MailcowResponse>
+  edit(payload: SyncjobUpdateRequest): Promise<MailcowResponse>;
 
   /**
    * Endpoint for deleting sync jobs
    * @param payload - The deletion payload.
    */
-  delete(payload: SyncjobDeleteRequest): Promise<MailcowResponse>
+  delete(payload: SyncjobDeleteRequest): Promise<MailcowResponse>;
 
   /**
    * Endpoint for getting all sync jobs.
    */
-  getAll(): Promise<Syncjob[]>
+  getAll(): Promise<Syncjob[]>;
 }
 
 export function syncjobEndpoints(bind: MailcowClient): SyncjobEndpoints {
   return {
     getAll(): Promise<Syncjob[]> {
-      return bind.requestFactory.get<Syncjob[]>(
-        '/api/v1/get/syncjobs/all/no_log'
-      );
+      return bind.requestFactory.get<Syncjob[]>('/api/v1/get/syncjobs/all/no_log');
     },
     create(payload: SyncjobPostRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse>(
-        '/api/v1/add/syncjob',
-        payload
-      );
+      return bind.requestFactory.post<MailcowResponse, SyncjobPostRequest>('/api/v1/add/syncjob', payload);
     },
     edit(payload: SyncjobUpdateRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse>(
-        '/api/v1/edit/syncjob',
-        payload
-      );
+      return bind.requestFactory.post<MailcowResponse, SyncjobUpdateRequest>('/api/v1/edit/syncjob', payload);
     },
     delete(payload: SyncjobDeleteRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse>(
-        '/api/v1/delete/syncjob',
-        payload.items
-      );
-    }
+      return bind.requestFactory.post<MailcowResponse, number[]>('/api/v1/delete/syncjob', payload.items);
+    },
   };
 }
