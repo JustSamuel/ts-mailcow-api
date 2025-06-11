@@ -126,8 +126,8 @@ This wrapper acts as a middleman, so those changes can be patched internally wit
 
 ### Fail2Ban
 
-- [ ] Edit Fail2Ban
-- [ ] Get Fail2Ban Config
+- [x] Edit Fail2Ban
+- [x] Get Fail2Ban Config
 
 ### DKIM
 
