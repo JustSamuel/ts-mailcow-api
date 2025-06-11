@@ -11,6 +11,7 @@
     "docs": "typedoc",
     "build": "tsc",
     "prepare": "tsc",
+    "prepublishOnly": "yarn install --frozen-lockfile && yarn build",
     "postpublish": "git add package.json && git tag v%npm_package_version% && git commit -m \"chore: version update %npm_package_version%\" && git push --tags"
   },
   "repository": {
