@@ -9,8 +9,16 @@ import {
   SyncjobAttributes, SyncjobEditAttributes
 } from "../src/types";
 import { AliasEditAttributes } from "../src/types";
+import * as https from "node:https";
 
-const mcc: MailcowClient = new MailcowClient("https://demo.mailcow.email/", "390448-22B69F-FA37D9-19701B-6F033F")
+const mcc: MailcowClient = new MailcowClient(
+  "https://demo.mailcow.email/",
+  "390448-22B69F-FA37D9-19701B-6F033F",
+  {
+    httpsAgent: new https.Agent({
+      rejectUnauthorized: false
+    })
+  })
 
 function isSucces(res: MailcowResponse) {
   expect(res[0].type).to.be.equal("success")

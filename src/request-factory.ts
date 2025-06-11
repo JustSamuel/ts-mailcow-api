@@ -43,7 +43,7 @@ export default class RequestFactory {
   async post<T>(route: string, payload: Payload): Promise<T> {
     return new Promise((resolve, reject) => {
       axios
-        .post(this.ctx.BASE_URL + route, payload, this.ctx.HEADERS)
+        .post(this.ctx.BASE_URL + route, payload, this.ctx.AXIOS_CONFIG)
         // On succes
         .then((res: AxiosResponse<T>) => {
           resolve(res.data);
@@ -63,7 +63,7 @@ export default class RequestFactory {
   async get<T>(route: string): Promise<T> {
     return new Promise((resolve, reject) => {
       axios
-        .get(this.ctx.BASE_URL + route, this.ctx.HEADERS)
+        .get(this.ctx.BASE_URL + route, this.ctx.AXIOS_CONFIG)
         // On succes
         .then((res: AxiosResponse<T>) => {
           resolve(res.data);

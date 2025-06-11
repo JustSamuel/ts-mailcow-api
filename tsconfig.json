@@ -1,16 +1,8 @@
 {
-  "include": [
-    "src/**/*",
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "src/test.ts"
-  ],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "src/test.ts"],
   "typedocOptions": {
-    "entryPoints": [
-      "src/"
-    ],
+    "entryPoints": ["src/"],
     "excludeNotDocumented": false,
     "excludeInternal": true,
     "excludeExternals": false,
@@ -20,9 +12,6 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "./src/",
-    "typeRoots": [
-      "./src/types.ts"
-    ],
     "module": "CommonJS",
     "target": "es2015",
     "sourceMap": true,
