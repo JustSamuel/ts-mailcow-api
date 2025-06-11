@@ -1511,7 +1511,7 @@ export interface Fail2BanEditRequest {
     whitelist: string;
   };
   /**
-   * Affected items (use "none" for global update).
+   * Affected networks (use "all" for global update).
    */
   items: string;
 }
