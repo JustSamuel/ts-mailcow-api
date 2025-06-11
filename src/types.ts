@@ -1,9 +1,3 @@
-/* eslint-disable camelcase */
-/**
- * Payloads should be JSONs.
- */
-export type Payload = Record<string, any> | null;
-
 /**
  * Base attributes of a domain.
  */
@@ -11,20 +5,7 @@ export interface BaseDomainAttributes {
   /**
    * The language code associated with this domain.
    */
-  lang:
-  | 'sk'
-  | 'cs'
-  | 'de'
-  | 'en'
-  | 'es'
-  | 'fr'
-  | 'lv'
-  | 'nl'
-  | 'pl'
-  | 'pt'
-  | 'ru'
-  | 'it'
-  | 'ca';
+  lang: 'sk' | 'cs' | 'de' | 'en' | 'es' | 'fr' | 'lv' | 'nl' | 'pl' | 'pt' | 'ru' | 'it' | 'ca';
   /**
    * Boolean if the domain is active.
    */
@@ -1362,7 +1343,7 @@ export interface WDLog extends Log {
 /**
  * Type of Bcc map.
  */
-export type BccMapType = 'sender' | 'recipient'
+export type BccMapType = 'sender' | 'recipient';
 
 /**
  * Bcc map base item.
@@ -1383,7 +1364,7 @@ export interface BaseBccMap {
   /**
    * Type of the bcc map.
    */
-  type: BccMapType
+  type: BccMapType;
 }
 
 /** Bcc map creation request */
@@ -1490,7 +1471,7 @@ export class MailcowException extends Error {
  * This is used when the API call doesn't return any objects, i.e. POST requests.
  */
 export interface BaseResponse {
-  log?: (string | Payload)[];
+  log?: (string | Record<string, unknown>)[];
   msg: string[] | string;
   type: 'succes' | 'danger' | 'error';
 }

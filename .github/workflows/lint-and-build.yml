@@ -13,7 +13,7 @@ jobs:
     uses: GEWIS/actions/.github/workflows/lint-and-build-yarn.yml@v1
     with:
       node-version: "22.x"
-      lint: false
-      format: false
-      build: false
+      lint: true
+      format: true
+      build: true
       test: true

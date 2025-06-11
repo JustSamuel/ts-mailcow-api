@@ -11,7 +11,7 @@ import { aliasEndpoints, AliasEndpoints } from './Endpoints/alias-endpoints';
 import { syncjobEndpoints, SyncjobEndpoints } from './Endpoints/syncjob-endpoints';
 import { forwardingEndpoints, ForwardingEndpoints } from './Endpoints/forwarding-endpoints';
 import { logEndpoints, LogEndpoints } from './Endpoints/log-endpoints';
-import { adressRewritingEndpoints, AdressRewritingEndpoints } from './Endpoints/address-rewriting-endpoint';
+import { addressRewritingEndpoints, AdressRewritingEndpoints } from './Endpoints/address-rewriting-endpoint';
 
 /**
  * Class containing all the logic to interface with the Mailcow API in TypeScript.
@@ -49,7 +49,7 @@ class MailcowClient {
       ...EXTRA_AXIOS_CONFIG,
       headers: {
         'Content-Type': 'application/json',
-        'X-API-Key': this.API_KEY
+        'X-API-Key': this.API_KEY,
       },
     };
   }
@@ -58,63 +58,63 @@ class MailcowClient {
    * Factory method pattern for creating HTTP requests.
    * @internal
    */
-  public requestFactory = new RequestFactory(this)
+  public requestFactory = new RequestFactory(this);
 
   /**
    * All endpoints related to Aliases.
    * See {@link AliasEndpoints}
    * @external
    */
-  public aliases: AliasEndpoints = aliasEndpoints(this)
+  public aliases: AliasEndpoints = aliasEndpoints(this);
 
   /**
    * All endpoints related to Domains.
    * See {@link DomainEndpoints}
    * @external
    */
-  public domains: DomainEndpoints = domainEndpoints(this)
+  public domains: DomainEndpoints = domainEndpoints(this);
 
   /**
    * All endpoints related to spam policies.
    * See {@link AntiSpamEndpoints}
    * @external
    */
-  public spamPolicy: AntiSpamEndpoints = antiSpamEndpoints(this)
+  public spamPolicy: AntiSpamEndpoints = antiSpamEndpoints(this);
 
   /**
    * All endpoints related to mailboxes.
    * See {@link MailboxEndpoints}
    * @external
    */
-  public mailbox: MailboxEndpoints = mailboxEndpoints(this)
+  public mailbox: MailboxEndpoints = mailboxEndpoints(this);
 
   /**
    * All endpoints related to sync jobs.
    * See {@link SyncjobEndpoints}
    * @external
    */
-  public syncjobs: SyncjobEndpoints = syncjobEndpoints(this)
+  public syncjobs: SyncjobEndpoints = syncjobEndpoints(this);
 
   /**
    * All endpoints related to forwarding hosts.
    * See {@link ForwardingEndpoints}
    * @external
    */
-  public forwardingHosts: ForwardingEndpoints = forwardingEndpoints(this)
+  public forwardingHosts: ForwardingEndpoints = forwardingEndpoints(this);
 
   /**
    * All endpoints related to address rewriting.
    * See {@link AdressRewritingEndpoints}
    * @external
    */
-  public addressRewriting: AdressRewritingEndpoints = adressRewritingEndpoints(this);
+  public addressRewriting: AdressRewritingEndpoints = addressRewritingEndpoints(this);
 
   /**
    * All endpoints related to logs.
    * See {@link LogEndpoints}
    * @external
    */
-  public logs: LogEndpoints = logEndpoints(this)
+  public logs: LogEndpoints = logEndpoints(this);
 }
 
 export default MailcowClient;
