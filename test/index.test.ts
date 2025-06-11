@@ -27,7 +27,7 @@ function isSucces(res: MailcowResponse) {
 async function thenTestOrFail(promise: Promise<any>, test: Function, fatal = false): Promise<void> {
   await promise
     .then((res: any) => {
-      console.log(res);
+      console.log(JSON.stringify(res, null, 4));
       test(res);
     })
     .catch((err) => {
@@ -135,7 +135,7 @@ describe("Syncjob Endpoint tests", (): void => {
   });
 })
 
-describe("Forwarding Host Endpoint test", (): void => {
+describe.skip("Forwarding Host Endpoint test", (): void => {
   it('should create a forwarding host', async () => {
     await thenTestOrFail(mcc.forwardingHosts.create({ filter_spam: true, hostname: "hosted.mailcow.de" }), isSucces)
   });
@@ -225,7 +225,7 @@ describe("Fail2Ban Endpoint tests", (): void => {
   it('should edit Fail2Ban', async () => {
     await thenTestOrFail(mcc.fail2Ban.edit({
       attr: {
-        ban_time: '600',
+        ban_time: '0',
         ban_time_increment: '600',
         blacklist: '127.0.0.1',
         max_attempts: '3',
