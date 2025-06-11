@@ -28,10 +28,10 @@ class MailcowClient {
   readonly API_KEY: string;
 
   /**
-   * The headers used for every request.
+   * The request config used for every request.
    * @internal
    */
-  HEADERS: AxiosRequestConfig;
+  AXIOS_CONFIG: AxiosRequestConfig;
 
   /**
    * Creates a MailcowClient using the given URL and API key.
@@ -43,13 +43,13 @@ class MailcowClient {
     this.BASE_URL = BASE_URL.charAt(BASE_URL.length - 1) === '/' ? BASE_URL : BASE_URL.concat('/');
     this.API_KEY = API_KEY;
 
-    // Set the correct Axios headers.
-    this.HEADERS = {
+    // Set the correct Axios request config.
+    this.AXIOS_CONFIG = {
+      ...EXTRA_AXIOS_CONFIG,
       headers: {
         'Content-Type': 'application/json',
         'X-API-Key': this.API_KEY
       },
-      ...EXTRA_AXIOS_CONFIG
     };
   }
 
