@@ -21,6 +21,13 @@ mcc.mailbox.get().then((e) => {
 })
 ```
 
+## Why it's not auto-generated
+
+The [Mailcow OpenAPI spec](https://github.com/mailcow/mailcow-dockerized/blob/master/data/web/api/openapi.yaml) doesn’t pass validation and isn’t RESTful (e.g. `POST /api/v1/add/domain`).
+If Mailcow ever fixes the naming or structure, a generated client would break.
+This wrapper acts as a middleman, so those changes can be patched internally without ruining the client interface.
+
+
 ## API implementation progress
 ### Domains
 - [x] Create domain

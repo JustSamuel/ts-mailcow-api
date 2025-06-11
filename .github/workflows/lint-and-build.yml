@@ -1,0 +1,19 @@
+name: Lint and build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-and-lint:
+    uses: GEWIS/actions/.github/workflows/lint-and-build-yarn.yml@v1
+    with:
+      node-version: "22.x"
+      lint: false
+      format: false
+      build: false
+      test: true
