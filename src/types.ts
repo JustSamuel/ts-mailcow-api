@@ -1466,6 +1466,105 @@ export class MailcowException extends Error {
 }
 
 /**
+ * Fail2Ban edit request.
+ */
+export interface Fail2BanEditRequest {
+  /**
+   * Configuration attributes to apply.
+   */
+  attr: {
+    /**
+     * Duration (in seconds) a ban should last.
+     */
+    ban_time: string;
+    /**
+     * Whether to increment ban time on repeated offenses.
+     */
+    ban_time_increment: string;
+    /**
+     * List of blacklisted IPs or CIDRs, comma separated.
+     */
+    blacklist: string;
+    /**
+     * Maximum number of failed attempts before banning.
+     */
+    max_attempts: string;
+    /**
+     * Maximum duration (in seconds) for a ban.
+     */
+    max_ban_time: string;
+    /**
+     * Netban range for IPv4.
+     */
+    netban_ipv4: string;
+    /**
+     * Netban range for IPv6.
+     */
+    netban_ipv6: string;
+    /**
+     * Time window (in seconds) for retry count.
+     */
+    retry_window: string;
+    /**
+     * List of whitelisted IPs or domains, comma separated.
+     */
+    whitelist: string;
+  };
+  /**
+   * Affected networks (use "all" for global update).
+   */
+  items: string;
+}
+
+/**
+ * Fail2Ban configuration response.
+ */
+export interface Fail2Ban {
+  /**
+   * Duration (in seconds) a ban should last.
+   */
+  ban_time: number;
+  /**
+   * Whether to increment ban time on repeated offenses.
+   */
+  ban_time_increment: number;
+  /**
+   * List of blacklisted IPs or CIDRs, newline-separated.
+   */
+  blacklist: string;
+  /**
+   * Maximum number of failed attempts before banning.
+   */
+  max_attempts: number;
+  /**
+   * Maximum duration (in seconds) for a ban.
+   */
+  max_ban_time: number;
+  /**
+   * Netban range for IPv4.
+   */
+  netban_ipv4: number;
+  /**
+   * Netban range for IPv6.
+   */
+  netban_ipv6: number;
+  /**
+   * List of permanently banned IPs.
+   */
+  perm_bans: string[];
+  /**
+   * Time window (in seconds) for retry count.
+   */
+  retry_window: number;
+  /**
+   * List of whitelisted IPs or domains, comma or newline-separated.
+   */
+  whitelist: string;
+}
+
+export type Fail2BanResponse = Fail2Ban;
+
+/**
  * Interface for a general Mailcow API response.
  *
  * This is used when the API call doesn't return any objects, i.e. POST requests.
