@@ -4,12 +4,15 @@
 [![Build Status](https://github.com/JustSamuel/ts-mailcow-api/actions/workflows/lint-and-build.yml/badge.svg)](https://github.com/JustSamuel/ts-mailcow-api/actions/workflows/lint-and-build.yml)
 [![License](https://img.shields.io/npm/l/ts-mailcow-api)](https://github.com/JustSamuel/ts-mailcow-api/blob/main/LICENSE)
 [![Downloads](https://img.shields.io/npm/dt/ts-mailcow-api)](https://www.npmjs.com/package/ts-mailcow-api)
+[![GitHub Pages](https://img.shields.io/badge/view-GitHub%20Pages-blue?logo=github)](https://justsamuel.github.io/ts-mailcow-api/classes/MailcowClient.html)
 
 Provides typing and a easy to use interface for the [Mailcow API](https://mailcow.docs.apiary.io/#).
 
 ## Usage
 
-Create a new wrapper using the base url and API_KEY.
+The interface is exposed via the `MailcowClient` class. It's typedoc reference can be found [here](https://justsamuel.github.io/ts-mailcow-api/classes/MailcowClient.html).
+
+To use the client, create a new wrapper using the base url and API_KEY.
 
 ```ts
 import MailCowClient from "./index";
