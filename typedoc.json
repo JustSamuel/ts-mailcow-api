@@ -1,0 +1,9 @@
+{
+  "entryPoints": ["src/index.ts"],
+  "out": "docs",
+  "exclude": ["**/*.test.ts", "**/__tests__/**"],
+  "plugin": ["typedoc-plugin-merge-modules", "typedoc-plugin-missing-exports"],
+  "excludeInternal": false,
+  "excludePrivate": false,
+  "excludeNotDocumented": false
+}

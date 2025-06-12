@@ -21,11 +21,13 @@ import { Fail2BanEndpoints, fail2BanEndpoints } from './Endpoints/fail2ban-endpo
 class MailcowClient {
   /**
    * The base URL of the Mailcow API.
+   * @internal
    */
   readonly BASE_URL: string;
 
   /**
    * The API key of the Mailcow API.
+   * @internal
    */
   readonly API_KEY: string;
 
@@ -64,7 +66,6 @@ class MailcowClient {
   /**
    * All endpoints related to Aliases.
    * See {@link AliasEndpoints}
-   * @external
    */
   public aliases: AliasEndpoints = aliasEndpoints(this);
 
