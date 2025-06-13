@@ -155,9 +155,9 @@ This wrapper acts as a middleman, so those changes can be patched internally wit
 
 ### oAuth Clients
 
-- [ ] Create oAuth client
-- [ ] Delete oAuth client
-- [ ] Get oAuth Clients
+- [x] Create oAuth client
+- [x] Delete oAuth client
+- [x] Get oAuth Clients
 
 ### Routing
 

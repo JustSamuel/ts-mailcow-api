@@ -18,6 +18,7 @@ import { ResourceEndpoints, resourceEndpoints } from './endpoints/resource-endpo
 import { QueueManagerEndpoints, queueManagerEndpoints } from './endpoints/queue-manager-endpoints';
 import { QuarantineEndpoints, quarantineEndpoints } from './endpoints/quarantine-endpoints';
 import { ratelimitsEndpoints, RatelimitsEndpoints } from './endpoints/ratelimit-endpoints';
+import { OAuth2Endpoints, oauth2Endpoints } from "./endpoints/oauth2-endpoints";
 
 /**
  * Class containing all the logic to interface with the Mailcow API in TypeScript.
@@ -164,6 +165,13 @@ class MailcowClient {
    * @external
    */
   public ratelimits: RatelimitsEndpoints = ratelimitsEndpoints(this);
+
+  /**
+   * All endpoints related to OAuth2 clients.
+   * See {@link OAuth2Endpoints}
+   * @external
+   */
+  public oauth2: OAuth2Endpoints = oauth2Endpoints(this);
 }
 
 export default MailcowClient;

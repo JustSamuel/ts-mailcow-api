@@ -1865,6 +1865,76 @@ export interface MailboxRatelimit {
 }
 
 /**
+ * Request payload to add a new OAuth client.
+ */
+export interface AddOAuthClientRequest {
+  /**
+   * The URI where you should be redirected after OAuth authentication.
+   */
+  redirect_uri: string;
+}
+
+/**
+ * Request payload to delete one or more OAuth clients.
+ */
+export interface DeleteOAuthClientRequest {
+  /**
+   * List of OAuth client IDs you want to delete.
+   */
+  items: string[];
+}
+
+/**
+ * Request payload to get an OAuth client or all clients.
+ */
+export interface GetOAuthClientRequest {
+  /**
+   * The OAuth client ID or 'all' to retrieve all clients.
+   */
+  id: string;
+}
+
+/**
+ * Represents an OAuth client returned by the Mailcow API.
+ */
+export interface OAuthClient {
+  /**
+   * Unique identifier for the OAuth client.
+   */
+  client_id: string;
+
+  /**
+   * Secret key for the OAuth client.
+   */
+  client_secret: string;
+
+  /**
+   * Grant types associated with the OAuth client.
+   */
+  grant_types: string | null;
+
+  /**
+   * ID of the OAuth entry.
+   */
+  id: number;
+
+  /**
+   * Redirect URI for the OAuth client.
+   */
+  redirect_uri: string;
+
+  /**
+   * Scope for the OAuth client.
+   */
+  scope: string;
+
+  /**
+   * User ID associated with the OAuth client.
+   */
+  user_id: string | null;
+}
+
+/**
  * Interface for a general Mailcow API response.
  *
  * This is used when the API call doesn't return any objects, i.e. POST requests.
