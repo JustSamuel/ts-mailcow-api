@@ -23,6 +23,7 @@ import { appPasswordEndpoints, AppPasswordEndpoints } from './endpoints/app-pass
 import { TlsPolicyMapEndpoints, tlsPolicyMapEndpoints } from './endpoints/tls-policy-map-endpoints';
 import { dkimEndpoints, DkimEndpoints } from './endpoints/dkim-endpoints';
 import { DomainAdminEndpoints, domainAdminEndpoints } from './endpoints/domain-admin-endpoints';
+import { RoutingEndpoints, routingEndpoints } from './endpoints/routing-endpoints';
 
 /**
  * Class containing all the logic to interface with the Mailcow API in TypeScript.
@@ -204,6 +205,13 @@ class MailcowClient {
    * @external
    */
   public domainAdmins: DomainAdminEndpoints = domainAdminEndpoints(this);
+
+  /**
+   * All endpoints related to Routing.
+   * See {@link RoutingEndpoints}
+   * @external
+   */
+  public routing: RoutingEndpoints = routingEndpoints(this);
 }
 
 export default MailcowClient;
