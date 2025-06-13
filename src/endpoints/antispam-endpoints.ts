@@ -30,6 +30,11 @@ export interface AntiSpamEndpoints {
   delete(payload: SpamPolicyDeleteRequest): Promise<MailcowResponse>;
 }
 
+const ANTI_SPAM_ENDPOINTS = {
+  CREATE: 'add/domain-policy',
+  DELETE: 'delete/domain-policy',
+};
+
 /**
  * Binder function between the MailcowClient class and the AntiSpamEndpoints
  * @param bind - The MailcowClient to bind.
@@ -38,13 +43,13 @@ export interface AntiSpamEndpoints {
 export function antiSpamEndpoints(bind: MailcowClient): AntiSpamEndpoints {
   return {
     create(payload: SpamPolicyPostRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse, SpamPolicyPostRequest>('/api/v1/add/domain-policy', payload);
+      return bind.requestFactory.post<MailcowResponse, SpamPolicyPostRequest>(ANTI_SPAM_ENDPOINTS.CREATE, payload);
     },
     delete(payload: SpamPolicyDeleteRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse, number[]>('/api/v1/delete/domain-policy', payload.prefid);
+      return bind.requestFactory.post<MailcowResponse, number[]>(ANTI_SPAM_ENDPOINTS.DELETE, payload.prefid);
     },
     get(payload: SpamPolicyGetRequest): Promise<SpamPolicy[]> {
-      return bind.requestFactory.get<SpamPolicy[]>(`/api/v1/get/policy_${payload.type}_domain/${payload.domain}`);
+      return bind.requestFactory.get<SpamPolicy[]>(`get/policy_${payload.type}_domain/${payload.domain}`);
     },
   };
 }

@@ -19,7 +19,7 @@ import MailCowClient from "./index";
 
 // Create MailCowClient based on BASE_URL and API_KEY
 const mcc = new MailCowClient(
-  "https://demo.mailcow.email/",
+  "https://demo.mailcow.email/api/v1",
   "390448-22B69F-FA37D9-19701B-6F033F",
 );
 ```

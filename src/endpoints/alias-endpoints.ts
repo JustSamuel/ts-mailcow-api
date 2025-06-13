@@ -31,6 +31,13 @@ export interface AliasEndpoints {
   delete(payload: AliasDeleteRequest): Promise<MailcowResponse>;
 }
 
+const ALIAS_ENDPOINTS = {
+  GET: 'get/alias',
+  ADD: 'add/alias',
+  EDIT: 'edit/alias',
+  DELETE: 'delete/alias',
+};
+
 /**
  * Binder function between the MailcowClient class and the AliasEndpoints.
  * @param bind - The MailcowClient to bind.
@@ -39,16 +46,16 @@ export interface AliasEndpoints {
 export function aliasEndpoints(bind: MailcowClient): AliasEndpoints {
   return {
     get(id = 'all'): Promise<Alias[]> {
-      return wrapPromiseToArray<Alias>(bind.requestFactory.get<Alias[] | Alias>(`/api/v1/get/alias/${id}`));
+      return wrapPromiseToArray<Alias>(bind.requestFactory.get<Alias[] | Alias>(ALIAS_ENDPOINTS.GET + `/${id}`));
     },
     create: (payload: AliasPostRequest): Promise<MailcowResponse> => {
-      return bind.requestFactory.post<MailcowResponse, AliasPostRequest>('/api/v1/add/alias', payload);
+      return bind.requestFactory.post<MailcowResponse, AliasPostRequest>(ALIAS_ENDPOINTS.ADD, payload);
     },
     edit: (payload: AliasEditRequest): Promise<MailcowResponse> => {
-      return bind.requestFactory.post<MailcowResponse, AliasEditRequest>('/api/v1/edit/alias', payload);
+      return bind.requestFactory.post<MailcowResponse, AliasEditRequest>(ALIAS_ENDPOINTS.EDIT, payload);
     },
     delete: (payload: AliasDeleteRequest): Promise<MailcowResponse> => {
-      return bind.requestFactory.post<MailcowResponse, number[]>('/api/v1/delete/alias', payload.items);
+      return bind.requestFactory.post<MailcowResponse, number[]>(ALIAS_ENDPOINTS.DELETE, payload.items);
     },
   };
 }

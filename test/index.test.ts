@@ -12,7 +12,7 @@ import { AliasEditAttributes } from "../src/types";
 import * as https from "node:https";
 
 const mcc: MailcowClient = new MailcowClient(
-  "https://demo.mailcow.email/",
+  "https://demo.mailcow.email/api/v1",
   "390448-22B69F-FA37D9-19701B-6F033F",
   {
     httpsAgent: new https.Agent({

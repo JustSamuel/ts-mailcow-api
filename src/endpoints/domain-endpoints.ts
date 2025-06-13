@@ -31,6 +31,13 @@ export interface DomainEndpoints {
   edit(payload: DomainEditRequest): Promise<MailcowResponse>;
 }
 
+const DOMAIN_ENDPOINTS = {
+  GET: 'get/domain',
+  ADD: 'add/domain',
+  DELETE: 'delete/domain',
+  EDIT: 'edit/domain',
+};
+
 /**
  * Binder function between the MailcowClient class and the DomainEndpoints.
  * @param bind - The MailcowClient to bind.
@@ -39,16 +46,18 @@ export interface DomainEndpoints {
 export function domainEndpoints(bind: MailcowClient): DomainEndpoints {
   return {
     get(domain: string = 'all'): Promise<Domain[]> {
-      return wrapPromiseToArray<Domain>(bind.requestFactory.get<Domain | Domain[]>(`/api/v1/get/domain/${domain}`));
+      return wrapPromiseToArray<Domain>(
+        bind.requestFactory.get<Domain | Domain[]>(DOMAIN_ENDPOINTS.GET + `/${domain}`),
+      );
     },
     create(payload: DomainPostRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse, DomainPostRequest>('/api/v1/add/domain', payload);
+      return bind.requestFactory.post<MailcowResponse, DomainPostRequest>(DOMAIN_ENDPOINTS.ADD, payload);
     },
     delete(payload: DomainDeleteRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse, string[]>('/api/v1/delete/domain', payload.domains);
+      return bind.requestFactory.post<MailcowResponse, string[]>(DOMAIN_ENDPOINTS.DELETE, payload.domains);
     },
     edit(payload: DomainEditRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse, DomainEditRequest>('/api/v1/edit/domain', payload);
+      return bind.requestFactory.post<MailcowResponse, DomainEditRequest>(DOMAIN_ENDPOINTS.EDIT, payload);
     },
   };
 }
