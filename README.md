@@ -124,8 +124,8 @@ This wrapper acts as a middleman, so those changes can be patched internally wit
 
 ### Quarantine
 
-- [ ] Delete mails in Quarantaine
-- [ ] Get mails in Quarantaine
+- [x] Delete mails in Quarantaine
+- [x] Get mails in Quarantaine
 
 ### Fail2Ban
 

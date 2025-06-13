@@ -295,3 +295,15 @@ describe("Queue Manager Endpoint tests", (): void => {
     await thenTestOrFail(mcc.queueManager.flush('flush'), isSucces);
   });
 });
+
+describe("Quarantine Endpoint tests", (): void => {
+  it('should delete quarantined emails', async () => {
+    await thenTestOrFail(mcc.quarantine.delete({
+      items: [1],
+    }), isSucces);
+  });
+
+  it('should get quarantined emails', async () => {
+    await thenTestOrFail(mcc.quarantine.get(), (res: any[]) => expect(res).to.exist);
+  });
+});

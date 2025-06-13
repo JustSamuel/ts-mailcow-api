@@ -16,6 +16,7 @@ import { Fail2BanEndpoints, fail2BanEndpoints } from './endpoints/fail2ban-endpo
 import { StatusEndpoints, statusEndpoints } from './endpoints/status-endpoints';
 import { ResourceEndpoints, resourceEndpoints } from './endpoints/resource-endpoints';
 import { QueueManagerEndpoints, queueManagerEndpoints } from './endpoints/queue-manager-endpoints';
+import { QuarantineEndpoints, quarantineEndpoints } from './endpoints/quarantine-endpoints';
 
 /**
  * Class containing all the logic to interface with the Mailcow API in TypeScript.
@@ -148,6 +149,13 @@ class MailcowClient {
    * @external
    */
   public queueManager: QueueManagerEndpoints = queueManagerEndpoints(this);
+
+  /**
+   * All endpoints related to quarantine.
+   * See {@link QuarantineEndpoints}
+   * @external
+   */
+  public quarantine: QuarantineEndpoints = quarantineEndpoints(this);
 }
 
 export default MailcowClient;
