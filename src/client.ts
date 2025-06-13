@@ -21,6 +21,7 @@ import { ratelimitsEndpoints, RatelimitsEndpoints } from './endpoints/ratelimit-
 import { OAuth2Endpoints, oauth2Endpoints } from './endpoints/oauth2-endpoints';
 import { appPasswordEndpoints, AppPasswordEndpoints } from './endpoints/app-password-endpoints';
 import { TlsPolicyMapEndpoints, tlsPolicyMapEndpoints } from './endpoints/tls-policy-map-endpoints';
+import { dkimEndpoints, DkimEndpoints } from './endpoints/dkim-endpoints';
 
 /**
  * Class containing all the logic to interface with the Mailcow API in TypeScript.
@@ -188,6 +189,13 @@ class MailcowClient {
    * @external
    */
   public tlsPolicyMaps: TlsPolicyMapEndpoints = tlsPolicyMapEndpoints(this);
+
+  /**
+   * All endpoints related to DKIM.
+   * See {@link DkimEndpoints}
+   * @external
+   */
+  public dkim: DkimEndpoints = dkimEndpoints(this);
 }
 
 export default MailcowClient;
