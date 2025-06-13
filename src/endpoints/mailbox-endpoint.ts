@@ -72,6 +72,18 @@ export interface MailboxEndpoints {
   getActiveUserSieve(mailbox: string): Promise<string[]>;
 }
 
+const MAILBOX_ENDPOINTS = {
+  CREATE: 'add/mailbox',
+  DELETE: 'delete/mailbox',
+  EDIT: 'edit/mailbox',
+  GET: 'get/mailbox',
+  EDIT_PUSHOVER: 'edit/pushover',
+  EDIT_QUARANTAINE: 'edit/quarantine_notification',
+  EDIT_SPAM_SCORE: 'edit/spam-score',
+  EDIT_USER_ACL: 'edit/user-acl',
+  GET_ACTIVE_USER_SIEVE: 'get/active-user-sieve',
+};
+
 /**
  * Binder function between the MailcowClient class and the MailboxEndpoints
  * @param bind - The MailcowClient to bind.
@@ -80,44 +92,44 @@ export interface MailboxEndpoints {
 export function mailboxEndpoints(bind: MailcowClient): MailboxEndpoints {
   return {
     create(payload: MailboxPostRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse, MailboxPostRequest>('/api/v1/add/mailbox', payload);
+      return bind.requestFactory.post<MailcowResponse, MailboxPostRequest>(MAILBOX_ENDPOINTS.CREATE, payload);
     },
 
     delete(payload: MailboxDeleteRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse, string[]>('/api/v1/delete/mailbox', payload.mailboxes);
+      return bind.requestFactory.post<MailcowResponse, string[]>(MAILBOX_ENDPOINTS.DELETE, payload.mailboxes);
     },
 
     edit(payload: MailboxEditRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse, MailboxEditRequest>('/api/v1/edit/mailbox', payload);
+      return bind.requestFactory.post<MailcowResponse, MailboxEditRequest>(MAILBOX_ENDPOINTS.EDIT, payload);
     },
 
     get(mailbox: string = 'all'): Promise<Mailbox[]> {
       return wrapPromiseToArray<Mailbox>(
-        bind.requestFactory.get<Mailbox[] | Mailbox>(`/api/v1/get/mailbox/${mailbox}`),
+        bind.requestFactory.get<Mailbox[] | Mailbox>(MAILBOX_ENDPOINTS.GET + `/${mailbox}`),
       );
     },
 
     editPushover(payload: PushoverEditRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse, PushoverEditRequest>('/api/v1/edit/pushover', payload);
+      return bind.requestFactory.post<MailcowResponse, PushoverEditRequest>(MAILBOX_ENDPOINTS.EDIT_PUSHOVER, payload);
     },
 
     editQuarantine(payload: QuarantaineEditRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse, QuarantaineEditRequest>(
-        '/api/v1/edit/quarantine_notification',
+      return bind.requestFactory.post<MailcowResponse, QuarantaineEditRequest>('edit/quarantine_notification', payload);
+    },
+
+    editSpamScore(payload: SpamScoreEditRequest): Promise<MailcowResponse> {
+      return bind.requestFactory.post<MailcowResponse, SpamScoreEditRequest>(
+        MAILBOX_ENDPOINTS.EDIT_SPAM_SCORE,
         payload,
       );
     },
 
-    editSpamScore(payload: SpamScoreEditRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse, SpamScoreEditRequest>('/api/v1/edit/spam-score', payload);
-    },
-
     editUserACL(payload: ACLEditRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse, ACLEditRequest>('/api/v1/edit/user-acl', payload);
+      return bind.requestFactory.post<MailcowResponse, ACLEditRequest>(MAILBOX_ENDPOINTS.EDIT_USER_ACL, payload);
     },
 
     getActiveUserSieve(mailbox: string): Promise<string[]> {
-      return bind.requestFactory.get<string[]>(`/api/v1/get/active-user-sieve/${mailbox}`);
+      return bind.requestFactory.get<string[]>(MAILBOX_ENDPOINTS.GET_ACTIVE_USER_SIEVE + `/${mailbox}`);
     },
   };
 }

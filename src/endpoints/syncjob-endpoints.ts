@@ -26,19 +26,26 @@ export interface SyncjobEndpoints {
   getAll(): Promise<Syncjob[]>;
 }
 
+const SYNCJOB_ENDPOINTS = {
+  GET_ALL: 'get/syncjobs/all/no_log',
+  CREATE: 'add/syncjob',
+  EDIT: 'edit/syncjob',
+  DELETE: 'delete/syncjob',
+};
+
 export function syncjobEndpoints(bind: MailcowClient): SyncjobEndpoints {
   return {
     getAll(): Promise<Syncjob[]> {
-      return bind.requestFactory.get<Syncjob[]>('/api/v1/get/syncjobs/all/no_log');
+      return bind.requestFactory.get<Syncjob[]>(SYNCJOB_ENDPOINTS.GET_ALL);
     },
     create(payload: SyncjobPostRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse, SyncjobPostRequest>('/api/v1/add/syncjob', payload);
+      return bind.requestFactory.post<MailcowResponse, SyncjobPostRequest>(SYNCJOB_ENDPOINTS.CREATE, payload);
     },
     edit(payload: SyncjobUpdateRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse, SyncjobUpdateRequest>('/api/v1/edit/syncjob', payload);
+      return bind.requestFactory.post<MailcowResponse, SyncjobUpdateRequest>(SYNCJOB_ENDPOINTS.EDIT, payload);
     },
     delete(payload: SyncjobDeleteRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse, number[]>('/api/v1/delete/syncjob', payload.items);
+      return bind.requestFactory.post<MailcowResponse, number[]>(SYNCJOB_ENDPOINTS.DELETE, payload.items);
     },
   };
 }

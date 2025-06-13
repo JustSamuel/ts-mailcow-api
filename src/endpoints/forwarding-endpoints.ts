@@ -23,6 +23,12 @@ export interface ForwardingEndpoints {
   getAll(): Promise<ForwardingHost[]>;
 }
 
+const FORWARDING_ENDPOINTS = {
+  DELETE: 'delete/fwdhost',
+  CREATE: 'add/fwdhost',
+  GET_ALL: 'get/fwdhost/all',
+};
+
 /**
  * Binder function between the MailcowClient class and the ForwardingEndpoints.
  * @param bind - The MailcowClient to bind.
@@ -31,13 +37,13 @@ export interface ForwardingEndpoints {
 export function forwardingEndpoints(bind: MailcowClient): ForwardingEndpoints {
   return {
     delete(payload: ForwardingDeleteRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse, string[]>('/api/v1/delete/fwdhost', payload.items);
+      return bind.requestFactory.post<MailcowResponse, string[]>(FORWARDING_ENDPOINTS.DELETE, payload.items);
     },
     create(payload: ForwardingCreateRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse, ForwardingCreateRequest>('/api/v1/add/fwdhost', payload);
+      return bind.requestFactory.post<MailcowResponse, ForwardingCreateRequest>(FORWARDING_ENDPOINTS.CREATE, payload);
     },
     getAll(): Promise<ForwardingHost[]> {
-      return bind.requestFactory.get<ForwardingHost[]>('/api/v1/get/fwdhost/all');
+      return bind.requestFactory.get<ForwardingHost[]>(FORWARDING_ENDPOINTS.GET_ALL);
     },
   };
 }

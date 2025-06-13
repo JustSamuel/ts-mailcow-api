@@ -17,6 +17,11 @@ export interface Fail2BanEndpoints {
   get(): Promise<Fail2BanResponse>;
 }
 
+const FAIL2BAN_ENDPOINTS = {
+  EDIT: 'edit/fail2ban',
+  GET: 'get/fail2ban',
+};
+
 /**
  * Binder function between the MailcowClient class and the Fail2BanEndpoints.
  * @param bind - The MailcowClient to bind.
@@ -25,10 +30,10 @@ export interface Fail2BanEndpoints {
 export function fail2BanEndpoints(bind: MailcowClient): Fail2BanEndpoints {
   return {
     edit(payload: Fail2BanEditRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse, Fail2BanEditRequest>('/api/v1/edit/fail2ban', payload);
+      return bind.requestFactory.post<MailcowResponse, Fail2BanEditRequest>(FAIL2BAN_ENDPOINTS.EDIT, payload);
     },
     get(): Promise<Fail2BanResponse> {
-      return bind.requestFactory.get<Fail2BanResponse>('/api/v1/get/fail2ban');
+      return bind.requestFactory.get<Fail2BanResponse>(FAIL2BAN_ENDPOINTS.GET);
     },
   };
 }

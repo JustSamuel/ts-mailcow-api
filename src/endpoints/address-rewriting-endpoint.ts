@@ -42,33 +42,51 @@ export interface AdressRewritingEndpoints {
   getRecipientMap(id: number | 'all'): Promise<GetRecipientMapResponse>;
 }
 
+const ADDRESS_REWRITING_ENDPOINTS = {
+  ADD_BCC_MAP: 'add/bcc',
+  ADD_RECIPIENT_MAP: 'add/recipient_map',
+  DELETE_BCC_MAP: 'delete/bcc',
+  DELETE_RECIPIENT_MAP: 'delete/recipient_map',
+  GET_BCC_MAP: 'get/bcc',
+  GET_RECIPIENT_MAP: 'get/recipient_map',
+};
+
 export function addressRewritingEndpoints(bind: MailcowClient): AdressRewritingEndpoints {
   return {
     addBccMap(payload: AddBccMapRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse, AddBccMapRequest>('/api/v1/add/bcc', payload);
+      return bind.requestFactory.post<MailcowResponse, AddBccMapRequest>(
+        ADDRESS_REWRITING_ENDPOINTS.ADD_BCC_MAP,
+        payload,
+      );
     },
 
     addRecipientMap(payload: AddRecipientMapRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse, AddRecipientMapRequest>('/api/v1/add/recipient_map', payload);
+      return bind.requestFactory.post<MailcowResponse, AddRecipientMapRequest>(
+        ADDRESS_REWRITING_ENDPOINTS.ADD_RECIPIENT_MAP,
+        payload,
+      );
     },
 
     deleteBccMap(payload: BccMapDeletionRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse, BccMapDeletionRequest>('/api/v1/delete/bcc', payload);
+      return bind.requestFactory.post<MailcowResponse, BccMapDeletionRequest>(
+        ADDRESS_REWRITING_ENDPOINTS.DELETE_BCC_MAP,
+        payload,
+      );
     },
 
     deleteRecipientMap(payload: RecipientMapDeletionRequest): Promise<MailcowResponse> {
       return bind.requestFactory.post<MailcowResponse, RecipientMapDeletionRequest>(
-        '/api/v1/delete/recipient_map',
+        ADDRESS_REWRITING_ENDPOINTS.DELETE_RECIPIENT_MAP,
         payload,
       );
     },
 
     getBccMap(id: number | 'all'): Promise<GetBccMapResponse> {
-      return bind.requestFactory.get<GetBccMapResponse>(`/api/v1/get/bcc/${id}`);
+      return bind.requestFactory.get<GetBccMapResponse>(ADDRESS_REWRITING_ENDPOINTS.GET_BCC_MAP + `/${id}`);
     },
 
     getRecipientMap(id: number | 'all'): Promise<GetRecipientMapResponse> {
-      return bind.requestFactory.get<GetRecipientMapResponse>(`/api/v1/get/recipient_map/${id}`);
+      return bind.requestFactory.get<GetRecipientMapResponse>(ADDRESS_REWRITING_ENDPOINTS.GET_RECIPIENT_MAP + `/${id}`);
     },
   };
 }
