@@ -1642,6 +1642,56 @@ export type StatusVersion = {
 };
 
 /**
+ * Resource object as returned by Mailcow.
+ */
+export type Resource = {
+  /**
+   * Whether the resource is active ("1") or not ("0").
+   */
+  active: number | '1' | '0';
+  /**
+   * Description of the resource.
+   */
+  description: string;
+  /**
+   * Domain of the resource.
+   */
+  domain: string;
+  /**
+   * Type of resource (e.g., "location").
+   */
+  kind: string;
+  /**
+   * Local part of the resource email (before @).
+   */
+  local_part: string;
+  /**
+   * Whether multiple bookings are allowed (0 or 1).
+   */
+  multiple_bookings: number;
+  /**
+   * Full email address of the resource.
+   */
+  name: string;
+};
+
+/**
+ * Resource create request.
+ */
+export type CreateResourceRequest = Resource;
+
+/**
+ * Resource delete request
+ */
+export interface DeleteResourceRequest {
+  /**
+   * List of resource names to delete.
+   * see {@link Resource.name}
+   */
+  names: string[];
+}
+
+/**
  * Interface for a general Mailcow API response.
  *
  * This is used when the API call doesn't return any objects, i.e. POST requests.
