@@ -182,9 +182,9 @@ This wrapper acts as a middleman, so those changes can be patched internally wit
 
 ### Status
 
-- [ ] Get container status
-- [ ] Get solr status
-- [ ] Get vmail status
+- [x] Get container status
+- [x] Get version status
+- [x] Get vmail status
 
 ### Ratelimits
 

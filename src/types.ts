@@ -1565,6 +1565,83 @@ export interface Fail2Ban {
 export type Fail2BanResponse = Fail2Ban;
 
 /**
+ * Container state as reported by Mailcow.
+ */
+export type ContainerState = 'running' | 'stopped' | 'exited';
+
+/**
+ * Classification type for container information.
+ */
+export type ContainerType = 'info' | 'error' | 'warning';
+
+/**
+ * Status information for a single Mailcow container.
+ */
+export type ContainerStatus = {
+  /**
+   * Name of the Docker container.
+   */
+  container: string;
+  /**
+   * Docker image used by the container.
+   */
+  image: string;
+  /**
+   * ISO 8601 timestamp of when the container was started.
+   */
+  started_at: string;
+  /**
+   * Current state of the container.
+   */
+  state: ContainerState;
+  /**
+   * Type of message or classification.
+   */
+  type: ContainerType;
+};
+
+/**
+ * Mapping of container names to their status objects.
+ */
+export type StatusContainers = Record<string, ContainerStatus>;
+
+/**
+ * Status of the vmail volume and usage statistics.
+ */
+export type StatusVmail = {
+  /**
+   * Disk device used for vmail.
+   */
+  disk: string;
+  /**
+   * Total disk size.
+   */
+  total: string;
+  /**
+   * Used disk space.
+   */
+  used: string;
+  /**
+   * Percentage of used disk space.
+   */
+  used_percent: string;
+  /**
+   * Classification type for the vmail status.
+   */
+  type: ContainerType;
+};
+
+/**
+ * Current running Mailcow version.
+ */
+export type StatusVersion = {
+  /**
+   * Release version string.
+   */
+  version: string;
+};
+
+/**
  * Interface for a general Mailcow API response.
  *
  * This is used when the API call doesn't return any objects, i.e. POST requests.
