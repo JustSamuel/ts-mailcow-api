@@ -1,4 +1,4 @@
-import MailcowClient from "../src";
+import MailcowClient, { StatusContainers, StatusVersion, StatusVmail } from "../src";
 import { expect, assert } from "chai";
 import { describe } from "mocha";
 import {
@@ -241,5 +241,19 @@ describe("Fail2Ban Endpoint tests", (): void => {
 
   it('should get Fail2Ban', async () => {
     await thenTestOrFail(mcc.fail2Ban.get(), (res: Fail2BanResponse) => expect(res).to.exist);
+  });
+});
+
+describe("Status Endpoint tests", (): void => {
+  it('should get container status', async () => {
+    await thenTestOrFail(mcc.status.container(), (res: StatusContainers) => expect(res).to.exist);
+  });
+
+  it('should get vmail status', async () => {
+    await thenTestOrFail(mcc.status.vmail(), (res: StatusVmail) => expect(res).to.exist);
+  });
+
+  it('should get version status', async () => {
+    await thenTestOrFail(mcc.status.version(), (res: StatusVersion) => expect(res).to.exist);
   });
 });

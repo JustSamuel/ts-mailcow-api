@@ -13,6 +13,7 @@ import { forwardingEndpoints, ForwardingEndpoints } from './endpoints/forwarding
 import { logEndpoints, LogEndpoints } from './endpoints/log-endpoints';
 import { addressRewritingEndpoints, AdressRewritingEndpoints } from './endpoints/address-rewriting-endpoint';
 import { Fail2BanEndpoints, fail2BanEndpoints } from './endpoints/fail2ban-endpoints';
+import { StatusEndpoints, statusEndpoints } from './endpoints/status-endpoints';
 
 /**
  * Class containing all the logic to interface with the Mailcow API in TypeScript.
@@ -124,6 +125,13 @@ class MailcowClient {
    * @external
    */
   public fail2Ban: Fail2BanEndpoints = fail2BanEndpoints(this);
+
+  /**
+   * All endpoints related to status.
+   * See {@link StatusEndpoints}
+   * @external
+   */
+  public status: StatusEndpoints = statusEndpoints(this);
 }
 
 export default MailcowClient;
