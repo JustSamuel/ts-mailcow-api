@@ -472,3 +472,43 @@ describe("Domain Admin Endpoint tests", (): void => {
     await thenTestOrFail(mcc.domainAdmins.get('all'), (res: any[]) => expect(res).to.exist);
   });
 });
+
+describe("Routing Endpoint tests", (): void => {
+  it('should create a Relayhost', async () => {
+    await thenTestOrFail(mcc.routing.createRelayhost({
+      hostname: 'smtp.mailcow.email',
+      password: 'testhastobecomplex!@#123',
+      username: 'test',
+    }), isSucces);
+  });
+
+  it('should create a Transport Map', async () => {
+    await thenTestOrFail(mcc.routing.createTransportMap({
+      active: 1,
+      destination: '440044.xyz',
+      nexthop: 'smtp.mailcow.email',
+      password: 'testhastobecomplex!@#123',
+      username: 'test',
+    }), isSucces);
+  });
+
+  it('should delete Relayhosts', async () => {
+    await thenTestOrFail(mcc.routing.deleteRelayhost({
+      items: ['1'],
+    }), isSucces);
+  });
+
+  it('should delete Transport Maps', async () => {
+    await thenTestOrFail(mcc.routing.deleteTransportMap({
+      items: ['1'],
+    }), isSucces);
+  });
+
+  it('should get all Relayhosts', async () => {
+    await thenTestOrFail(mcc.routing.getRelayhost('all'), (res: any[]) => expect(res).to.exist);
+  });
+
+  it('should get all Transport Maps', async () => {
+    await thenTestOrFail(mcc.routing.getTransportMap('all'), (res: any[]) => expect(res).to.exist);
+  });
+});

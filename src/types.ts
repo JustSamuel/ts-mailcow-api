@@ -2297,6 +2297,151 @@ export interface DomainAdmin {
 }
 
 /**
+ * Request payload to create a Sender-Dependent Transport (Relayhost).
+ */
+export interface CreateRelayhostRequest {
+  /**
+   * The hostname of the SMTP server, including port.
+   */
+  hostname: string;
+
+  /**
+   * The password for the SMTP user.
+   */
+  password: string;
+
+  /**
+   * The username used to authenticate with the SMTP server.
+   */
+  username: string;
+}
+
+/**
+ * Request payload to create a Transport Map.
+ */
+export interface CreateTransportMapRequest {
+  /**
+   * Indicates if the transport map is active (1 for active, 0 for disabled).
+   */
+  active: number;
+
+  /**
+   * The destination domain for the transport map.
+   */
+  destination: string;
+
+  /**
+   * The next hop for the transport map.
+   */
+  nexthop: string;
+
+  /**
+   * The password for the SMTP user.
+   */
+  password: string;
+
+  /**
+   * The username used to authenticate with the SMTP server.
+   */
+  username: string;
+}
+
+/**
+ * Request payload to delete Sender-Dependent Transports or Transport Maps.
+ */
+export interface DeleteRoutingRequest {
+  /**
+   * List of IDs for the entries to delete.
+   */
+  items: string[];
+}
+
+/**
+ * Represents a Relayhost entry returned by the Mailcow API.
+ */
+export interface Relayhost {
+  /**
+   * Indicates if the relayhost is active.
+   */
+  active: string;
+
+  /**
+   * The hostname of the SMTP server, including port.
+   */
+  hostname: string;
+
+  /**
+   * Unique identifier of the relayhost entry.
+   */
+  id: number;
+
+  /**
+   * The SMTP user password.
+   */
+  password: string;
+
+  /**
+   * Shortened version of the password for display.
+   */
+  password_short: string;
+
+  /**
+   * Domains using this relayhost.
+   */
+  used_by_domains: string;
+
+  /**
+   * The username used to authenticate with the SMTP server.
+   */
+  username: string;
+}
+
+/**
+ * Represents a Transport Map entry returned by the Mailcow API.
+ */
+export interface TransportMap {
+  /**
+   * Indicates if the transport map is active.
+   */
+  active: string;
+
+  /**
+   * The destination domain for the transport map.
+   */
+  destination: string;
+
+  /**
+   * Unique identifier of the transport map entry.
+   */
+  id: number;
+
+  /**
+   * MX lookup status.
+   */
+  lookup_mx: string;
+
+  /**
+   * The next hop for the transport map.
+   */
+  nexthop: string;
+
+  /**
+   * The SMTP user password.
+   */
+  password: string;
+
+  /**
+   * Shortened version of the password for display.
+   */
+  password_short: string;
+
+  /**
+   * The username used to authenticate with the SMTP server.
+   */
+  username: string;
+}
+
+/**
  * Interface for a general Mailcow API response.
  *
  * This is used when the API call doesn't return any objects, i.e. POST requests.
