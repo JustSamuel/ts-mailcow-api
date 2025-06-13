@@ -24,16 +24,15 @@
   "homepage": "https://github.com/JustSamuel/ts-mailcow-api#readme",
   "author": "Samuel",
   "files": [
-    "src",
-    "dist",
-    "index.js"
+    "dist"
   ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "keywords": [
     "mailcow",
     "typescript",
     "API"
   ],
-  "typings": "./dist/index.d.ts",
   "license": "ISC",
   "devDependencies": {
     "@gewis/eslint-config-typescript": "^2.4.0",
