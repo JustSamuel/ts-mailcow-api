@@ -1722,6 +1722,65 @@ export interface QueueItem {
 }
 
 /**
+ * Represents a single quarantined email item returned by the Mailcow API.
+ */
+export interface QuarantineItem {
+  /**
+   * Timestamp when the email was quarantined.
+   */
+  created: number;
+
+  /**
+   * Unique identifier of the quarantined email item.
+   */
+  id: number;
+
+  /**
+   * Indicates whether a notification has been sent.
+   * 1 for yes, 0 for no.
+   */
+  notified: number;
+
+  /**
+   * Queue ID of the email.
+   */
+  qid: string;
+
+  /**
+   * Recipient email address.
+   */
+  rcpt: string;
+
+  /**
+   * Spam score of the email.
+   */
+  score: number;
+
+  /**
+   * Sender email address.
+   */
+  sender: string;
+
+  /**
+   * Subject of the quarantined email.
+   */
+  subject: string;
+
+  /**
+   * Flag indicating presence of a virus.
+   * 1 for yes, 0 for no.
+   */
+  virus_flag: number;
+}
+
+export interface DeleteQuarantineRequest {
+  /**
+   * An array of email IDs to delete from quarantine.
+   */
+  items: number[];
+}
+
+/**
  * Interface for a general Mailcow API response.
  *
  * This is used when the API call doesn't return any objects, i.e. POST requests.
