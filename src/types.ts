@@ -2172,6 +2172,131 @@ export interface DkimEntry {
 }
 
 /**
+ * Request payload to create a new Domain Admin.
+ */
+export interface CreateDomainAdminRequest {
+  /**
+   * Indicates if the domain admin account is active (1 for active, 0 for disabled).
+   */
+  active: number;
+
+  /**
+   * The domains that the user will have admin control over.
+   */
+  domains: string;
+
+  /**
+   * The password for the domain admin user.
+   */
+  password: string;
+
+  /**
+   * Confirmation for the domain admin user password.
+   */
+  password2: string;
+
+  /**
+   * The username for the admin user.
+   */
+  username: string;
+}
+
+/**
+ * Request payload to issue a Domain Admin SSO token.
+ */
+export interface IssueDomainAdminSsoTokenRequest {
+  /**
+   * The username of the domain admin user.
+   */
+  username: string;
+}
+
+/**
+ * Request payload to edit an existing Domain Admin user.
+ */
+export interface EditDomainAdminRequest {
+  /**
+   * Contains the username of the domain admin you want to edit.
+   */
+  items: string[];
+
+  /**
+   * Attributes to update for the domain admin user.
+   */
+  attr: {
+    /**
+     * Is the domain admin active or not.
+     */
+    active: ('1' | '0')[];
+
+    /**
+     * New username for the domain admin, if changing.
+     */
+    username_new: string;
+
+    /**
+     * List of domains managed by this domain admin.
+     */
+    domains: string[];
+
+    /**
+     * New password for the domain admin user.
+     */
+    password: string;
+
+    /**
+     * New password confirmation for the domain admin user.
+     */
+    password2: string;
+  };
+}
+
+/**
+ * Request payload to delete one or more Domain Admin users.
+ */
+export interface DeleteDomainAdminRequest {
+  /**
+   * List of usernames of the domain admin users you want to delete.
+   */
+  items: string[];
+}
+
+/**
+ * Represents a Domain Admin entry returned by the Mailcow API.
+ */
+export interface DomainAdmin {
+  /**
+   * String indicating if the domain admin is active ("1" for yes, "0" for no).
+   */
+  active: string;
+
+  /**
+   * Creation timestamp of the domain admin entry.
+   */
+  created: string;
+
+  /**
+   * List of domains selected for this domain admin.
+   */
+  selected_domains: string[];
+
+  /**
+   * Indicates if two-factor authentication is active ("1" for yes, "0" for no).
+   */
+  tfa_active: string;
+
+  /**
+   * List of domains not selected for this domain admin.
+   */
+  unselected_domains: string[];
+
+  /**
+   * Username of the domain admin.
+   */
+  username: string;
+}
+
+/**
  * Interface for a general Mailcow API response.
  *
  * This is used when the API call doesn't return any objects, i.e. POST requests.

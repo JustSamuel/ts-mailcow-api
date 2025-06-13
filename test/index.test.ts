@@ -431,3 +431,44 @@ describe("DKIM Endpoint tests", (): void => {
     await thenTestOrFail(mcc.dkim.get('440044.xyz'), (res: any[]) => expect(res).to.exist);
   });
 });
+
+describe("Domain Admin Endpoint tests", (): void => {
+  it('should create a Domain Admin', async () => {
+    await thenTestOrFail(mcc.domainAdmins.create({
+      active: 1,
+      domains: '440044.xyz',
+      password: 'testhastobecomplex!@#123',
+      password2: 'testhastobecomplex!@#123',
+      username: 'test',
+    }), isSucces);
+  });
+
+  it('should issue a Domain Admin SSO token', async () => {
+    await thenTestOrFail(mcc.domainAdmins.issueSsoToken({
+      username: 'test',
+    }), (res: any[]) => expect(res).to.exist);
+  });
+
+  it('should edit a Domain Admin', async () => {
+    await thenTestOrFail(mcc.domainAdmins.edit({
+      items: ['test@440044.xyz'],
+      attr: {
+        active: ["1"],
+        username_new: 'test2',
+        domains: ['440044.xyz'],
+        password: 'testhastobecomplex!@#123',
+        password2: 'testhastobecomplex!@#123',
+      },
+    }), isSucces);
+  });
+
+  it('should delete Domain Admins', async () => {
+    await thenTestOrFail(mcc.domainAdmins.delete({
+      items: ['test'],
+    }), isSucces);
+  });
+
+  it('should get all Domain Admins', async () => {
+    await thenTestOrFail(mcc.domainAdmins.get('all'), (res: any[]) => expect(res).to.exist);
+  });
+});
