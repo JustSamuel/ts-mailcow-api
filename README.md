@@ -176,9 +176,9 @@ This wrapper acts as a middleman, so those changes can be patched internally wit
 
 ### App Passwords
 
-- [ ] Create App Passwords
-- [ ] Delete App Passwords
-- [ ] Get App Passwords
+- [x] Create App Passwords
+- [x] Delete App Passwords
+- [x] Get App Passwords
 
 ### Status
 

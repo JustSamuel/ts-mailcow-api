@@ -3,10 +3,9 @@ import {
   DeleteOAuthClientRequest,
   GetOAuthClientRequest,
   MailcowResponse,
-  OAuthClient
+  OAuthClient,
 } from '../types';
 import MailcowClient from '../index';
-
 
 /**
  * Interface for all OAuth2 Client endpoints related to email handling in Mailcow.
@@ -48,21 +47,13 @@ const OAUTH2_ENDPOINTS = {
 export function oauth2Endpoints(bind: MailcowClient): OAuth2Endpoints {
   return {
     add(payload: AddOAuthClientRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse, AddOAuthClientRequest>(
-        OAUTH2_ENDPOINTS.ADD,
-        payload
-      );
+      return bind.requestFactory.post<MailcowResponse, AddOAuthClientRequest>(OAUTH2_ENDPOINTS.ADD, payload);
     },
     delete(payload: DeleteOAuthClientRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse, string[]>(
-        OAUTH2_ENDPOINTS.DELETE,
-        payload.items
-      );
+      return bind.requestFactory.post<MailcowResponse, string[]>(OAUTH2_ENDPOINTS.DELETE, payload.items);
     },
     get(payload: GetOAuthClientRequest): Promise<OAuthClient[]> {
-      return bind.requestFactory.get<OAuthClient[]>(
-        `${OAUTH2_ENDPOINTS.GET}${payload.id}`
-      );
+      return bind.requestFactory.get<OAuthClient[]>(`${OAUTH2_ENDPOINTS.GET}${payload.id}`);
     },
   };
 }

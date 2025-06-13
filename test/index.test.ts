@@ -361,3 +361,32 @@ describe("OAuth2 Client Endpoint tests", (): void => {
     }), (res: any[]) => expect(res).to.exist);
   });
 });
+
+describe("Get mailboxes Endpoint tests", (): void => {
+  it('should get all mailboxes', async () => {
+    await thenTestOrFail(mcc.mailbox.get('all'), (res: any[]) => expect(res).to.exist);
+  });
+});
+
+describe("App Password Endpoint tests", (): void => {
+  it('should add an app password', async () => {
+    await thenTestOrFail(mcc.appPasswords.add({
+      active: true,
+      username: 'demo@440044.xyz',
+      app_name: 'test',
+      app_passwd: 'test',
+      app_passwd2: 'test',
+      protocols: ['imap', 'pop3'],
+    }), isSucces);
+  });
+
+  it('should delete an app password', async () => {
+    await thenTestOrFail(mcc.appPasswords.delete({
+      items: ['1'],
+    }), isSucces);
+  });
+
+  it('should get app passwords', async () => {
+    await thenTestOrFail(mcc.appPasswords.get('1'), (res: any[]) => expect(res).to.exist);
+  });
+});
