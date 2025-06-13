@@ -281,3 +281,17 @@ describe("Resource Endpoint tests", (): void => {
     await thenTestOrFail(mcc.resources.get(), (res: Resource[]) => expect(res).to.exist);
   });
 });
+
+describe("Queue Manager Endpoint tests", (): void => {
+  it('should delete the mail queue', async () => {
+    await thenTestOrFail(mcc.queueManager.delete('super_delete'), isSucces);
+  });
+
+  it('should get the mail queue', async () => {
+    await thenTestOrFail(mcc.queueManager.get(), (res: any[]) => expect(res).to.exist);
+  });
+
+  it('should flush the mail queue', async () => {
+    await thenTestOrFail(mcc.queueManager.flush('flush'), isSucces);
+  });
+});

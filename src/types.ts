@@ -1692,6 +1692,36 @@ export interface DeleteResourceRequest {
 }
 
 /**
+ * Queue item representation for mail in the queue.
+ */
+export interface QueueItem {
+  /**
+   * Arrival time of mail in epoch.
+   */
+  arrival_time: number;
+  /**
+   * Size of the message in bytes.
+   */
+  message_size: number;
+  /**
+   * The queue id.
+   */
+  queue_id: string;
+  /**
+   * The queue item queue name.
+   */
+  queue_name: string;
+  /**
+   * The recipients of the mail.
+   */
+  recipients: string[];
+  /**
+   * The sender of the mail.
+   */
+  sender: string;
+}
+
+/**
  * Interface for a general Mailcow API response.
  *
  * This is used when the API call doesn't return any objects, i.e. POST requests.
