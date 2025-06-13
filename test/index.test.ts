@@ -307,3 +307,37 @@ describe("Quarantine Endpoint tests", (): void => {
     await thenTestOrFail(mcc.quarantine.get(), (res: any[]) => expect(res).to.exist);
   });
 });
+
+describe("Ratelimit Endpoint tests", (): void => {
+  it('should edit domain ratelimits', async () => {
+    await thenTestOrFail(mcc.ratelimits.editDomain({
+      attr: {
+        rl_frame: 'h',
+        rl_value: 10,
+      },
+      items: ['440044.xyz'],
+    }), isSucces);
+  });
+
+  it('should edit mailbox ratelimits', async () => {
+    await thenTestOrFail(mcc.ratelimits.editMailbox({
+      attr: {
+        rl_frame: 'h',
+        rl_value: 10,
+      },
+      items: ['test@440044.xyz'],
+    }), isSucces);
+  });
+
+  it('should get domain ratelimits', async () => {
+    await thenTestOrFail(mcc.ratelimits.getDomain('440044.xyz'), (res: any[]) => expect(res).to.exist);
+  });
+
+  it('should get all domain ratelimits', async () => {
+    await thenTestOrFail(mcc.ratelimits.getDomain('all'), (res: any[]) => expect(res).to.exist);
+  });
+
+  it('should get mailbox ratelimits', async () => {
+    await thenTestOrFail(mcc.ratelimits.getMailbox('test@440044.xyz'), (res: any[]) => expect(res).to.exist);
+  });
+});

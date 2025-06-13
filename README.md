@@ -188,7 +188,7 @@ This wrapper acts as a middleman, so those changes can be patched internally wit
 
 ### Ratelimits
 
-- [ ] Get mailbox ratelimits
-- [ ] Get domain ratelimits
-- [ ] Edit domain ratelimits
-- [ ] Edit mailbox ratelimits
+- [x] Get mailbox ratelimits
+- [x] Get domain ratelimits
+- [x] Edit domain ratelimits
+- [x] Edit mailbox ratelimits

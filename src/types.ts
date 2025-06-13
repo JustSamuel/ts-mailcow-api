@@ -1781,6 +1781,90 @@ export interface DeleteQuarantineRequest {
 }
 
 /**
+ * Request payload to edit rate limits for specified domains.
+ */
+export interface EditDomainRequest {
+  attr: {
+    /**
+     * Frame for the rate limit (e.g., 'h', 's', 'm').
+     */
+    rl_frame: string;
+
+    /**
+     * Rate limit value.
+     */
+    rl_value: number;
+  };
+
+  /**
+   * List of domain names to edit rate limits for.
+   */
+  items: string[];
+}
+
+/**
+ * Request payload to edit rate limits for specified mailboxes.
+ */
+export interface EditMailboxRequest {
+  attr: {
+    /**
+     * Frame for the rate limit (e.g., 'h', 's', 'm').
+     */
+    rl_frame: string;
+
+    /**
+     * Rate limit value.
+     */
+    rl_value: number;
+  };
+
+  /**
+   * List of mailbox names to edit rate limits for.
+   */
+  items: string[];
+}
+
+/**
+ * Represents the rate limit settings for a domain.
+ */
+export interface DomainRatelimit {
+  /**
+   * Rate limit frame, e.g., 's', 'm', 'h'.
+   */
+  frame: string;
+
+  /**
+   * The domain associated with this rate limit.
+   */
+  domain: string;
+
+  /**
+   * The rate limit value.
+   */
+  value: string;
+}
+
+/**
+ * Represents the rate limit settings for a mailbox.
+ */
+export interface MailboxRatelimit {
+  /**
+   * Rate limit frame, e.g., 's', 'm', 'h'.
+   */
+  frame: string;
+
+  /**
+   * The mailbox associated with this rate limit.
+   */
+  mailbox: string;
+
+  /**
+   * The rate limit value.
+   */
+  value: string;
+}
+
+/**
  * Interface for a general Mailcow API response.
  *
  * This is used when the API call doesn't return any objects, i.e. POST requests.
