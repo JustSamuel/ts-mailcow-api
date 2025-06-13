@@ -15,6 +15,7 @@ import { addressRewritingEndpoints, AdressRewritingEndpoints } from './endpoints
 import { Fail2BanEndpoints, fail2BanEndpoints } from './endpoints/fail2ban-endpoints';
 import { StatusEndpoints, statusEndpoints } from './endpoints/status-endpoints';
 import { ResourceEndpoints, resourceEndpoints } from './endpoints/resource-endpoints';
+import { QueueManagerEndpoints, queueManagerEndpoints } from './endpoints/queue-manager-endpoints';
 
 /**
  * Class containing all the logic to interface with the Mailcow API in TypeScript.
@@ -140,6 +141,13 @@ class MailcowClient {
    * @external
    */
   public resources: ResourceEndpoints = resourceEndpoints(this);
+
+  /**
+   * All endpoints related to the mail queue.
+   * See {@link QueueManagerEndpoints}
+   * @external
+   */
+  public queueManager: QueueManagerEndpoints = queueManagerEndpoints(this);
 }
 
 export default MailcowClient;

@@ -118,9 +118,9 @@ This wrapper acts as a middleman, so those changes can be patched internally wit
 
 ### Queue Manager
 
-- [ ] Delete Queue
-- [ ] Flush Queue
-- [ ] Get Queue
+- [x] Delete Queue
+- [x] Flush Queue
+- [x] Get Queue
 
 ### Quarantine
 
