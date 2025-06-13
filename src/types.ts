@@ -1935,6 +1935,91 @@ export interface OAuthClient {
 }
 
 /**
+ * Request payload to add a new app password.
+ */
+export interface AddAppPasswordRequest {
+  /**
+   * Indicates if the app password is active.
+   */
+  active: boolean;
+
+  /**
+   * Mailbox for which the app password should be created.
+   */
+  username: string;
+
+  /**
+   * Name of your app password.
+   */
+  app_name: string;
+
+  /**
+   * Your app password.
+   */
+  app_passwd: string;
+
+  /**
+   * Confirmation of your app password.
+   */
+  app_passwd2: string;
+
+  /**
+   * List of protocols this app password has access to.
+   */
+  protocols: string[];
+}
+
+/**
+ * Request payload to delete one or more app passwords.
+ */
+export interface DeleteAppPasswordRequest {
+  /**
+   * List of app password IDs you want to delete.
+   */
+  items: string[];
+}
+
+/**
+ * Represents an app password returned by the Mailcow API.
+ */
+export interface AppPassword {
+  /**
+   * String indicating if the app password is active ("1" for yes, "0" for no).
+   */
+  active: string;
+
+  /**
+   * Creation timestamp of the app password.
+   */
+  created: string;
+
+  /**
+   * Domain associated with the app password.
+   */
+  domain: string;
+
+  /**
+   * Unique identifier of the app password.
+   */
+  id: number;
+
+  /**
+   * Mailbox associated with the app password.
+   */
+  mailbox: string;
+
+  /**
+   * Last modified timestamp, or null if it was never modified.
+   */
+  modified: string | null;
+
+  /**
+   * Name of the app associated with this password.
+   */
+  name: string;
+}
+
+/**
  * Interface for a general Mailcow API response.
  *
  * This is used when the API call doesn't return any objects, i.e. POST requests.
