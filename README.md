@@ -141,11 +141,11 @@ This wrapper acts as a middleman, so those changes can be patched internally wit
 
 ### Domain Admin
 
-- [ ] Create Domain Admin user
-- [ ] Edit Domain Admin ACL
-- [ ] Edit Domain Admin user
-- [ ] Delete Domain Admin
-- [ ] Get Domain Admins
+- [x] Create Domain Admin user
+- [x] Edit Domain Admin ACL
+- [x] Edit Domain Admin user
+- [x] Delete Domain Admin
+- [x] Get Domain Admins
 
 ### Outgoing TLS Policy Map Overrides
 
