@@ -390,3 +390,24 @@ describe("App Password Endpoint tests", (): void => {
     await thenTestOrFail(mcc.appPasswords.get('1'), (res: any[]) => expect(res).to.exist);
   });
 });
+
+describe("TLS Policy Map Endpoint tests", (): void => {
+  it('should add a TLS Policy Map', async () => {
+    await thenTestOrFail(mcc.tlsPolicyMaps.add({
+      parameters: '',
+      active: 1,
+      dest: 'demo@440044.xyz',
+      policy: 'may',
+    }), isSucces);
+  });
+
+  it('should delete TLS Policy Maps', async () => {
+    await thenTestOrFail(mcc.tlsPolicyMaps.delete({
+      items: ['1'],
+    }), isSucces);
+  });
+
+  it('should get TLS Policy Maps', async () => {
+    await thenTestOrFail(mcc.tlsPolicyMaps.get('1'), (res: any[]) => expect(res).to.exist);
+  });
+});

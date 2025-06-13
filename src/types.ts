@@ -2020,6 +2020,83 @@ export interface AppPassword {
 }
 
 /**
+ * Request payload to add a new TLS Policy Map.
+ */
+export interface AddTlsPolicyMapRequest {
+  /**
+   * Custom parameters for the TLS policy.
+   * Consult [Postfix documentation](http://www.postfix.org/postconf.5.html#smtp_tls_policy_maps) for more info.
+   */
+  parameters: string;
+
+  /**
+   * Indicates if the TLS policy map entry is active (1 for active, 0 for disabled).
+   */
+  active: number;
+
+  /**
+   * The target domain or email address for the TLS policy.
+   */
+  dest: string;
+
+  /**
+   * The policy applied to the target domain or email.
+   * Possible values: 'none', 'may', 'encrypt', 'dane', "'dane", 'fingerprint', 'verify', 'secure'.
+   */
+  policy: string;
+}
+
+/**
+ * Request payload to delete one or more TLS Policy Maps.
+ */
+export interface DeleteTlsPolicyMapRequest {
+  /**
+   * List of TLS policy map IDs you want to delete.
+   */
+  items: string[];
+}
+
+/**
+ * Represents a TLS Policy Map entry returned by the Mailcow API.
+ */
+export interface TlsPolicyMap {
+  /**
+   * Custom parameters for the TLS policy.
+   */
+  parameters: string;
+
+  /**
+   * Indicates if the TLS policy map entry is active ("1" for yes, "0" for no).
+   */
+  active: string;
+
+  /**
+   * Creation timestamp of the TLS policy map entry.
+   */
+  created: string;
+
+  /**
+   * The target domain or email address for the TLS policy.
+   */
+  dest: string;
+
+  /**
+   * Unique identifier of the TLS policy map entry.
+   */
+  id: number;
+
+  /**
+   * Last modified timestamp, or null if never modified.
+   */
+  modified: string | null;
+
+  /**
+   * The policy applied to the target domain or email.
+   */
+  policy: string;
+}
+
+/**
  * Interface for a general Mailcow API response.
  *
  * This is used when the API call doesn't return any objects, i.e. POST requests.

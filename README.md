@@ -149,9 +149,9 @@ This wrapper acts as a middleman, so those changes can be patched internally wit
 
 ### Outgoing TLS Policy Map Overrides
 
-- [ ] Create TLS Policy Map
-- [ ] Delete TLS Policy Map
-- [ ] Get TLS Policy Map
+- [x] Create TLS Policy Map
+- [x] Delete TLS Policy Map
+- [x] Get TLS Policy Map
 
 ### oAuth Clients
 
