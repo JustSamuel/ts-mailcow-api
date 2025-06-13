@@ -2097,6 +2097,81 @@ export interface TlsPolicyMap {
 }
 
 /**
+ * Request payload to generate new DKIM keys.
+ */
+export interface CreateDkimRequest {
+  /**
+   * The DKIM selector, typically 'dkim'.
+   */
+  dkim_selector: string;
+
+  /**
+   * The domains for which DKIM keys should be generated.
+   */
+  domains: string;
+
+  /**
+   * Key size for the DKIM key (1024, 2048, 3072, or 4096).
+   */
+  key_size: number;
+}
+
+/**
+ * Request payload to duplicate a DKIM key from one domain to another.
+ */
+export interface DuplicateDkimRequest {
+  /**
+   * The domain from which the DKIM key should be copied.
+   */
+  from_domain: string;
+
+  /**
+   * The domain to which the DKIM key should be copied.
+   */
+  to_domain: string;
+}
+
+/**
+ * Request payload to delete DKIM keys for specified domains.
+ */
+export interface DeleteDkimRequest {
+  /**
+   * List of domains for which DKIM keys should be deleted.
+   */
+  items: string[];
+}
+
+/**
+ * Represents a DKIM entry returned by the Mailcow API.
+ */
+export interface DkimEntry {
+  /**
+   * The DKIM selector used.
+   */
+  dkim_selector: string;
+
+  /**
+   * The DKIM TXT record value.
+   */
+  dkim_txt: string;
+
+  /**
+   * The length of the DKIM key.
+   */
+  length: string;
+
+  /**
+   * The private key associated with the DKIM entry.
+   */
+  privkey: string;
+
+  /**
+   * The public key associated with the DKIM entry.
+   */
+  pubkey: string;
+}
+
+/**
  * Interface for a general Mailcow API response.
  *
  * This is used when the API call doesn't return any objects, i.e. POST requests.

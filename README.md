@@ -134,10 +134,10 @@ This wrapper acts as a middleman, so those changes can be patched internally wit
 
 ### DKIM
 
-- [ ] Generate DKIM key
-- [ ] Duplicate DKIM key
-- [ ] Delete DKIM key
-- [ ] Get DKIM key
+- [x] Generate DKIM key
+- [x] Duplicate DKIM keyu
+- [x] Delete DKIM key
+- [x] Get DKIM key
 
 ### Domain Admin
 

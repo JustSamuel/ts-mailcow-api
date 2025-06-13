@@ -411,3 +411,23 @@ describe("TLS Policy Map Endpoint tests", (): void => {
     await thenTestOrFail(mcc.tlsPolicyMaps.get('1'), (res: any[]) => expect(res).to.exist);
   });
 });
+
+describe("DKIM Endpoint tests", (): void => {
+  it('should generate DKIM keys', async () => {
+    await thenTestOrFail(mcc.dkim.create({
+      dkim_selector: 'dkim',
+      domains: '440044.xyz',
+      key_size: 2048,
+    }), isSucces);
+  });
+
+  it('should delete DKIM keys', async () => {
+    await thenTestOrFail(mcc.dkim.delete({
+      items: ['440044.xyz'],
+    }), isSucces);
+  });
+
+  it('should get DKIM keys', async () => {
+    await thenTestOrFail(mcc.dkim.get('440044.xyz'), (res: any[]) => expect(res).to.exist);
+  });
+});
