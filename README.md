@@ -170,9 +170,9 @@ This wrapper acts as a middleman, so those changes can be patched internally wit
 
 ### Resources
 
-- [ ] Create Resources
-- [ ] Delete Resources
-- [ ] Get Resources
+- [x] Create Resources
+- [x] Delete Resources
+- [x] Get Resources
 
 ### App Passwords
 

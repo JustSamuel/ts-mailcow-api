@@ -1,4 +1,4 @@
-import MailcowClient, { StatusContainers, StatusVersion, StatusVmail } from "../src";
+import MailcowClient, { Resource, StatusContainers, StatusVersion, StatusVmail } from "../src";
 import { expect, assert } from "chai";
 import { describe } from "mocha";
 import {
@@ -255,5 +255,29 @@ describe("Status Endpoint tests", (): void => {
 
   it('should get version status', async () => {
     await thenTestOrFail(mcc.status.version(), (res: StatusVersion) => expect(res).to.exist);
+  });
+});
+
+describe("Resource Endpoint tests", (): void => {
+  it('should create a resource', async () => {
+    await thenTestOrFail(mcc.resources.create({
+      active: 1,
+      description: "test",
+      domain: "440044.xyz",
+      kind: "location",
+      local_part: "test",
+      multiple_bookings: 0,
+      name: "test@440044.xyz",
+    }), isSucces);
+  });
+
+  it('should delete a resource', async () => {
+    await thenTestOrFail(mcc.resources.delete({
+      names: ['test@440044.xyz'],
+    }), isSucces);
+  });
+
+  it('should get all resources', async () => {
+    await thenTestOrFail(mcc.resources.get(), (res: Resource[]) => expect(res).to.exist);
   });
 });

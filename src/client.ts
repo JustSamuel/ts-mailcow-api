@@ -14,6 +14,7 @@ import { logEndpoints, LogEndpoints } from './endpoints/log-endpoints';
 import { addressRewritingEndpoints, AdressRewritingEndpoints } from './endpoints/address-rewriting-endpoint';
 import { Fail2BanEndpoints, fail2BanEndpoints } from './endpoints/fail2ban-endpoints';
 import { StatusEndpoints, statusEndpoints } from './endpoints/status-endpoints';
+import { ResourceEndpoints, resourceEndpoints } from './endpoints/resource-endpoints';
 
 /**
  * Class containing all the logic to interface with the Mailcow API in TypeScript.
@@ -132,6 +133,13 @@ class MailcowClient {
    * @external
    */
   public status: StatusEndpoints = statusEndpoints(this);
+
+  /**
+   * All endpoints related to resources.
+   * See {@link ResourceEndpoints}
+   * @external
+   */
+  public resources: ResourceEndpoints = resourceEndpoints(this);
 }
 
 export default MailcowClient;
