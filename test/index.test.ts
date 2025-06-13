@@ -341,3 +341,23 @@ describe("Ratelimit Endpoint tests", (): void => {
     await thenTestOrFail(mcc.ratelimits.getMailbox('test@440044.xyz'), (res: any[]) => expect(res).to.exist);
   });
 });
+
+describe("OAuth2 Client Endpoint tests", (): void => {
+  it('should add an OAuth client', async () => {
+    await thenTestOrFail(mcc.oauth2.add({
+      redirect_uri: 'https://example.com/callback',
+    }), isSucces);
+  });
+
+  it('should delete an OAuth client', async () => {
+    await thenTestOrFail(mcc.oauth2.delete({
+      items: ['1'],
+    }), isSucces);
+  });
+
+  it('should get an OAuth client', async () => {
+    await thenTestOrFail(mcc.oauth2.get({
+      id: 'all',
+    }), (res: any[]) => expect(res).to.exist);
+  });
+});
