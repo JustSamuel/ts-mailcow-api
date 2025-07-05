@@ -7,8 +7,8 @@ import {
   MailcowResponse,
   Syncjob,
   SyncjobAttributes, SyncjobEditAttributes
-} from "../src/types";
-import { AliasEditAttributes } from "../src/types";
+} from "../src";
+import { AliasEditAttributes } from "../src";
 import * as https from "node:https";
 
 const mcc: MailcowClient = new MailcowClient(
@@ -27,7 +27,6 @@ function isSucces(res: MailcowResponse) {
 async function thenTestOrFail(promise: Promise<any>, test: Function, fatal = false): Promise<void> {
   await promise
     .then((res: any) => {
-      console.log(JSON.stringify(res, null, 4));
       test(res);
     })
     .catch((err) => {
@@ -44,7 +43,14 @@ describe("Alias Endpoint tests", (): void => {
     await thenTestOrFail(mcc.aliases.get(), (res: Alias[]) => expect(res).to.be.length.least(1), true)
   });
   it('should get a single alias', async () => {
-    await thenTestOrFail(mcc.aliases.get(8), (res: Alias[]) => expect(res).to.be.length.least(1), true)
+    let id: number;
+    await mcc.aliases.get().then((res: Alias[]) => {
+      id = res[0].id
+    })
+
+    await thenTestOrFail(mcc.aliases.get(id), (res: Alias[]) => {
+      expect(res).to.be.length.least(1)
+    }, true)
   });
   describe("Modify aliases", (): void => {
     const attr: AliasPostRequest = {
