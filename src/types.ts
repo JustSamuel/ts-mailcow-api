@@ -323,6 +323,10 @@ export interface BaseMailboxAttributes {
    * The mailbox quota.
    */
   quota: number;
+  /**
+   * The authentication source for this mailbox.
+   */
+  authsource: 'mailcow' | 'ldap' | 'keycloack' | 'generic-oidc';
 }
 
 /**
