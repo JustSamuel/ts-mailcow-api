@@ -326,7 +326,7 @@ export interface BaseMailboxAttributes {
   /**
    * The authentication source for this mailbox.
    */
-  authsource: 'mailcow' | 'ldap' | 'keycloack' | 'generic-oidc';
+  authsource: 'mailcow' | 'ldap' | 'keycloak' | 'generic-oidc';
 }
 
 /**
