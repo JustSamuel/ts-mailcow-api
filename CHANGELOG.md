@@ -16,7 +16,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   could not be imported from `ts-mailcow-api`.
 - `CLAUDE.md` with conventions for future contributors.
 - `.github/workflows/release.yml` -- manual `workflow_dispatch` publish to
-  npm, replacing the local `postpublish` git-tag dance.
+  npm via OIDC trusted publishing (no `NPM_TOKEN` needed, with provenance),
+  replacing the local `postpublish` git-tag dance.
 - `.github/workflows/codeql.yml` -- weekly CodeQL scan.
 
 ### Changed
