@@ -1,17 +1,20 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
-    directories:
-      - "."
+    directory: "/"
     schedule:
       interval: "weekly"
-    target-branch: "develop"
-    assignees:
+    reviewers:
       - "JustSamuel"
+    open-pull-requests-limit: 15
+    cooldown:
+      default-days: 7
+      semver-major-days: 14
+      semver-minor-days: 7
+      semver-patch-days: 3
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
-    open-pull-requests-limit: 15
     groups:
       development_minors_and_patches:
         dependency-type: "development"
@@ -22,3 +25,16 @@ updates:
         dependency-type: "production"
         update-types:
           - "patch"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    reviewers:
+      - "JustSamuel"
+    cooldown:
+      default-days: 7
+    groups:
+      actions:
+        patterns:
+          - "*"
