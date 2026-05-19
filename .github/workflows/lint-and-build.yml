@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-and-lint:
-    uses: GEWIS/actions/.github/workflows/lint-and-build-yarn.yml@v1
+    uses: GEWIS/actions/.github/workflows/lint-and-build-yarn.yml@v1.12.8
     with:
       node-version: "22.x"
       lint: true
