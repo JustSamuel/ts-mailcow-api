@@ -21,7 +21,10 @@ contract.
   "2XX response with error-typed body" handling: see `checkMailcowResponse`.
   `wrapPromiseToArray` is exported for endpoints whose Mailcow response is
   `T | T[]` and should be normalised to `T[]`.
-- `test/index.test.ts` -- live smoke tests against `demo.mailcow.email`.
+- `test/smoke.test.ts` -- live smoke tests against `demo.mailcow.email`,
+  gated behind `MAILCOW_E2E=1`.
+- `test/request-factory.test.ts` and `test/endpoints.test.ts` -- unit
+  tests against mocked axios; run by default with `yarn test`.
 
 ## Adding an endpoint
 
@@ -34,8 +37,12 @@ contract.
 - `yarn lint` -- ESLint.
 - `yarn format` / `yarn format:fix` -- Prettier check / write.
 - `yarn build` -- TypeScript compile to `dist/`.
-- `yarn test` -- runs the live smoke suite against the public demo. Most
-  assertions are non-fatal warnings, not hard failures.
+- `yarn test` -- unit tests (request-factory, endpoints) against mocked
+  axios. Fast; safe to run in CI. The live smoke suite in `smoke.test.ts`
+  is gated behind `MAILCOW_E2E=1` and is skipped by default.
+- `yarn test:smoke` -- runs the live suite against `demo.mailcow.email`.
+  Slow, shares state with anyone else hitting the demo, and most
+  assertions are non-fatal warnings rather than hard failures.
 - `yarn docs` -- regenerate TypeDoc into `docs/` (deployed to GitHub Pages
   on every push to master).
 
