@@ -4,6 +4,35 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0]
+
+### Added
+- Unit tests for `RequestFactory` and a representative set of endpoints,
+  running against a mocked axios. `yarn test` now runs these in milliseconds
+  instead of hitting the public demo.
+- `yarn test:smoke` script to run the live suite against
+  `demo.mailcow.email` when explicitly requested.
+
+### Changed
+- `tsconfig.json` -> `strictNullChecks: true`. Surfaced one real issue
+  (see Fixed).
+- `MailcowException` now has an explicit constructor that calls
+  `super(message)` and sets `this.name = 'MailcowException'`. Previously
+  the class redeclared `message: string` without an initializer and
+  relied on `Error`'s inherited constructor; this tripped the new
+  `strictNullChecks` pass and also meant `err.name` was `'Error'` instead
+  of `'MailcowException'`.
+- Live tests moved from `test/index.test.ts` to `test/smoke.test.ts` and
+  gated behind `MAILCOW_E2E=1`. The `isSucces` typo in that file is
+  also fixed.
+
+### Fixed
+- `RequestFactory.post`/`.get` were previously not unit-tested. The new
+  suite confirms: 2XX bodies with `type: "danger"` or `type: "error"`
+  throw `MailcowException`; axios errors with a Mailcow-shaped response
+  are unwrapped; axios errors without one fall through to a generic
+  `MailcowException`; non-axios errors rethrow untouched.
+
 ## [1.3.0]
 
 ### Added
@@ -72,6 +101,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Add status endpoints.
 - Move `/api/v1` out of the client into the user-supplied base URL.
 
+[1.4.0]: https://github.com/JustSamuel/ts-mailcow-api/releases/tag/v1.4.0
 [1.3.0]: https://github.com/JustSamuel/ts-mailcow-api/releases/tag/v1.3.0
 [1.2.0]: https://github.com/JustSamuel/ts-mailcow-api/releases/tag/v1.2.0
 [1.1.0]: https://github.com/JustSamuel/ts-mailcow-api/releases/tag/v1.1.0
