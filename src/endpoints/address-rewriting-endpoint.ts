@@ -9,7 +9,7 @@ import {
   MailcowResponse,
 } from '../types';
 
-export interface AdressRewritingEndpoints {
+export interface AddressRewritingEndpoints {
   /**
    * Endpoint for creating a bcc map.
    * @param payload - The creation payload.
@@ -51,7 +51,12 @@ const ADDRESS_REWRITING_ENDPOINTS = {
   GET_RECIPIENT_MAP: 'get/recipient_map',
 };
 
-export function addressRewritingEndpoints(bind: MailcowClient): AdressRewritingEndpoints {
+/**
+ * @deprecated Misspelling. Use {@link AddressRewritingEndpoints} instead. Will be removed in 2.0.0.
+ */
+export type AdressRewritingEndpoints = AddressRewritingEndpoints;
+
+export function addressRewritingEndpoints(bind: MailcowClient): AddressRewritingEndpoints {
   return {
     addBccMap(payload: AddBccMapRequest): Promise<MailcowResponse> {
       return bind.requestFactory.post<MailcowResponse, AddBccMapRequest>(
