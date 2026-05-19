@@ -1,19 +1,11 @@
 {
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "src/test.ts"],
-  "typedocOptions": {
-    "entryPoints": ["src/"],
-    "excludeNotDocumented": false,
-    "excludeInternal": true,
-    "excludeExternals": false,
-    "excludeProtected": false,
-    "out": "docs"
-  },
+  "exclude": ["node_modules", "dist"],
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "./src/",
     "module": "CommonJS",
-    "target": "es2015",
+    "target": "ES2022",
     "sourceMap": true,
     "allowJs": true,
     "declaration": true,
