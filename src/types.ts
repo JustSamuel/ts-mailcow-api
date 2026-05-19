@@ -1468,10 +1468,10 @@ export type GetRecipientMapResponse = RecipientMap[];
  * Error class used for exception handling.
  */
 export class MailcowException extends Error {
-  /**
-   * The error message provided by Mailcow.
-   */
-  message: string;
+  constructor(message?: string, options?: ErrorOptions) {
+    super(message, options);
+    this.name = 'MailcowException';
+  }
 }
 
 /**
