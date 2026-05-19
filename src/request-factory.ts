@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { BaseResponse, MailcowException, MailcowResponse } from './types';
 import MailcowClient from './index';
 
@@ -33,7 +33,6 @@ function isErrorType(type: string | undefined): boolean {
  * Throws a MailcowException if a definite error is detected.
  */
 function checkMailcowResponse(res: MailcowResponse | BaseResponse): void {
-  // Accepts either a single object or an array
   const arr = Array.isArray(res) ? res : [res];
   for (const item of arr) {
     if (isErrorType(item.type)) {
@@ -54,21 +53,19 @@ export default class RequestFactory {
   }
 
   /**
-   * POST Request Factory
-   * @param route - The route to which to send the request.
-   * @param payload - The payload to send with the request.
+   * Executes a request and applies Mailcow-specific error handling: a 2XX
+   * response with `type: 'danger'` or `type: 'error'` is converted into a
+   * MailcowException, and an axios error whose response body looks like a
+   * Mailcow error is unwrapped into a MailcowException as well.
    */
-  async post<T, P extends object>(route: string, payload: P): Promise<T> {
+  private async request<T>(send: () => Promise<AxiosResponse<T>>): Promise<T> {
     try {
-      const res = await axios.post<T>(this.ctx.BASE_URL + route, payload, this.ctx.AXIOS_CONFIG);
-      // Only throws if response has danger or error type
+      const res = await send();
       checkMailcowResponse(res.data as unknown as MailcowResponse);
       return res.data;
     } catch (e) {
       if (axios.isAxiosError(e) && e.response?.data) {
-        // Check if the response *itself* is an error type
         checkMailcowResponse(e.response.data as unknown as MailcowResponse);
-        // If no definite error, throw generic
         throw new MailcowException('Unknown Mailcow error');
       }
       throw e;
@@ -76,20 +73,19 @@ export default class RequestFactory {
   }
 
   /**
+   * POST Request Factory
+   * @param route - The route to which to send the request.
+   * @param payload - The payload to send with the request.
+   */
+  post<T, P extends object>(route: string, payload: P): Promise<T> {
+    return this.request<T>(() => axios.post<T>(this.ctx.BASE_URL + route, payload, this.ctx.AXIOS_CONFIG));
+  }
+
+  /**
    * GET Request Factory
    * @param route - The route to which to send the request.
    */
-  async get<T>(route: string): Promise<T> {
-    try {
-      const res = await axios.get<T>(this.ctx.BASE_URL + route, this.ctx.AXIOS_CONFIG);
-      checkMailcowResponse(res.data as unknown as MailcowResponse);
-      return res.data;
-    } catch (e) {
-      if (axios.isAxiosError(e) && e.response?.data) {
-        checkMailcowResponse(e.response.data as unknown as MailcowResponse);
-        throw new MailcowException('Unknown Mailcow error');
-      }
-      throw e;
-    }
+  get<T>(route: string): Promise<T> {
+    return this.request<T>(() => axios.get<T>(this.ctx.BASE_URL + route, this.ctx.AXIOS_CONFIG));
   }
 }
