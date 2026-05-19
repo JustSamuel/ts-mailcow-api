@@ -222,7 +222,7 @@ export interface Domain {
    */
   relay_all_recipients_int: boolean;
   /**
-   * If the domain should only relay unknown adresses.
+   * If the domain should only relay unknown addresses.
    */
   relay_unknown_only: boolean;
   /**
@@ -585,9 +585,9 @@ export interface PushoverEditRequest {
 }
 
 /**
- * Quarantaine notification edit payload.
+ * Quarantine notification edit payload.
  */
-export interface QuarantaineEditRequest {
+export interface QuarantineEditRequest {
   /**
    * The attributes to edit.
    */
@@ -604,6 +604,11 @@ export interface QuarantaineEditRequest {
     anyOf: string | string[];
   };
 }
+
+/**
+ * @deprecated Misspelling. Use {@link QuarantineEditRequest} instead. Will be removed in 2.0.0.
+ */
+export type QuarantaineEditRequest = QuarantineEditRequest;
 
 /**
  * Spam score edit payload.
@@ -1183,7 +1188,7 @@ export interface PFLog extends Log {
  */
 export interface RLLog extends Log {
   /**
-   * From email adress.
+   * From email address.
    */
   from: string;
   /**

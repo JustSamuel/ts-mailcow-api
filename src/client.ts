@@ -11,7 +11,7 @@ import { aliasEndpoints, AliasEndpoints } from './endpoints/alias-endpoints';
 import { syncjobEndpoints, SyncjobEndpoints } from './endpoints/syncjob-endpoints';
 import { forwardingEndpoints, ForwardingEndpoints } from './endpoints/forwarding-endpoints';
 import { logEndpoints, LogEndpoints } from './endpoints/log-endpoints';
-import { addressRewritingEndpoints, AdressRewritingEndpoints } from './endpoints/address-rewriting-endpoint';
+import { addressRewritingEndpoints, AddressRewritingEndpoints } from './endpoints/address-rewriting-endpoint';
 import { Fail2BanEndpoints, fail2BanEndpoints } from './endpoints/fail2ban-endpoints';
 import { StatusEndpoints, statusEndpoints } from './endpoints/status-endpoints';
 import { ResourceEndpoints, resourceEndpoints } from './endpoints/resource-endpoints';
@@ -117,10 +117,10 @@ class MailcowClient {
 
   /**
    * All endpoints related to address rewriting.
-   * See {@link AdressRewritingEndpoints}
+   * See {@link AddressRewritingEndpoints}
    * @external
    */
-  public addressRewriting: AdressRewritingEndpoints = addressRewritingEndpoints(this);
+  public addressRewriting: AddressRewritingEndpoints = addressRewritingEndpoints(this);
 
   /**
    * All endpoints related to logs.

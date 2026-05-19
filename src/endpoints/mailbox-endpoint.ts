@@ -6,7 +6,7 @@ import {
   Mailbox,
   MailcowResponse,
   PushoverEditRequest,
-  QuarantaineEditRequest,
+  QuarantineEditRequest,
   SpamScoreEditRequest,
 } from '../types';
 import MailcowClient from '../index';
@@ -51,7 +51,7 @@ export interface MailboxEndpoints {
    * Endpoint for editing a mailbox's quarantine settings.
    * @param payload - The edit payload.
    */
-  editQuarantine(payload: QuarantaineEditRequest): Promise<MailcowResponse>;
+  editQuarantine(payload: QuarantineEditRequest): Promise<MailcowResponse>;
 
   /**
    * Endpoint for editing a mailbox's spam score settings.
@@ -78,7 +78,7 @@ const MAILBOX_ENDPOINTS = {
   EDIT: 'edit/mailbox',
   GET: 'get/mailbox',
   EDIT_PUSHOVER: 'edit/pushover',
-  EDIT_QUARANTAINE: 'edit/quarantine_notification',
+  EDIT_QUARANTINE: 'edit/quarantine_notification',
   EDIT_SPAM_SCORE: 'edit/spam-score',
   EDIT_USER_ACL: 'edit/user-acl',
   GET_ACTIVE_USER_SIEVE: 'get/active-user-sieve',
@@ -113,8 +113,11 @@ export function mailboxEndpoints(bind: MailcowClient): MailboxEndpoints {
       return bind.requestFactory.post<MailcowResponse, PushoverEditRequest>(MAILBOX_ENDPOINTS.EDIT_PUSHOVER, payload);
     },
 
-    editQuarantine(payload: QuarantaineEditRequest): Promise<MailcowResponse> {
-      return bind.requestFactory.post<MailcowResponse, QuarantaineEditRequest>('edit/quarantine_notification', payload);
+    editQuarantine(payload: QuarantineEditRequest): Promise<MailcowResponse> {
+      return bind.requestFactory.post<MailcowResponse, QuarantineEditRequest>(
+        MAILBOX_ENDPOINTS.EDIT_QUARANTINE,
+        payload,
+      );
     },
 
     editSpamScore(payload: SpamScoreEditRequest): Promise<MailcowResponse> {
