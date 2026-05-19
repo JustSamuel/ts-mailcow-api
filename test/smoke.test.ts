@@ -11,6 +11,12 @@ import {
 import { AliasEditAttributes } from "../src";
 import * as https from "node:https";
 
+// Live smoke tests against the public Mailcow demo. They share state with
+// anyone else hitting demo.mailcow.email and are slow, so they only run when
+// MAILCOW_E2E=1 is set. yarn test alone runs the fast unit suites.
+const isE2E = process.env.MAILCOW_E2E === "1";
+const describeE2E = isE2E ? describe : describe.skip;
+
 const mcc: MailcowClient = new MailcowClient(
   "https://demo.mailcow.email/api/v1",
   "390448-22B69F-FA37D9-19701B-6F033F",
@@ -20,7 +26,7 @@ const mcc: MailcowClient = new MailcowClient(
     })
   })
 
-function isSucces(res: MailcowResponse) {
+function isSuccess(res: MailcowResponse) {
   expect(res[0].type).to.be.equal("success")
 }
 
@@ -33,12 +39,12 @@ async function thenTestOrFail(promise: Promise<any>, test: Function, fatal = fal
       if (fatal) {
         assert.fail('expected', 'actual', err);
       } else {
-        console.warn(`⚠️  Non-fatal test failed:`, err.message ?? err);
+        console.warn(`Non-fatal test failed:`, err.message ?? err);
       }
     });
 }
 
-describe("Alias Endpoint tests", (): void => {
+describeE2E("Alias Endpoint tests", (): void => {
   it('should get all aliases', async () => {
     await thenTestOrFail(mcc.aliases.get(), (res: Alias[]) => expect(res).to.be.length.least(1), true)
   });
@@ -75,7 +81,7 @@ describe("Alias Endpoint tests", (): void => {
       }, true)
     });
     it('should delete edit previously created alias', async () => {
-      await thenTestOrFail(mcc.aliases.edit({ attr: editAttr, items: [id] }), isSucces, true)
+      await thenTestOrFail(mcc.aliases.edit({ attr: editAttr, items: [id] }), isSuccess, true)
       await thenTestOrFail(mcc.aliases.get(id), (res: Alias[]) => {
         const alias: Alias = res[0]
         for (let editAttrKey in editAttr) {
@@ -84,12 +90,12 @@ describe("Alias Endpoint tests", (): void => {
       }, true)
     });
     it('should delete the previously created alias', async () => {
-      await thenTestOrFail(mcc.aliases.delete({ items: [id] }), isSucces, true)
+      await thenTestOrFail(mcc.aliases.delete({ items: [id] }), isSuccess, true)
     });
   })
 })
 
-describe("Syncjob Endpoint tests", (): void => {
+describeE2E("Syncjob Endpoint tests", (): void => {
   it('should create a sync job', async () => {
     const attr: SyncjobAttributes = {
       username: "lisa@440044.xyz",
@@ -114,7 +120,7 @@ describe("Syncjob Endpoint tests", (): void => {
       subscribeall: true,
       active: false
     }
-    await thenTestOrFail(mcc.syncjobs.create(attr), isSucces)
+    await thenTestOrFail(mcc.syncjobs.create(attr), isSuccess)
   });
   let id: number;
   it('should get all sync jobs', async () => {
@@ -128,7 +134,7 @@ describe("Syncjob Endpoint tests", (): void => {
       active: false,
       automap: false,
     }
-    await thenTestOrFail(mcc.syncjobs.edit({ attr: editAttr, items: id }), isSucces)
+    await thenTestOrFail(mcc.syncjobs.edit({ attr: editAttr, items: id }), isSuccess)
     await thenTestOrFail(mcc.syncjobs.getAll(), (res: Syncjob[]) => {
       const syncjob: Syncjob = res[0]
       for (let editAttrKey in editAttr) {
@@ -137,13 +143,13 @@ describe("Syncjob Endpoint tests", (): void => {
     })
   });
   it('should delete a sync job', async () => {
-    await thenTestOrFail(mcc.syncjobs.delete({ items: [id] }), isSucces)
+    await thenTestOrFail(mcc.syncjobs.delete({ items: [id] }), isSuccess)
   });
 })
 
 describe.skip("Forwarding Host Endpoint test", (): void => {
   it('should create a forwarding host', async () => {
-    await thenTestOrFail(mcc.forwardingHosts.create({ filter_spam: true, hostname: "hosted.mailcow.de" }), isSucces)
+    await thenTestOrFail(mcc.forwardingHosts.create({ filter_spam: true, hostname: "hosted.mailcow.de" }), isSuccess)
   });
   let hosts: any[] = [];
   it('should get forwarding hosts', async () => {
@@ -155,11 +161,11 @@ describe.skip("Forwarding Host Endpoint test", (): void => {
     })
   });
   it('should delete forwarding hosts', async () => {
-    await thenTestOrFail(mcc.forwardingHosts.delete({ items: hosts }), isSucces)
+    await thenTestOrFail(mcc.forwardingHosts.delete({ items: hosts }), isSuccess)
   });
 })
 
-describe("Log Endpoint test", (): void => {
+describeE2E("Log Endpoint test", (): void => {
   it('should get all ACME logs', async () => {
     await thenTestOrFail(mcc.logs.acme(2), (res: any[]) => expect(res).to.exist)
   });
@@ -192,14 +198,14 @@ describe("Log Endpoint test", (): void => {
   });
 })
 
-describe("Address Rewriting Endpoint tests", (): void => {
+describeE2E("Address Rewriting Endpoint tests", (): void => {
   it('should create a BCC map', async () => {
     await thenTestOrFail(mcc.addressRewriting.addBccMap({
       active: 1,
       bcc_dest: "admin@440044.xyz",
       local_dest: "test@440044.xyz",
       type: "sender"
-    }), isSucces);
+    }), isSuccess);
   });
 
   it('should create a recipient map', async () => {
@@ -207,7 +213,7 @@ describe("Address Rewriting Endpoint tests", (): void => {
       active: 1,
       recipient_map_new: "newrecipient@440044.xyz",
       recipient_map_old: "oldrecipient@440044.xyz"
-    }), isSucces);
+    }), isSuccess);
   });
 
   it('should get all BCC maps', async () => {
@@ -219,15 +225,15 @@ describe("Address Rewriting Endpoint tests", (): void => {
   });
 
   it('should delete BCC maps', async () => {
-    await thenTestOrFail(mcc.addressRewriting.deleteBccMap({ items: [1] }), isSucces);
+    await thenTestOrFail(mcc.addressRewriting.deleteBccMap({ items: [1] }), isSuccess);
   });
 
   it('should delete recipient maps', async () => {
-    await thenTestOrFail(mcc.addressRewriting.deleteRecipientMap({ items: [1] }), isSucces);
+    await thenTestOrFail(mcc.addressRewriting.deleteRecipientMap({ items: [1] }), isSuccess);
   });
 });
 
-describe("Fail2Ban Endpoint tests", (): void => {
+describeE2E("Fail2Ban Endpoint tests", (): void => {
   it('should edit Fail2Ban', async () => {
     await thenTestOrFail(mcc.fail2Ban.edit({
       attr: {
@@ -242,7 +248,7 @@ describe("Fail2Ban Endpoint tests", (): void => {
         whitelist: '127.0.0.1',
       },
       items: 'all',
-    }), isSucces);
+    }), isSuccess);
   });
 
   it('should get Fail2Ban', async () => {
@@ -250,7 +256,7 @@ describe("Fail2Ban Endpoint tests", (): void => {
   });
 });
 
-describe("Status Endpoint tests", (): void => {
+describeE2E("Status Endpoint tests", (): void => {
   it('should get container status', async () => {
     await thenTestOrFail(mcc.status.container(), (res: StatusContainers) => expect(res).to.exist);
   });
@@ -264,7 +270,7 @@ describe("Status Endpoint tests", (): void => {
   });
 });
 
-describe("Resource Endpoint tests", (): void => {
+describeE2E("Resource Endpoint tests", (): void => {
   it('should create a resource', async () => {
     await thenTestOrFail(mcc.resources.create({
       active: 1,
@@ -274,13 +280,13 @@ describe("Resource Endpoint tests", (): void => {
       local_part: "test",
       multiple_bookings: 0,
       name: "test@440044.xyz",
-    }), isSucces);
+    }), isSuccess);
   });
 
   it('should delete a resource', async () => {
     await thenTestOrFail(mcc.resources.delete({
       names: ['test@440044.xyz'],
-    }), isSucces);
+    }), isSuccess);
   });
 
   it('should get all resources', async () => {
@@ -288,9 +294,9 @@ describe("Resource Endpoint tests", (): void => {
   });
 });
 
-describe("Queue Manager Endpoint tests", (): void => {
+describeE2E("Queue Manager Endpoint tests", (): void => {
   it('should delete the mail queue', async () => {
-    await thenTestOrFail(mcc.queueManager.delete('super_delete'), isSucces);
+    await thenTestOrFail(mcc.queueManager.delete('super_delete'), isSuccess);
   });
 
   it('should get the mail queue', async () => {
@@ -298,15 +304,15 @@ describe("Queue Manager Endpoint tests", (): void => {
   });
 
   it('should flush the mail queue', async () => {
-    await thenTestOrFail(mcc.queueManager.flush('flush'), isSucces);
+    await thenTestOrFail(mcc.queueManager.flush('flush'), isSuccess);
   });
 });
 
-describe("Quarantine Endpoint tests", (): void => {
+describeE2E("Quarantine Endpoint tests", (): void => {
   it('should delete quarantined emails', async () => {
     await thenTestOrFail(mcc.quarantine.delete({
       items: [1],
-    }), isSucces);
+    }), isSuccess);
   });
 
   it('should get quarantined emails', async () => {
@@ -314,7 +320,7 @@ describe("Quarantine Endpoint tests", (): void => {
   });
 });
 
-describe("Ratelimit Endpoint tests", (): void => {
+describeE2E("Ratelimit Endpoint tests", (): void => {
   it('should edit domain ratelimits', async () => {
     await thenTestOrFail(mcc.ratelimits.editDomain({
       attr: {
@@ -322,7 +328,7 @@ describe("Ratelimit Endpoint tests", (): void => {
         rl_value: 10,
       },
       items: ['440044.xyz'],
-    }), isSucces);
+    }), isSuccess);
   });
 
   it('should edit mailbox ratelimits', async () => {
@@ -332,7 +338,7 @@ describe("Ratelimit Endpoint tests", (): void => {
         rl_value: 10,
       },
       items: ['test@440044.xyz'],
-    }), isSucces);
+    }), isSuccess);
   });
 
   it('should get domain ratelimits', async () => {
@@ -348,17 +354,17 @@ describe("Ratelimit Endpoint tests", (): void => {
   });
 });
 
-describe("OAuth2 Client Endpoint tests", (): void => {
+describeE2E("OAuth2 Client Endpoint tests", (): void => {
   it('should add an OAuth client', async () => {
     await thenTestOrFail(mcc.oauth2.add({
       redirect_uri: 'https://example.com/callback',
-    }), isSucces);
+    }), isSuccess);
   });
 
   it('should delete an OAuth client', async () => {
     await thenTestOrFail(mcc.oauth2.delete({
       items: ['1'],
-    }), isSucces);
+    }), isSuccess);
   });
 
   it('should get an OAuth client', async () => {
@@ -368,13 +374,13 @@ describe("OAuth2 Client Endpoint tests", (): void => {
   });
 });
 
-describe("Get mailboxes Endpoint tests", (): void => {
+describeE2E("Get mailboxes Endpoint tests", (): void => {
   it('should get all mailboxes', async () => {
     await thenTestOrFail(mcc.mailbox.get('all'), (res: any[]) => expect(res).to.exist);
   });
 });
 
-describe("App Password Endpoint tests", (): void => {
+describeE2E("App Password Endpoint tests", (): void => {
   it('should add an app password', async () => {
     await thenTestOrFail(mcc.appPasswords.add({
       active: true,
@@ -383,13 +389,13 @@ describe("App Password Endpoint tests", (): void => {
       app_passwd: 'test',
       app_passwd2: 'test',
       protocols: ['imap', 'pop3'],
-    }), isSucces);
+    }), isSuccess);
   });
 
   it('should delete an app password', async () => {
     await thenTestOrFail(mcc.appPasswords.delete({
       items: ['1'],
-    }), isSucces);
+    }), isSuccess);
   });
 
   it('should get app passwords', async () => {
@@ -397,20 +403,20 @@ describe("App Password Endpoint tests", (): void => {
   });
 });
 
-describe("TLS Policy Map Endpoint tests", (): void => {
+describeE2E("TLS Policy Map Endpoint tests", (): void => {
   it('should add a TLS Policy Map', async () => {
     await thenTestOrFail(mcc.tlsPolicyMaps.add({
       parameters: '',
       active: 1,
       dest: 'demo@440044.xyz',
       policy: 'may',
-    }), isSucces);
+    }), isSuccess);
   });
 
   it('should delete TLS Policy Maps', async () => {
     await thenTestOrFail(mcc.tlsPolicyMaps.delete({
       items: ['1'],
-    }), isSucces);
+    }), isSuccess);
   });
 
   it('should get TLS Policy Maps', async () => {
@@ -418,19 +424,19 @@ describe("TLS Policy Map Endpoint tests", (): void => {
   });
 });
 
-describe("DKIM Endpoint tests", (): void => {
+describeE2E("DKIM Endpoint tests", (): void => {
   it('should generate DKIM keys', async () => {
     await thenTestOrFail(mcc.dkim.create({
       dkim_selector: 'dkim',
       domains: '440044.xyz',
       key_size: 2048,
-    }), isSucces);
+    }), isSuccess);
   });
 
   it('should delete DKIM keys', async () => {
     await thenTestOrFail(mcc.dkim.delete({
       items: ['440044.xyz'],
-    }), isSucces);
+    }), isSuccess);
   });
 
   it('should get DKIM keys', async () => {
@@ -438,7 +444,7 @@ describe("DKIM Endpoint tests", (): void => {
   });
 });
 
-describe("Domain Admin Endpoint tests", (): void => {
+describeE2E("Domain Admin Endpoint tests", (): void => {
   it('should create a Domain Admin', async () => {
     await thenTestOrFail(mcc.domainAdmins.create({
       active: 1,
@@ -446,7 +452,7 @@ describe("Domain Admin Endpoint tests", (): void => {
       password: 'testhastobecomplex!@#123',
       password2: 'testhastobecomplex!@#123',
       username: 'test',
-    }), isSucces);
+    }), isSuccess);
   });
 
   it('should issue a Domain Admin SSO token', async () => {
@@ -465,13 +471,13 @@ describe("Domain Admin Endpoint tests", (): void => {
         password: 'testhastobecomplex!@#123',
         password2: 'testhastobecomplex!@#123',
       },
-    }), isSucces);
+    }), isSuccess);
   });
 
   it('should delete Domain Admins', async () => {
     await thenTestOrFail(mcc.domainAdmins.delete({
       items: ['test'],
-    }), isSucces);
+    }), isSuccess);
   });
 
   it('should get all Domain Admins', async () => {
@@ -479,13 +485,13 @@ describe("Domain Admin Endpoint tests", (): void => {
   });
 });
 
-describe("Routing Endpoint tests", (): void => {
+describeE2E("Routing Endpoint tests", (): void => {
   it('should create a Relayhost', async () => {
     await thenTestOrFail(mcc.routing.createRelayhost({
       hostname: 'smtp.mailcow.email',
       password: 'testhastobecomplex!@#123',
       username: 'test',
-    }), isSucces);
+    }), isSuccess);
   });
 
   it('should create a Transport Map', async () => {
@@ -495,19 +501,19 @@ describe("Routing Endpoint tests", (): void => {
       nexthop: 'smtp.mailcow.email',
       password: 'testhastobecomplex!@#123',
       username: 'test',
-    }), isSucces);
+    }), isSuccess);
   });
 
   it('should delete Relayhosts', async () => {
     await thenTestOrFail(mcc.routing.deleteRelayhost({
       items: ['1'],
-    }), isSucces);
+    }), isSuccess);
   });
 
   it('should delete Transport Maps', async () => {
     await thenTestOrFail(mcc.routing.deleteTransportMap({
       items: ['1'],
-    }), isSucces);
+    }), isSuccess);
   });
 
   it('should get all Relayhosts', async () => {
