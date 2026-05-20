@@ -102,6 +102,31 @@ describe('Endpoints (smoke against mocked axios)', () => {
     }
   });
 
+  describe('quarantine.edit', () => {
+    it('posts to edit/qitem with the items + action payload', async () => {
+      const captured: Captured = {};
+      const restore = withMockedAxios(captured, [{ type: 'success', msg: ['item_released', '33'] }]);
+      try {
+        await mcc.quarantine.edit({ items: [33, 34], attr: { action: 'release' } });
+        expect(captured.url).to.equal('https://example.test/api/v1/edit/qitem');
+        expect(captured.payload).to.deep.equal({ items: [33, 34], attr: { action: 'release' } });
+      } finally {
+        restore();
+      }
+    });
+
+    it('accepts learnham as an action', async () => {
+      const captured: Captured = {};
+      const restore = withMockedAxios(captured, [{ type: 'success', msg: ['item_learned', '34'] }]);
+      try {
+        await mcc.quarantine.edit({ items: [34], attr: { action: 'learnham' } });
+        expect((captured.payload as any).attr.action).to.equal('learnham');
+      } finally {
+        restore();
+      }
+    });
+  });
+
   describe('identityProvider.edit', () => {
     it('posts to edit/identity-provider with the items envelope', async () => {
       const captured: Captured = {};

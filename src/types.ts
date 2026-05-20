@@ -1790,6 +1790,35 @@ export interface DeleteQuarantineRequest {
 }
 
 /**
+ * Action to take on a quarantined email via `edit/qitem`.
+ *
+ * - `release` -- deliver the email to the original recipient's inbox.
+ * - `learnham` -- mark the email as ham and feed it back to Rspamd as
+ *   a training sample. Useful for false positives.
+ *
+ * The quarantine queue is already presumed-spam by definition, so there
+ * is no `learnspam` counterpart -- Mailcow does not document one.
+ */
+export type QuarantineItemAction = 'release' | 'learnham';
+
+/**
+ * Request payload for `edit/qitem`.
+ *
+ * The `items` array holds the IDs of the quarantined messages to act
+ * on; the same `attr.action` is applied to every entry.
+ */
+export interface EditQuarantineItemRequest {
+  /**
+   * IDs of the quarantined messages to act on. Get them from
+   * `mcc.quarantine.get()`.
+   */
+  items: number[];
+  attr: {
+    action: QuarantineItemAction;
+  };
+}
+
+/**
  * Request payload to edit rate limits for specified domains.
  */
 export interface EditDomainRequest {
