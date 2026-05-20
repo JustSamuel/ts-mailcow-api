@@ -4,6 +4,22 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0]
+
+### Added
+- `mcc.identityProvider.edit(attr)` -- configure Mailcow's external
+  Identity Provider (Keycloak, LDAP, or generic OIDC). Wraps the
+  `edit/identity-provider` route added in Mailcow's Moo 2025 update.
+- Discriminated-union types on `authsource` so TypeScript enforces the
+  right combination of fields per provider:
+  `KeycloakIdentityProviderAttributes`, `LdapIdentityProviderAttributes`,
+  `GenericOidcIdentityProviderAttributes`, and the union
+  `IdentityProviderAttributes`.
+- Unit tests covering each of the three authsource shapes against
+  mocked axios.
+
+Closes [#38](https://github.com/JustSamuel/ts-mailcow-api/issues/38).
+
 ## [1.4.0]
 
 ### Added
@@ -101,6 +117,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Add status endpoints.
 - Move `/api/v1` out of the client into the user-supplied base URL.
 
+[1.5.0]: https://github.com/JustSamuel/ts-mailcow-api/releases/tag/v1.5.0
 [1.4.0]: https://github.com/JustSamuel/ts-mailcow-api/releases/tag/v1.4.0
 [1.3.0]: https://github.com/JustSamuel/ts-mailcow-api/releases/tag/v1.3.0
 [1.2.0]: https://github.com/JustSamuel/ts-mailcow-api/releases/tag/v1.2.0

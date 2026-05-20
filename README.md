@@ -92,6 +92,7 @@ at a typed interface documented in the
 | `domains`          | Domains                           |
 | `fail2Ban`         | Fail2Ban configuration            |
 | `forwardingHosts`  | Forwarding hosts                  |
+| `identityProvider` | External IdP (Keycloak/LDAP/OIDC) |
 | `logs`             | ACME, API, dovecot, postfix, ...  |
 | `mailbox`          | Mailboxes (and ACL, pushover, ...)|
 | `oauth2`           | OAuth2 clients                    |
