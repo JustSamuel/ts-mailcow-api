@@ -25,6 +25,10 @@ contract.
   gated behind `MAILCOW_E2E=1`.
 - `test/request-factory.test.ts` and `test/endpoints.test.ts` -- unit
   tests against mocked axios; run by default with `yarn test`.
+- `reference/openapi.yaml` -- frozen snapshot of the upstream Mailcow
+  OpenAPI spec. Use it to check parity when adding endpoints. The wrapper
+  is the source of truth for what works at runtime; the spec lags the
+  PHP API occasionally.
 
 ## Adding an endpoint
 
