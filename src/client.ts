@@ -24,6 +24,7 @@ import { TlsPolicyMapEndpoints, tlsPolicyMapEndpoints } from './endpoints/tls-po
 import { dkimEndpoints, DkimEndpoints } from './endpoints/dkim-endpoints';
 import { DomainAdminEndpoints, domainAdminEndpoints } from './endpoints/domain-admin-endpoints';
 import { RoutingEndpoints, routingEndpoints } from './endpoints/routing-endpoints';
+import { IdentityProviderEndpoints, identityProviderEndpoints } from './endpoints/identity-provider-endpoints';
 
 /**
  * Class containing all the logic to interface with the Mailcow API in TypeScript.
@@ -212,6 +213,14 @@ class MailcowClient {
    * @external
    */
   public routing: RoutingEndpoints = routingEndpoints(this);
+
+  /**
+   * Endpoint for configuring the external Identity Provider (Keycloak,
+   * LDAP, or a generic OIDC provider).
+   * See {@link IdentityProviderEndpoints}
+   * @external
+   */
+  public identityProvider: IdentityProviderEndpoints = identityProviderEndpoints(this);
 }
 
 export default MailcowClient;

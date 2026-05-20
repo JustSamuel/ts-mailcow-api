@@ -101,4 +101,72 @@ describe('Endpoints (smoke against mocked axios)', () => {
       restore();
     }
   });
+
+  describe('identityProvider.edit', () => {
+    it('posts to edit/identity-provider with the items envelope', async () => {
+      const captured: Captured = {};
+      const restore = withMockedAxios(captured, [{ type: 'success', msg: 'object_modified' }]);
+      try {
+        await mcc.identityProvider.edit({
+          authsource: 'keycloak',
+          server_url: 'https://auth.example.test',
+          realm: 'mailcow',
+          client_id: 'mailcow_client',
+          client_secret: 'shh',
+          redirect_url: 'https://mail.example.test',
+          version: '26.1.3',
+        });
+        expect(captured.url).to.equal('https://example.test/api/v1/edit/identity-provider');
+        expect(captured.payload).to.deep.include({ items: ['identity-provider'] });
+        expect((captured.payload as any).attr).to.deep.include({
+          authsource: 'keycloak',
+          realm: 'mailcow',
+        });
+      } finally {
+        restore();
+      }
+    });
+
+    it('forwards LDAP attributes verbatim', async () => {
+      const captured: Captured = {};
+      const restore = withMockedAxios(captured, [{ type: 'success', msg: 'object_modified' }]);
+      try {
+        await mcc.identityProvider.edit({
+          authsource: 'ldap',
+          host: '127.0.0.1',
+          port: '389',
+          basedn: 'DC=mailcow,DC=local',
+          attribute_field: 'othermailbox',
+          binddn: 'CN=LDAP,DC=mailcow,DC=local',
+          bindpass: 'pw',
+          filter: '(memberOf=DC=mailcow,DC=local)',
+        });
+        expect((captured.payload as any).attr.host).to.equal('127.0.0.1');
+        expect((captured.payload as any).attr.filter).to.equal('(memberOf=DC=mailcow,DC=local)');
+      } finally {
+        restore();
+      }
+    });
+
+    it('forwards generic-oidc attributes verbatim', async () => {
+      const captured: Captured = {};
+      const restore = withMockedAxios(captured, [{ type: 'success', msg: 'object_modified' }]);
+      try {
+        await mcc.identityProvider.edit({
+          authsource: 'generic-oidc',
+          authorize_url: 'https://auth.example.test/authorize',
+          token_url: 'https://auth.example.test/token',
+          userinfo_url: 'https://auth.example.test/userinfo',
+          client_id: 'mailcow_client',
+          client_secret: 'shh',
+          redirect_url: 'https://mail.example.test',
+          client_scopes: 'openid profile email',
+        });
+        expect((captured.payload as any).attr.authsource).to.equal('generic-oidc');
+        expect((captured.payload as any).attr.client_scopes).to.equal('openid profile email');
+      } finally {
+        restore();
+      }
+    });
+  });
 });

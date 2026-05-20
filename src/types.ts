@@ -2451,6 +2451,223 @@ export interface TransportMap {
 }
 
 /**
+ * Identity Provider authentication source.
+ *
+ * Mailcow's external authentication backends. `mailcow` (the built-in
+ * local password database) is not configurable via this endpoint and is
+ * therefore not part of this union.
+ */
+export type IdentityProviderAuthsource = 'ldap' | 'keycloak' | 'generic-oidc';
+
+/**
+ * Attributes shared across every identity-provider configuration,
+ * regardless of which auth source it targets.
+ */
+export interface BaseIdentityProviderAttributes {
+  /**
+   * If no matching attribute mapping exists for a user, the default template
+   * is used when creating the mailbox (not on update). Mailcow expects the
+   * template name as configured under "Mailbox templates".
+   */
+  default_template?: string;
+  /**
+   * Attribute values used to match a mailbox template. Each element pairs
+   * positionally with `templates` -- the n-th `mappers` entry selects the
+   * n-th `templates` entry.
+   */
+  mappers?: string[];
+  /**
+   * Mailbox template names. See `mappers` for how the two arrays are
+   * correlated.
+   */
+  templates?: string[];
+  /**
+   * Skip TLS certificate validation when contacting the auth source.
+   * @defaultValue false
+   */
+  ignore_ssl_error?: boolean;
+  /**
+   * Whether Mailcow should periodically pull every user from the auth
+   * source. Defaults to `false`; combine with `sync_interval` and
+   * `import_users` to enable scheduled syncs.
+   * @defaultValue false
+   */
+  periodic_sync?: boolean;
+  /**
+   * Whether new users discovered during a sync should be imported into
+   * Mailcow as mailboxes.
+   * @defaultValue false
+   */
+  import_users?: boolean;
+  /**
+   * Interval, in minutes, between periodic syncs.
+   * @defaultValue 15
+   */
+  sync_interval?: number;
+}
+
+/**
+ * Identity provider attributes for an external Keycloak server.
+ */
+export interface KeycloakIdentityProviderAttributes extends BaseIdentityProviderAttributes {
+  authsource: 'keycloak';
+  /**
+   * Base URL of the Keycloak server (no trailing slash needed).
+   */
+  server_url: string;
+  /**
+   * Keycloak realm where the Mailcow client is configured.
+   */
+  realm: string;
+  /**
+   * Client ID of the Mailcow OIDC client inside the realm.
+   */
+  client_id: string;
+  /**
+   * Client secret paired with `client_id`. Sent back from Mailcow as
+   * `"*"` once configured.
+   */
+  client_secret: string;
+  /**
+   * Primary redirect URL configured for the Mailcow client in Keycloak.
+   */
+  redirect_url: string;
+  /**
+   * Additional accepted redirect URLs.
+   */
+  redirect_url_extra?: string[];
+  /**
+   * Keycloak version (for example `26.1.3`). Mailcow uses this to pick
+   * the right admin API shape internally.
+   */
+  version: string;
+  /**
+   * Validate user passwords via the Keycloak admin REST API instead of
+   * relying only on the Authorization Code Flow. Required for IMAP/SMTP
+   * to keep working when Keycloak is the source of truth for passwords.
+   * @defaultValue false
+   */
+  mailpassword_flow?: boolean;
+}
+
+/**
+ * Identity provider attributes for an external LDAP / Active Directory
+ * server.
+ */
+export interface LdapIdentityProviderAttributes extends BaseIdentityProviderAttributes {
+  authsource: 'ldap';
+  /**
+   * Hostname (or comma-separated list of hostnames for fallback) of the
+   * LDAP server.
+   */
+  host: string;
+  /**
+   * LDAP port as a string.
+   */
+  port: string;
+  /**
+   * Use LDAPS. If `port` is 389 it is forced to 636.
+   * @defaultValue false
+   */
+  use_ssl?: boolean;
+  /**
+   * Use StartTLS. Mutually exclusive with `use_ssl`; preferred over SSL.
+   * @defaultValue false
+   */
+  use_tls?: boolean;
+  /**
+   * Base DN under which user searches are performed.
+   */
+  basedn: string;
+  /**
+   * LDAP attribute used to identify users at login.
+   * @defaultValue 'mail'
+   */
+  username_field?: string;
+  /**
+   * Optional LDAP search filter to limit who may authenticate.
+   */
+  filter?: string;
+  /**
+   * LDAP attribute whose value Mailcow maps to a mailbox template via
+   * `mappers` / `templates`.
+   */
+  attribute_field: string;
+  /**
+   * Bind DN used to perform user searches.
+   */
+  binddn: string;
+  /**
+   * Password for `binddn`.
+   */
+  bindpass: string;
+}
+
+/**
+ * Identity provider attributes for an arbitrary OIDC provider that is
+ * not Keycloak (Authentik, Auth0, Okta, ...).
+ */
+export interface GenericOidcIdentityProviderAttributes extends BaseIdentityProviderAttributes {
+  authsource: 'generic-oidc';
+  /**
+   * Authorization endpoint URL.
+   */
+  authorize_url: string;
+  /**
+   * Token endpoint URL.
+   */
+  token_url: string;
+  /**
+   * Userinfo endpoint URL.
+   */
+  userinfo_url: string;
+  /**
+   * Client ID issued by the OIDC provider.
+   */
+  client_id: string;
+  /**
+   * Client secret issued by the OIDC provider.
+   */
+  client_secret: string;
+  /**
+   * Primary redirect URL registered with the provider.
+   */
+  redirect_url: string;
+  /**
+   * Additional accepted redirect URLs.
+   */
+  redirect_url_extra?: string[];
+  /**
+   * Space-separated list of OIDC scopes requested at login.
+   * @defaultValue 'openid profile email mailcow_template'
+   */
+  client_scopes?: string;
+}
+
+/**
+ * Discriminated union of every supported identity-provider
+ * configuration. The `authsource` field is the discriminant.
+ */
+export type IdentityProviderAttributes =
+  | KeycloakIdentityProviderAttributes
+  | LdapIdentityProviderAttributes
+  | GenericOidcIdentityProviderAttributes;
+
+/**
+ * Wire-level body of the `edit/identity-provider` request. The wrapper
+ * builds this for you from {@link IdentityProviderAttributes}, but it
+ * is exported in case callers need to construct it manually.
+ *
+ * `items` is always `['identity-provider']` -- the array type is used
+ * (rather than a fixed tuple) so callers do not have to use a `const`
+ * assertion to satisfy this interface.
+ */
+export interface IdentityProviderEditRequest {
+  attr: IdentityProviderAttributes;
+  items: 'identity-provider'[];
+}
+
+/**
  * Interface for a general Mailcow API response.
  *
  * This is used when the API call doesn't return any objects, i.e. POST requests.
