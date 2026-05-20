@@ -4,6 +4,18 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0]
+
+### Added
+- `mcc.quarantine.edit(payload)` -- act on quarantined messages. Wraps
+  `edit/qitem`. Supports the two actions Mailcow documents: `release`
+  (deliver to the recipient's inbox) and `learnham` (feed back to
+  Rspamd as a false positive). Previously the wrapper could only list
+  and delete quarantined items.
+- `QuarantineItemAction` and `EditQuarantineItemRequest` types.
+
+Closes [#47](https://github.com/JustSamuel/ts-mailcow-api/issues/47).
+
 ## [1.5.0]
 
 ### Added
@@ -117,6 +129,7 @@ Closes [#38](https://github.com/JustSamuel/ts-mailcow-api/issues/38).
 - Add status endpoints.
 - Move `/api/v1` out of the client into the user-supplied base URL.
 
+[1.6.0]: https://github.com/JustSamuel/ts-mailcow-api/releases/tag/v1.6.0
 [1.5.0]: https://github.com/JustSamuel/ts-mailcow-api/releases/tag/v1.5.0
 [1.4.0]: https://github.com/JustSamuel/ts-mailcow-api/releases/tag/v1.4.0
 [1.3.0]: https://github.com/JustSamuel/ts-mailcow-api/releases/tag/v1.3.0
