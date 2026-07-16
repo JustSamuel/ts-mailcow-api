@@ -28,7 +28,7 @@ jobs:
       - name: Setup Node
         # Node 24 ships with npm 11.x. Trusted publishing needs npm
         # 11.5.1+; the lint/build CI can stay on Node 22 LTS.
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v6.4.0
         with:
           node-version: 24
           cache: 'yarn'
