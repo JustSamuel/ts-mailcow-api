@@ -6,6 +6,7 @@ on:
       - master
 
 permissions:
+  actions: write
   contents: read
   pull-requests: read
 
