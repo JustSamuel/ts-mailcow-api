@@ -2678,9 +2678,7 @@ export interface GenericOidcIdentityProviderAttributes extends BaseIdentityProvi
  * configuration. The `authsource` field is the discriminant.
  */
 export type IdentityProviderAttributes =
-  | KeycloakIdentityProviderAttributes
-  | LdapIdentityProviderAttributes
-  | GenericOidcIdentityProviderAttributes;
+  KeycloakIdentityProviderAttributes | LdapIdentityProviderAttributes | GenericOidcIdentityProviderAttributes;
 
 /**
  * Wire-level body of the `edit/identity-provider` request. The wrapper
