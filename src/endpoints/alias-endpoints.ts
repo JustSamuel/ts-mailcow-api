@@ -43,7 +43,8 @@ export interface AliasEndpoints {
   /**
    * Endpoint for creating a time-limited (burner) alias. Mailcow always
    * generates the address itself -- there is no way to request a specific
-   * one.
+   * one. The generated address is not returned; call `getTimeLimited` to
+   * retrieve it.
    * @param payload - The creation payload.
    */
   createTimeLimited(payload: TimeLimitedAliasPostRequest): Promise<MailcowResponse>;
@@ -56,7 +57,8 @@ export interface AliasEndpoints {
 
   /**
    * Endpoint for extending a time-limited alias's expiry, or marking it
-   * permanent.
+   * permanent. Mailcow silently no-ops if neither `validity` nor
+   * `permanent` is provided in the payload.
    * @param payload - The edit payload.
    */
   editTimeLimited(payload: TimeLimitedAliasEditRequest): Promise<MailcowResponse>;
