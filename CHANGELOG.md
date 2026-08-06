@@ -4,6 +4,21 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.0]
+
+### Added
+- `mcc.aliases.createTimeLimited(payload)` / `getTimeLimited(mailbox)` --
+  create and list Mailcow's time-limited (burner) aliases. Wraps
+  `add/time_limited_alias` and `get/time_limited_aliases/{mailbox}`.
+- `mcc.aliases.editTimeLimited(payload)` / `deleteTimeLimited(payload)` --
+  extend, make permanent, or remove a time-limited alias. Wraps
+  `edit/time_limited_alias` and `delete/time_limited_alias`, which exist
+  in the live API but aren't documented in the upstream spec.
+- `TimeLimitedAlias`, `TimeLimitedAliasPostRequest`,
+  `TimeLimitedAliasEditRequest`, and `TimeLimitedAliasDeleteRequest` types.
+
+Closes [#48](https://github.com/JustSamuel/ts-mailcow-api/issues/48).
+
 ## [1.6.0]
 
 ### Added
