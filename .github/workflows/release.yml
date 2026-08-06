@@ -19,6 +19,14 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      # setup-node writes an .npmrc referencing ${NODE_AUTH_TOKEN} whenever
+      # registry-url is set, regardless of auth method. This job never uses
+      # that var for real -- auth happens via OIDC -- but yarn's config
+      # parser hard-errors on the unresolved placeholder in every yarn
+      # command (install, build, and setup-node's own internal cache-dir
+      # probe) unless the var is at least defined.
+      NODE_AUTH_TOKEN: ''
     steps:
       - name: Checkout
         uses: actions/checkout@v7.0.1
@@ -31,10 +39,7 @@ jobs:
         uses: actions/setup-node@v7.0.0
         with:
           node-version: 24
-          # No yarn cache: combined with registry-url and no NODE_AUTH_TOKEN
-          # (this job authenticates via OIDC, not a token), setup-node's own
-          # `yarn cache dir` probe fails on the unresolved ${NODE_AUTH_TOKEN}
-          # placeholder it writes to .npmrc.
+          cache: 'yarn'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
