@@ -194,4 +194,80 @@ describe('Endpoints (smoke against mocked axios)', () => {
       }
     });
   });
+
+  describe('aliases.createTimeLimited', () => {
+    it('posts to add/time_limited_alias with the payload', async () => {
+      const captured: Captured = {};
+      const restore = withMockedAxios(captured, [{ type: 'success', msg: ['mailbox_modified', 'foo@example.test'] }]);
+      try {
+        await mcc.aliases.createTimeLimited({ domain: 'example.test', username: 'foo@example.test' });
+        expect(captured.url).to.equal('https://example.test/api/v1/add/time_limited_alias');
+        expect(captured.payload).to.deep.equal({ domain: 'example.test', username: 'foo@example.test' });
+      } finally {
+        restore();
+      }
+    });
+  });
+
+  describe('aliases.getTimeLimited', () => {
+    it('hits get/time_limited_aliases/{mailbox} and returns the array', async () => {
+      const captured: Captured = {};
+      const alias = {
+        address: 'abc.def@example.test',
+        goto: 'foo@example.test',
+        description: '',
+        validity: 1893456000,
+        created: '2026-01-01 00:00:00',
+        modified: null,
+        permanent: '0',
+      };
+      const restore = withMockedAxios(captured, [alias]);
+      try {
+        const res = await mcc.aliases.getTimeLimited('foo@example.test');
+        expect(captured.url).to.equal('https://example.test/api/v1/get/time_limited_aliases/foo@example.test');
+        expect(res).to.deep.equal([alias]);
+      } finally {
+        restore();
+      }
+    });
+  });
+
+  describe('aliases.editTimeLimited', () => {
+    it('posts to edit/time_limited_alias with address + validity', async () => {
+      const captured: Captured = {};
+      const restore = withMockedAxios(captured, [{ type: 'success', msg: ['mailbox_modified', 'foo@example.test'] }]);
+      try {
+        await mcc.aliases.editTimeLimited({ address: 'abc.def@example.test', validity: 24 });
+        expect(captured.url).to.equal('https://example.test/api/v1/edit/time_limited_alias');
+        expect(captured.payload).to.deep.equal({ address: 'abc.def@example.test', validity: 24 });
+      } finally {
+        restore();
+      }
+    });
+
+    it('accepts permanent as an alternative to validity', async () => {
+      const captured: Captured = {};
+      const restore = withMockedAxios(captured, [{ type: 'success', msg: ['mailbox_modified', 'foo@example.test'] }]);
+      try {
+        await mcc.aliases.editTimeLimited({ address: ['abc.def@example.test'], permanent: true });
+        expect((captured.payload as any).permanent).to.equal(true);
+      } finally {
+        restore();
+      }
+    });
+  });
+
+  describe('aliases.deleteTimeLimited', () => {
+    it('posts to delete/time_limited_alias with the address payload', async () => {
+      const captured: Captured = {};
+      const restore = withMockedAxios(captured, [{ type: 'success', msg: ['mailbox_modified', 'foo@example.test'] }]);
+      try {
+        await mcc.aliases.deleteTimeLimited({ address: 'abc.def@example.test' });
+        expect(captured.url).to.equal('https://example.test/api/v1/delete/time_limited_alias');
+        expect(captured.payload).to.deep.equal({ address: 'abc.def@example.test' });
+      } finally {
+        restore();
+      }
+    });
+  });
 });

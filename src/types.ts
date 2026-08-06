@@ -744,6 +744,102 @@ export interface AliasDeleteRequest {
 }
 
 /**
+ * Request payload to create a time-limited (burner) alias. Mailcow always
+ * generates the address itself; there is no way to request a specific one.
+ */
+export interface TimeLimitedAliasPostRequest {
+  /**
+   * The domain to generate the alias under. Must be the mailbox's own
+   * domain or one of its alias domains.
+   */
+  domain: string;
+  /**
+   * The mailbox the alias should forward to. Defaults to the
+   * API-authenticated mailbox when omitted.
+   */
+  username?: string;
+  /**
+   * How many hours the alias stays valid, from 1 to 87600 (10 years).
+   * Defaults to 8760 (1 year). Ignored when `permanent` is true.
+   */
+  validity?: number;
+  /**
+   * If true, the alias never expires and `validity` is ignored.
+   */
+  permanent?: boolean;
+  /**
+   * Optional free-text description.
+   */
+  description?: string;
+}
+
+/**
+ * A time-limited (burner) alias as returned by Mailcow.
+ */
+export interface TimeLimitedAlias {
+  /**
+   * The generated alias address.
+   */
+  address: string;
+  /**
+   * The mailbox this alias forwards to.
+   */
+  goto: string;
+  /**
+   * Free-text description set at creation time.
+   */
+  description: string;
+  /**
+   * Unix timestamp after which the alias expires. Meaningless when
+   * `permanent` is `"1"`.
+   */
+  validity: number;
+  /**
+   * Creation timestamp.
+   */
+  created: string;
+  /**
+   * Last modified timestamp, or null if never modified.
+   */
+  modified: string | null;
+  /**
+   * String indicating whether the alias never expires ("1" for yes, "0"
+   * for no).
+   */
+  permanent: string;
+}
+
+/**
+ * Request payload to extend a time-limited alias's expiry, or mark it
+ * permanent.
+ */
+export interface TimeLimitedAliasEditRequest {
+  /**
+   * The address(es) to update.
+   */
+  address: string | string[];
+  /**
+   * New validity window in hours from now. Replaces the existing expiry
+   * rather than adding to it. Ignored when `permanent` is true.
+   */
+  validity?: number;
+  /**
+   * If true, marks the alias as never expiring.
+   */
+  permanent?: boolean;
+}
+
+/**
+ * Request payload to delete one or more time-limited aliases.
+ */
+export interface TimeLimitedAliasDeleteRequest {
+  /**
+   * The address(es) to delete.
+   */
+  address: string | string[];
+}
+
+/**
  * Interface of the Alias as returned by Mailcow.
  */
 export interface Alias extends AliasAttributes {
