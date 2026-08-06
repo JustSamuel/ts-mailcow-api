@@ -811,7 +811,8 @@ export interface TimeLimitedAlias {
 
 /**
  * Request payload to extend a time-limited alias's expiry, or mark it
- * permanent.
+ * permanent. Note: Mailcow silently no-ops if neither `validity` nor
+ * `permanent` is provided.
  */
 export interface TimeLimitedAliasEditRequest {
   /**

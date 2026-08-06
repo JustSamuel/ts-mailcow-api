@@ -250,7 +250,7 @@ describe('Endpoints (smoke against mocked axios)', () => {
       const restore = withMockedAxios(captured, [{ type: 'success', msg: ['mailbox_modified', 'foo@example.test'] }]);
       try {
         await mcc.aliases.editTimeLimited({ address: ['abc.def@example.test'], permanent: true });
-        expect((captured.payload as any).permanent).to.equal(true);
+        expect(captured.payload).to.deep.equal({ address: ['abc.def@example.test'], permanent: true });
       } finally {
         restore();
       }
