@@ -14,6 +14,7 @@ jobs:
   dependabot:
     uses: GEWIS/actions/.github/workflows/dependabot-auto-merge.yml@v1.16.1
     permissions:
+      actions: write
       contents: write
       pull-requests: write
     with:
