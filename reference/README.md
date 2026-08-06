@@ -12,8 +12,8 @@ Snapshot of
 [`data/web/api/openapi.yaml`](https://github.com/mailcow/mailcow-dockerized/blob/master/data/web/api/openapi.yaml)
 from the `mailcow/mailcow-dockerized` repository.
 
-- Source commit: `384e2f6ac1c03c9d92b22b3d53e16afe3d677e99`
-- Snapshot date: 2026-05-20
+- Source commit: `06424670fa5d60fee851f58bfc49f66086d5f0a6`
+- Snapshot date: 2026-08-06
 
 ### Refresh
 
