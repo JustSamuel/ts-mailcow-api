@@ -682,6 +682,56 @@ export interface ACLEditRequest {
 }
 
 /**
+ * Mailbox tag deletion request.
+ */
+export interface MailboxTagDeleteRequest {
+  /**
+   * List of tag names to remove from the mailbox.
+   */
+  items: string[];
+}
+
+/**
+ * Mailbox custom attribute edit payload. `attribute` and `value` are
+ * parallel arrays -- `attribute[i]` is combined with `value[i]` into a
+ * single attribute map server-side (`functions.mailbox.inc.php`, case
+ * `mailbox_custom_attribute`).
+ */
+export interface MailboxCustomAttributeEditRequest {
+  /**
+   * The custom attributes to set.
+   */
+  attr: {
+    /**
+     * Attribute keys, parallel to `value`.
+     */
+    attribute: string[];
+    /**
+     * Attribute values, parallel to `attribute`.
+     */
+    value: string[];
+  };
+  /**
+   * Mailboxes to edit.
+   */
+  items: string | string[];
+}
+
+/**
+ * Response of the `get/spam-score/{mailbox}` endpoint.
+ *
+ * Note: the upstream OpenAPI spec documents this key as `spam_score`, but
+ * the PHP handler (`json_api.php`, case `spam-score` under the `get`
+ * action) wraps the value as `score`.
+ */
+export interface SpamScoreGetResponse {
+  /**
+   * The spam score, of the form 'lowerbound,upperbound'.
+   */
+  score: string;
+}
+
+/**
  * Base attributes of an Alias.
  */
 export interface AliasAttributes {

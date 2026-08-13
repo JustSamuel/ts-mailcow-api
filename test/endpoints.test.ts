@@ -363,4 +363,80 @@ describe('Endpoints (smoke against mocked axios)', () => {
       }
     });
   });
+
+  describe('mailbox.deleteTag', () => {
+    it('posts to delete/mailbox/tag/{mailbox} with the items payload', async () => {
+      const captured: Captured = {};
+      const restore = withMockedAxios(captured, [
+        { type: 'success', msg: ['mailbox_modified', 'foo@example.test'] },
+      ]);
+      try {
+        await mcc.mailbox.deleteTag('foo@example.test', { items: ['tag1', 'tag2'] });
+        expect(captured.url).to.equal('https://example.test/api/v1/delete/mailbox/tag/foo@example.test');
+        expect(captured.payload).to.deep.equal({ items: ['tag1', 'tag2'] });
+      } finally {
+        restore();
+      }
+    });
+  });
+
+  describe('mailbox.editCustomAttribute', () => {
+    it('posts to edit/mailbox/custom-attribute with parallel attribute/value arrays', async () => {
+      const captured: Captured = {};
+      const restore = withMockedAxios(captured, [{ type: 'success', msg: ['mailbox_modified', 'moo@example.test'] }]);
+      try {
+        await mcc.mailbox.editCustomAttribute({
+          attr: { attribute: ['role', 'foo'], value: ['cow', 'bar'] },
+          items: ['moo@example.test'],
+        });
+        expect(captured.url).to.equal('https://example.test/api/v1/edit/mailbox/custom-attribute');
+        expect(captured.payload).to.deep.equal({
+          attr: { attribute: ['role', 'foo'], value: ['cow', 'bar'] },
+          items: ['moo@example.test'],
+        });
+      } finally {
+        restore();
+      }
+    });
+  });
+
+  describe('mailbox.getSpamScore', () => {
+    it('hits get/spam-score/{mailbox} and returns the score', async () => {
+      const captured: Captured = {};
+      const restore = withMockedAxios(captured, { score: '8,15' });
+      try {
+        const res = await mcc.mailbox.getSpamScore('foo@example.test');
+        expect(captured.url).to.equal('https://example.test/api/v1/get/spam-score/foo@example.test');
+        expect(res).to.deep.equal({ score: '8,15' });
+      } finally {
+        restore();
+      }
+    });
+
+    it('hits get/spam-score/ (trailing slash) for the global score when no mailbox is given', async () => {
+      const captured: Captured = {};
+      const restore = withMockedAxios(captured, { score: '5,15' });
+      try {
+        await mcc.mailbox.getSpamScore();
+        expect(captured.url).to.equal('https://example.test/api/v1/get/spam-score/');
+      } finally {
+        restore();
+      }
+    });
+  });
+
+  describe('mailbox.getByDomain', () => {
+    it('hits get/mailbox/all/{domain} and wraps a single object into an array', async () => {
+      const captured: Captured = {};
+      const restore = withMockedAxios(captured, { username: 'one@example.test' });
+      try {
+        const res = await mcc.mailbox.getByDomain('example.test');
+        expect(captured.url).to.equal('https://example.test/api/v1/get/mailbox/all/example.test');
+        expect(res).to.have.length(1);
+        expect(res[0]).to.deep.include({ username: 'one@example.test' });
+      } finally {
+        restore();
+      }
+    });
+  });
 });

@@ -1,13 +1,16 @@
 import {
   ACLEditRequest,
+  MailboxCustomAttributeEditRequest,
   MailboxDeleteRequest,
   MailboxEditRequest,
   MailboxPostRequest,
+  MailboxTagDeleteRequest,
   Mailbox,
   MailcowResponse,
   PushoverEditRequest,
   QuarantineEditRequest,
   SpamScoreEditRequest,
+  SpamScoreGetResponse,
 } from '../types';
 import MailcowClient from '../index';
 import { wrapPromiseToArray } from '../request-factory';
@@ -70,18 +73,48 @@ export interface MailboxEndpoints {
    * @param mailbox - The mailbox to get.
    */
   getActiveUserSieve(mailbox: string): Promise<string[]>;
+
+  /**
+   * Endpoint for removing one or more tags from a mailbox.
+   * @param mailbox - The mailbox to remove tags from.
+   * @param payload - The tags to remove.
+   */
+  deleteTag(mailbox: string, payload: MailboxTagDeleteRequest): Promise<MailcowResponse>;
+
+  /**
+   * Endpoint for writing custom attributes on one or more mailboxes.
+   * @param payload - The edit payload.
+   */
+  editCustomAttribute(payload: MailboxCustomAttributeEditRequest): Promise<MailcowResponse>;
+
+  /**
+   * Endpoint for reading a mailbox's spam score override.
+   * @param mailbox - The mailbox to get the score for, or omit/empty for
+   * the global score (admin only).
+   */
+  getSpamScore(mailbox?: string): Promise<SpamScoreGetResponse>;
+
+  /**
+   * Endpoint for listing all mailboxes belonging to a specific domain.
+   * @param domain - The domain to filter mailboxes by.
+   */
+  getByDomain(domain: string): Promise<Mailbox[]>;
 }
 
 const MAILBOX_ENDPOINTS = {
   CREATE: 'add/mailbox',
   DELETE: 'delete/mailbox',
+  DELETE_TAG: 'delete/mailbox/tag',
   EDIT: 'edit/mailbox',
   GET: 'get/mailbox',
   EDIT_PUSHOVER: 'edit/pushover',
   EDIT_QUARANTINE: 'edit/quarantine_notification',
   EDIT_SPAM_SCORE: 'edit/spam-score',
   EDIT_USER_ACL: 'edit/user-acl',
+  EDIT_CUSTOM_ATTRIBUTE: 'edit/mailbox/custom-attribute',
   GET_ACTIVE_USER_SIEVE: 'get/active-user-sieve',
+  GET_SPAM_SCORE: 'get/spam-score',
+  GET_ALL_BY_DOMAIN: 'get/mailbox/all',
 };
 
 /**
@@ -133,6 +166,30 @@ export function mailboxEndpoints(bind: MailcowClient): MailboxEndpoints {
 
     getActiveUserSieve(mailbox: string): Promise<string[]> {
       return bind.requestFactory.get<string[]>(MAILBOX_ENDPOINTS.GET_ACTIVE_USER_SIEVE + `/${mailbox}`);
+    },
+
+    deleteTag(mailbox: string, payload: MailboxTagDeleteRequest): Promise<MailcowResponse> {
+      return bind.requestFactory.post<MailcowResponse, MailboxTagDeleteRequest>(
+        MAILBOX_ENDPOINTS.DELETE_TAG + `/${mailbox}`,
+        payload,
+      );
+    },
+
+    editCustomAttribute(payload: MailboxCustomAttributeEditRequest): Promise<MailcowResponse> {
+      return bind.requestFactory.post<MailcowResponse, MailboxCustomAttributeEditRequest>(
+        MAILBOX_ENDPOINTS.EDIT_CUSTOM_ATTRIBUTE,
+        payload,
+      );
+    },
+
+    getSpamScore(mailbox: string = ''): Promise<SpamScoreGetResponse> {
+      return bind.requestFactory.get<SpamScoreGetResponse>(MAILBOX_ENDPOINTS.GET_SPAM_SCORE + `/${mailbox}`);
+    },
+
+    getByDomain(domain: string): Promise<Mailbox[]> {
+      return wrapPromiseToArray<Mailbox>(
+        bind.requestFactory.get<Mailbox[] | Mailbox>(MAILBOX_ENDPOINTS.GET_ALL_BY_DOMAIN + `/${domain}`),
+      );
     },
   };
 }
