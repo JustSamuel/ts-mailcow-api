@@ -364,6 +364,26 @@ describe('Endpoints (smoke against mocked axios)', () => {
     });
   });
 
+  describe('domainAdmins.editACL', () => {
+    it('posts to edit/da-acl with the items + da_acl payload', async () => {
+      const captured: Captured = {};
+      const restore = withMockedAxios(captured, [{ type: 'success', msg: ['acl_saved', 'testadmin'] }]);
+      try {
+        await mcc.domainAdmins.editACL({
+          items: 'testadmin',
+          attr: { da_acl: ['syncjobs', 'quarantine', 'mailbox_relayhost'] },
+        });
+        expect(captured.url).to.equal('https://example.test/api/v1/edit/da-acl');
+        expect(captured.payload).to.deep.equal({
+          items: 'testadmin',
+          attr: { da_acl: ['syncjobs', 'quarantine', 'mailbox_relayhost'] },
+        });
+      } finally {
+        restore();
+      }
+    });
+  });
+
   describe('domains.deleteTag', () => {
     it('posts to delete/domain/tag/{domain} with the items payload', async () => {
       const captured: Captured = {};
