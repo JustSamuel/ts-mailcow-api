@@ -4,6 +4,23 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.0]
+
+### Added
+- `force_tfa` on `BaseMailboxAttributes` (optional), so `MailboxPostRequest`
+  and `MailboxEditAttributes` can set it. Mirrors Mailcow's
+  `add/mailbox` and `edit/mailbox` behaviour, which default it to `false`
+  when omitted.
+- `sender_acl` (top-level) and `force_tfa` (nested under `attributes`) on
+  the `Mailbox` response type, matching what `get/mailbox/{id}` and
+  `get/mailbox/all/{domain}` actually return. Note that `force_tfa` lives
+  under `attributes` rather than top-level as originally proposed in the
+  issue -- verified against Mailcow's PHP source, which stores and
+  returns it alongside `force_pw_update` and the other `attributes`
+  fields.
+
+Closes [#74](https://github.com/JustSamuel/ts-mailcow-api/issues/74).
+
 ## [1.7.0]
 
 ### Added
