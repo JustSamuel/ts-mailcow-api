@@ -4,6 +4,44 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.0]
+
+### Added
+- `mcc.cors.edit(attr)` -- manage the API's Cross-Origin Resource Sharing
+  settings. Wraps `edit/cors`. New `src/endpoints/cors-endpoints.ts` file,
+  plus `CorsAttributes`, `CorsAllowedMethod`, and `CorsEditRequest` types.
+- `mcc.domainAdmins.editACL(payload)` -- edit a Domain Admin's ACL flags,
+  distinct from the mailbox-level `user-acl`. Wraps `edit/da-acl`. Adds
+  the `DaAclEditRequest` type; its `da_acl` flag list is sourced from the
+  live `da_acl` table schema rather than the OpenAPI spec's example,
+  which is missing the `mailbox_relayhost` and `domain_relayhost` flags.
+- `mcc.domains.deleteTag(domain, payload)` -- remove one or more tags
+  from a domain. Wraps `delete/domain/tag/{domain}`. Adds the
+  `DomainTagDeleteRequest` type.
+- `mcc.domains.editFooter(payload)` -- set a domain-wide mail footer
+  template. Wraps `edit/domain/footer`. Adds the `DomainFooterEditRequest`
+  type; its exclude list is named `exclude` (mixing mailbox addresses and
+  alias-domain names), not `mbox_exclude` as the OpenAPI spec documents --
+  the PHP handler sorts entries into `mbox_exclude`/`alias_domain_exclude`
+  itself.
+- `mcc.mailbox.deleteTag(mailbox, payload)` -- remove one or more tags
+  from a mailbox. Wraps `delete/mailbox/tag/{mailbox}`. Adds the
+  `MailboxTagDeleteRequest` type.
+- `mcc.mailbox.editCustomAttribute(payload)` -- write arbitrary custom
+  attributes on one or more mailboxes via parallel `attribute`/`value`
+  arrays. Wraps `edit/mailbox/custom-attribute`. Adds the
+  `MailboxCustomAttributeEditRequest` type.
+- `mcc.mailbox.getSpamScore(mailbox?)` -- read a mailbox's spam score
+  override, or the global default for admins when omitted. Wraps
+  `get/spam-score/{mailbox}`, the GET counterpart to the existing
+  `editSpamScore`. Adds the `SpamScoreGetResponse` type; its response key
+  is `score`, not `spam_score` as the OpenAPI spec documents.
+- `mcc.mailbox.getByDomain(domain)` -- list all mailboxes belonging to a
+  specific domain, avoiding the fetch-everything-and-filter pattern the
+  README previously showed. Wraps `get/mailbox/all/{domain}`.
+
+Closes [#49](https://github.com/JustSamuel/ts-mailcow-api/issues/49).
+
 ## [1.8.0]
 
 ### Added
