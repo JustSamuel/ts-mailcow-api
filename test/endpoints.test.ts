@@ -75,6 +75,99 @@ describe('Endpoints (smoke against mocked axios)', () => {
     }
   });
 
+  it('mailbox.create posts to add/mailbox with force_tfa included', async () => {
+    const captured: Captured = {};
+    const restore = withMockedAxios(captured, [{ type: 'success', msg: 'mailbox_added' }]);
+    try {
+      await mcc.mailbox.create({
+        domain: 'example.test',
+        local_part: 'info',
+        name: 'Full name',
+        active: 1,
+        force_pw_update: false,
+        force_tfa: true,
+        password: 'x',
+        password2: 'x',
+        quota: 1024,
+        authsource: 'mailcow',
+        tls_enforce_in: false,
+        tls_enforce_out: false,
+      });
+      expect(captured.url).to.equal('https://example.test/api/v1/add/mailbox');
+      expect(captured.payload).to.deep.include({ force_tfa: true });
+    } finally {
+      restore();
+    }
+  });
+
+  it('mailbox.edit posts to edit/mailbox with force_tfa and sender_acl in attr', async () => {
+    const captured: Captured = {};
+    const restore = withMockedAxios(captured, [{ type: 'success', msg: 'mailbox_modified' }]);
+    try {
+      await mcc.mailbox.edit({
+        items: ['info@example.test'],
+        attr: { force_tfa: true, sender_acl: ['@example.test'] },
+      });
+      expect(captured.url).to.equal('https://example.test/api/v1/edit/mailbox');
+      expect(captured.payload).to.deep.equal({
+        items: ['info@example.test'],
+        attr: { force_tfa: true, sender_acl: ['@example.test'] },
+      });
+    } finally {
+      restore();
+    }
+  });
+
+  it('mailbox.get("one") surfaces force_tfa (nested under attributes) and sender_acl (top-level)', async () => {
+    const captured: Captured = {};
+    const mailboxResponse = {
+      username: 'one@example.test',
+      active: true,
+      active_int: 1,
+      domain: 'example.test',
+      name: 'One',
+      local_part: 'one',
+      quota: 1024,
+      messages: 0,
+      attributes: {
+        force_pw_update: false,
+        force_tfa: true,
+        tls_enforce_in: false,
+        tls_enforce_out: false,
+        sogo_access: true,
+        imap_access: true,
+        pop3_access: true,
+        smtp_access: true,
+        xmpp_access: false,
+        xmpp_admin: false,
+        mailbox_format: 'maildir:',
+        quarantine_notification: 'never' as const,
+        quarantine_category: 'reject' as const,
+      },
+      quota_used: 0,
+      percent_in_use: 0,
+      last_imap_login: 0,
+      last_smtp_login: 0,
+      last_pop3_login: 0,
+      percent_class: 'success' as const,
+      max_new_quota: 0,
+      spam_aliases: 0,
+      pushover_active: false,
+      rl: { value: 0, frame: 'h' as const },
+      rl_scope: 'domain',
+      is_relayed: false,
+      sender_acl: ['one@example.test'],
+    };
+    const restore = withMockedAxios(captured, mailboxResponse);
+    try {
+      const res = await mcc.mailbox.get('one@example.test');
+      expect(res[0].attributes.force_tfa).to.equal(true);
+      expect(res[0].sender_acl).to.deep.equal(['one@example.test']);
+    } finally {
+      restore();
+    }
+  });
+
   it('domains.create posts to add/domain with the given payload', async () => {
     const captured: Captured = {};
     const restore = withMockedAxios(captured, [{ type: 'success', msg: 'created' }]);

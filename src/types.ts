@@ -308,6 +308,12 @@ export interface BaseMailboxAttributes {
    */
   force_pw_update: boolean;
   /**
+   * Boolean if the user is forced to enroll in two-factor authentication on
+   * login. Optional -- Mailcow falls back to its configured default
+   * (`false` out of the box) when omitted.
+   */
+  force_tfa?: boolean;
+  /**
    * The ull name of the mailbox user.
    */
   name: string;
@@ -452,6 +458,11 @@ export interface Mailbox {
      */
     force_pw_update: boolean;
     /**
+     * Boolean if the user is forced to enroll in two-factor authentication
+     * on login.
+     */
+    force_tfa: boolean;
+    /**
      * Boolean if inbound email encryption is forced.
      */
     tls_enforce_in: boolean;
@@ -553,6 +564,10 @@ export interface Mailbox {
    * Boolean if the mailbox is relayed.
    */
   is_relayed: boolean;
+  /**
+   * List of allowed send-from addresses for this mailbox.
+   */
+  sender_acl: string[];
 }
 
 /**
