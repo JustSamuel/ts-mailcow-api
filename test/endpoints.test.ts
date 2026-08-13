@@ -364,6 +364,40 @@ describe('Endpoints (smoke against mocked axios)', () => {
     });
   });
 
+  describe('domains.deleteTag', () => {
+    it('posts to delete/domain/tag/{domain} with the items payload', async () => {
+      const captured: Captured = {};
+      const restore = withMockedAxios(captured, [{ type: 'success', msg: ['domain_modified', 'example.test'] }]);
+      try {
+        await mcc.domains.deleteTag('example.test', { items: ['tag1', 'tag2'] });
+        expect(captured.url).to.equal('https://example.test/api/v1/delete/domain/tag/example.test');
+        expect(captured.payload).to.deep.equal({ items: ['tag1', 'tag2'] });
+      } finally {
+        restore();
+      }
+    });
+  });
+
+  describe('domains.editFooter', () => {
+    it('posts to edit/domain/footer with the attr + items payload', async () => {
+      const captured: Captured = {};
+      const restore = withMockedAxios(captured, [{ type: 'success', msg: ['domain_footer_modified', 'example.test'] }]);
+      try {
+        await mcc.domains.editFooter({
+          attr: { html: '<br>foo', plain: 'foo', exclude: ['moo@example.test'] },
+          items: 'example.test',
+        });
+        expect(captured.url).to.equal('https://example.test/api/v1/edit/domain/footer');
+        expect(captured.payload).to.deep.equal({
+          attr: { html: '<br>foo', plain: 'foo', exclude: ['moo@example.test'] },
+          items: 'example.test',
+        });
+      } finally {
+        restore();
+      }
+    });
+  });
+
   describe('mailbox.deleteTag', () => {
     it('posts to delete/mailbox/tag/{mailbox} with the items payload', async () => {
       const captured: Captured = {};

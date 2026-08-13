@@ -236,6 +236,55 @@ export interface Domain {
 }
 
 /**
+ * Domain tag deletion request.
+ */
+export interface DomainTagDeleteRequest {
+  /**
+   * List of tag names to remove from the domain.
+   */
+  items: string[];
+}
+
+/**
+ * Domain wide footer edit payload.
+ *
+ * Note: the upstream OpenAPI spec documents the exclude list as
+ * `mbox_exclude`, but the PHP handler (`functions.mailbox.inc.php`, case
+ * `domain_wide_footer`) actually reads a single `exclude` field -- a mix
+ * of mailbox addresses and/or alias-domain names -- and sorts each entry
+ * into the internal `mbox_exclude`/`alias_domain_exclude` buckets itself.
+ */
+export interface DomainFooterEditRequest {
+  /**
+   * The footer attributes to set.
+   */
+  attr: {
+    /**
+     * Footer text in HTML format.
+     */
+    html: string;
+    /**
+     * Footer text in plain text format.
+     */
+    plain: string;
+    /**
+     * Mailbox addresses and/or alias-domain names to exclude from the
+     * footer.
+     */
+    exclude?: string[];
+    /**
+     * If true: do not append the footer when replying to a message that
+     * already carries it.
+     */
+    skip_replies?: boolean;
+  };
+  /**
+   * Domains to apply the footer to.
+   */
+  items: string | string[];
+}
+
+/**
  * Antispam policy creation request.
  */
 export interface SpamPolicyPostRequest {
