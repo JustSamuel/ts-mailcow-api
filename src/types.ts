@@ -2546,6 +2546,51 @@ export interface DomainAdmin {
 }
 
 /**
+ * List of possible Domain Admin ACL flags. Sourced from the `da_acl`
+ * table schema (`init_db.inc.php`), which currently includes
+ * `mailbox_relayhost` and `domain_relayhost` -- two flags missing from
+ * the upstream OpenAPI spec's `da_acl` example list.
+ */
+type daAcl =
+  | 'syncjobs'
+  | 'quarantine'
+  | 'login_as'
+  | 'sogo_access'
+  | 'app_passwds'
+  | 'bcc_maps'
+  | 'pushover'
+  | 'filters'
+  | 'ratelimit'
+  | 'spam_policy'
+  | 'extend_sender_acl'
+  | 'unlimited_quota'
+  | 'protocol_access'
+  | 'smtp_ip_access'
+  | 'alias_domains'
+  | 'mailbox_relayhost'
+  | 'domain_relayhost'
+  | 'domain_desc';
+
+/**
+ * Domain Admin ACL edit payload.
+ */
+export interface DaAclEditRequest {
+  /**
+   * Domain admin usernames to edit.
+   */
+  items: string | string[];
+  /**
+   * Attributes to set.
+   */
+  attr: {
+    /**
+     * List of ACLs to set.
+     */
+    da_acl: daAcl[];
+  };
+}
+
+/**
  * Request payload to create a Sender-Dependent Transport (Relayhost).
  */
 export interface CreateRelayhostRequest {

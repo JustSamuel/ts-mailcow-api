@@ -1,5 +1,6 @@
 import {
   CreateDomainAdminRequest,
+  DaAclEditRequest,
   DeleteDomainAdminRequest,
   DomainAdmin,
   EditDomainAdminRequest,
@@ -45,12 +46,21 @@ export interface DomainAdminEndpoints {
    * @returns A promise that resolves to an array of `DomainAdmin` objects.
    */
   get(id: 'all'): Promise<DomainAdmin[]>;
+
+  /**
+   * Edits the ACL flags of a Domain Admin user. Distinct from the
+   * mailbox-level user ACL edited via `MailboxEndpoints.editUserACL`.
+   * @param payload - Object containing the username(s) and the ACL flags to set.
+   * @returns A promise that resolves to a response indicating success or failure.
+   */
+  editACL(payload: DaAclEditRequest): Promise<MailcowResponse>;
 }
 
 const DOMAIN_ADMIN_ENDPOINTS = {
   CREATE: 'add/domain-admin',
   ISSUE_SSO_TOKEN: 'add/sso/domain-admin',
   EDIT: 'edit/domain-admin',
+  EDIT_ACL: 'edit/da-acl',
   DELETE: 'delete/domain-admin',
   GET_ALL: 'get/domain-admin/all',
 };
@@ -82,6 +92,9 @@ export function domainAdminEndpoints(bind: MailcowClient): DomainAdminEndpoints 
     },
     get(): Promise<DomainAdmin[]> {
       return bind.requestFactory.get<DomainAdmin[]>(DOMAIN_ADMIN_ENDPOINTS.GET_ALL);
+    },
+    editACL(payload: DaAclEditRequest): Promise<MailcowResponse> {
+      return bind.requestFactory.post<MailcowResponse, DaAclEditRequest>(DOMAIN_ADMIN_ENDPOINTS.EDIT_ACL, payload);
     },
   };
 }
