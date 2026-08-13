@@ -1,4 +1,12 @@
-import { DomainDeleteRequest, DomainEditRequest, DomainPostRequest, Domain, MailcowResponse } from '../types';
+import {
+  DomainDeleteRequest,
+  DomainEditRequest,
+  DomainFooterEditRequest,
+  DomainPostRequest,
+  DomainTagDeleteRequest,
+  Domain,
+  MailcowResponse,
+} from '../types';
 import MailcowClient from '../index';
 import { wrapPromiseToArray } from '../request-factory';
 
@@ -29,13 +37,28 @@ export interface DomainEndpoints {
    * @param payload - The edit payload.
    */
   edit(payload: DomainEditRequest): Promise<MailcowResponse>;
+
+  /**
+   * Endpoint for removing one or more tags from a domain.
+   * @param domain - The domain to remove tags from.
+   * @param payload - The tags to remove.
+   */
+  deleteTag(domain: string, payload: DomainTagDeleteRequest): Promise<MailcowResponse>;
+
+  /**
+   * Endpoint for setting the domain-wide mail footer template.
+   * @param payload - The edit payload.
+   */
+  editFooter(payload: DomainFooterEditRequest): Promise<MailcowResponse>;
 }
 
 const DOMAIN_ENDPOINTS = {
   GET: 'get/domain',
   ADD: 'add/domain',
   DELETE: 'delete/domain',
+  DELETE_TAG: 'delete/domain/tag',
   EDIT: 'edit/domain',
+  EDIT_FOOTER: 'edit/domain/footer',
 };
 
 /**
@@ -58,6 +81,15 @@ export function domainEndpoints(bind: MailcowClient): DomainEndpoints {
     },
     edit(payload: DomainEditRequest): Promise<MailcowResponse> {
       return bind.requestFactory.post<MailcowResponse, DomainEditRequest>(DOMAIN_ENDPOINTS.EDIT, payload);
+    },
+    deleteTag(domain: string, payload: DomainTagDeleteRequest): Promise<MailcowResponse> {
+      return bind.requestFactory.post<MailcowResponse, DomainTagDeleteRequest>(
+        DOMAIN_ENDPOINTS.DELETE_TAG + `/${domain}`,
+        payload,
+      );
+    },
+    editFooter(payload: DomainFooterEditRequest): Promise<MailcowResponse> {
+      return bind.requestFactory.post<MailcowResponse, DomainFooterEditRequest>(DOMAIN_ENDPOINTS.EDIT_FOOTER, payload);
     },
   };
 }
