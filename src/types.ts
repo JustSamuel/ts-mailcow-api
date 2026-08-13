@@ -2951,6 +2951,38 @@ export interface IdentityProviderEditRequest {
 }
 
 /**
+ * HTTP methods the Mailcow API's CORS handling will allow.
+ * `functions.inc.php`'s `cors('edit', ...)` validates `allowed_methods`
+ * against exactly these four -- there is no PATCH or OPTIONS.
+ */
+export type CorsAllowedMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+
+/**
+ * API-wide CORS attributes.
+ */
+export interface CorsAttributes {
+  /**
+   * Origins allowed to make cross-origin requests to the API. Use `'*'`
+   * to allow any origin.
+   */
+  allowed_origins?: string[];
+  /**
+   * HTTP methods allowed for cross-origin requests.
+   */
+  allowed_methods?: CorsAllowedMethod[];
+}
+
+/**
+ * Wire-level body of the `edit/cors` request. The wrapper builds this
+ * for you from {@link CorsAttributes}; unlike most edit requests there is
+ * no `items` envelope -- CORS is a single global setting, not a
+ * per-object one.
+ */
+export interface CorsEditRequest {
+  attr: CorsAttributes;
+}
+
+/**
  * Interface for a general Mailcow API response.
  *
  * This is used when the API call doesn't return any objects, i.e. POST requests.

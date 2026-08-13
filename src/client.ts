@@ -25,6 +25,7 @@ import { dkimEndpoints, DkimEndpoints } from './endpoints/dkim-endpoints';
 import { DomainAdminEndpoints, domainAdminEndpoints } from './endpoints/domain-admin-endpoints';
 import { RoutingEndpoints, routingEndpoints } from './endpoints/routing-endpoints';
 import { IdentityProviderEndpoints, identityProviderEndpoints } from './endpoints/identity-provider-endpoints';
+import { CorsEndpoints, corsEndpoints } from './endpoints/cors-endpoints';
 
 /**
  * Class containing all the logic to interface with the Mailcow API in TypeScript.
@@ -221,6 +222,13 @@ class MailcowClient {
    * @external
    */
   public identityProvider: IdentityProviderEndpoints = identityProviderEndpoints(this);
+
+  /**
+   * Endpoint for configuring the API's CORS settings.
+   * See {@link CorsEndpoints}
+   * @external
+   */
+  public cors: CorsEndpoints = corsEndpoints(this);
 }
 
 export default MailcowClient;

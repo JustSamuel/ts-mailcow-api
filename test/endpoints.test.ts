@@ -364,6 +364,28 @@ describe('Endpoints (smoke against mocked axios)', () => {
     });
   });
 
+  describe('cors.edit', () => {
+    it('posts to edit/cors with only the attr envelope (no items)', async () => {
+      const captured: Captured = {};
+      const restore = withMockedAxios(captured, [{ type: 'success', msg: 'cors_headers_edited' }]);
+      try {
+        await mcc.cors.edit({
+          allowed_origins: ['*', 'https://mail.example.test'],
+          allowed_methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        });
+        expect(captured.url).to.equal('https://example.test/api/v1/edit/cors');
+        expect(captured.payload).to.deep.equal({
+          attr: {
+            allowed_origins: ['*', 'https://mail.example.test'],
+            allowed_methods: ['GET', 'POST', 'PUT', 'DELETE'],
+          },
+        });
+      } finally {
+        restore();
+      }
+    });
+  });
+
   describe('domainAdmins.editACL', () => {
     it('posts to edit/da-acl with the items + da_acl payload', async () => {
       const captured: Captured = {};
